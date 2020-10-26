@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\PostEvent;
+use App\Post;
 
 class HomeController extends Controller
 {
@@ -14,6 +16,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        event(new PostEvent("a"));
     }
 
     /**

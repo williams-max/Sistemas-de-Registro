@@ -40,6 +40,92 @@
                     </li>
                 </ul>
 
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+                   
+                    <!-- Usuario Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-user-alt"></i>
+                          
+                            <?php  
+                            $cargo = DB::table('personal_academicos')
+                                        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+                                        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+                                        ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                                        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                                        ->select('personal_academicos.*')
+                                        ->where('users.id','=',Auth::user()->id)->first();
+
+                            ?>
+                            <span >{{$cargo->nombre ?? Auth::user()->name}} {{ $cargo->apellido ?? " "}}</span>
+                          
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <div class="info">
+                                <a href="#" class="d-block">
+                                    @guest
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                                    @else
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                               document.getElementById('logout-form').submit();">
+                                        Cerrar Sesión
+                                    </a>
+    
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+    
+                                    @endguest
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <!-- Notifications Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-bell"></i>
+                          
+                                @if (count(auth()->user()->unreadNotifications))
+                                    <span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications)}}</span>
+                                @endif
+                          
+                        </a>
+
+                        
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-header">Notificaciones no Leidas</span>
+                            @forelse (auth()->user()->unreadNotifications as $notification)
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> {{$notification->data['description']}}
+                                <span class="ml-3 pull-right text-muted text-sm">{{$notification->created_at->diffForHumans()}}</span>
+                            </a>
+                            @empty
+                            <span class="ml-3 pull-right text-muted text-sm">Sin notificaciones por leer</span>
+                            @endforelse
+                            <div class="dropdown-divider"></div>
+                            <span class="dropdown-header">Notificaciones Leidas</span>
+                            @forelse (auth()->user()->readNotifications as $notification)
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> {{$notification->data['description']}}
+                                <span class="ml-3 pull-right text-muted text-sm">{{$notification->created_at->diffForHumans()}}</span>
+                            </a>
+                            
+                            @empty
+                             <span class="ml-3 pull-right text-muted text-sm">Sin notificaciones leeidas</span>
+                            @endforelse
+                        
+                      
+                            <div class="dropdown-divider"></div>
+                            <a href="{{route('markAsRead')}}" class="dropdown-item dropdown-footer">Marcar todas como Leidas</a>
+                        </div>
+                    </li>
+                </ul>
+
               
 
               
@@ -61,30 +147,27 @@
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    @cannot('Administrador')
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                        <!-- <div class="image">
                             <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                         </div>-->
-                        <div class="info">
-                            <a href="#" class="d-block">
-                                @guest
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
-                                @else
-                                {{ Auth::user()->name }}
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                           document.getElementById('logout-form').submit();">
-                                    Cerrar Sesión
-                                </a>
+                        <a >
+                            <?php  
+                                $cargo = DB::table('personal_academicos')
+                                            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+                                            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+                                            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                                            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                                            ->select('roles.*')
+                                            ->where('users.id','=',Auth::user()->id)->first();
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-
-                                @endguest
-                            </a>
-                        </div>
+                    ?>
+                    <span style="color:rgb(255, 255, 255)">{{$cargo->name}}</span>
+                        </a>
                     </div>
+                    @endcannot
+                    
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
@@ -97,19 +180,29 @@
                                     <p>Inicio</p>
                                 </a>
                             </li>
-
-                            <li class="nav-item">
-                                <a href="usuarios"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                            @Can('Administrador')
+                             <li class="nav-item">
+                                <a href="{{url('/personalAcademico')}}"
+                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
-                                       Personal Academico
-                                        <?php use App\User; $users_count = User::all()->count(); ?>
-                                        <!--<span class="right badge badge-danger">{{ $users_count ?? '0' }}</span>-->
+                                       Registrar Personal Academico
+                                       
                                     </p>
                                 </a>
                             </li>
-
+                            
+                           
+                            <li class="nav-item">
+                                <a href="{{url('roles')}}"
+                                    class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Cargos
+                                      </p>
+                                </a>
+                            </li>
+                            @endCan
                       
                         </ul>
                     </nav>
