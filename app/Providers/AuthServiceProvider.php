@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+
+//use App\Policies\PersonalAcademicoPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,6 +17,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+      // PersonalAcademico::class => PersonalAcademicoPolicy::class,
+    
+    
     ];
 
     /**
@@ -24,9 +30,22 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+         //codigo new
+         Gate::define('haveaccess', function (User $user, $perm){
+             //dd nos da el informacion del usuario loqueado
+             //dd($perm);
+            return $user->havePermission($perm);
+           // return $perm;
+        });
+
+        //comentando esta lines para hacer las pruebas
+        /*
         Gate::before(function($user,$role){
             return $user->tieneRol()->contains($role);
         }); 
+         */
+       
         //
     }
 }

@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\isarel\Traits\UserTrair ;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,UserTrair ;
 
     /**
      * The attributes that are mass assignable.
@@ -37,27 +38,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /*
     public function roles(){
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
+    */
     public function asignarRol($role){
-        $this->roles()->sync($role,false);
+        $this->rolas()->sync($role,false);
     }
 
+    
+     
     public function personal(){
         return $this->belongsToMany(PersonalAcademico::class)->withTimestamps();
     }
     public function asignarPersonal($role){
         $this->personal()->sync($role,false);
     }
-
+     
+    /*
     public function tieneRol(){
         return $this->roles->flatten()->pluck('name')->unique();
     }
+    */
 
+    
     public function posts()
     {
         return $this->hasMany('App\Post');
     }
+ 
 
 }

@@ -1,0 +1,37 @@
+
+
+//permission role
+$permission = Permission::create([
+          'name' => 'List role',
+          'slug' => 'rola.index',
+          'description' => 'A user can List role',
+      ]);
+      $permission_all = $permission->id;
+
+      $permission = Permission::create([
+        'name' => 'List role',
+        'slug' => 'rola.index',
+        'description' => 'A user can List role',
+    ]);
+    $permission_all = $permission->id;
+
+    $permission = Permission::create([
+        'name' => 'show role',
+        'slug' => 'rola.show',
+        'description' => 'A user can see role',
+    ]);
+    $permission_all = $permission->id;
+
+    $permission = Permission::create([
+        'name' => 'edit role',
+        'slug' => 'rola.edit',
+        'description' => 'A user can edit role',
+    ]);
+    $permission_all = $permission->id;
+
+    $permission = Permission::create([
+        'name' => 'destroy role',
+        'slug' => 'rola.destroy',
+        'description' => 'A user can destroy role',
+    ]);
+    $permission_all = $permission->id;

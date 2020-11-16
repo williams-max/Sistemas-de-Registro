@@ -7,6 +7,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\isarel\Models\Rola;
 
 class PersonalAcademicoController extends Controller
 {
@@ -17,13 +18,14 @@ class PersonalAcademicoController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('haveaccess','personalAcademico.index');  
+
         $personal = DB::table('personal_academicos')
             ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
             ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-            ->join('role_user', 'role_user.user_id', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            ->select('personal_academicos.*','users.name','users.email','users.password','roles.name')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('personal_academicos.*','users.name','users.email','users.password','rolas.name')
             ->get();
         
             $person = PersonalAcademico::all();
@@ -33,7 +35,9 @@ class PersonalAcademicoController extends Controller
 
     public function create()
     {
-        $roles =Role::all();
+       // $this->authorize('create',PersonalAcademico::class);
+       // return 'Create';
+        $roles =Rola::all();
         return view('personalAcademico.create',['roles'=>$roles]);
     }
 
@@ -96,11 +100,11 @@ class PersonalAcademicoController extends Controller
         $usuario->save();
 
     
-        $roles = DB::table('personal_academicos')->where('email', request('email'))->first();
+        $rolas = DB::table('personal_academicos')->where('email', request('email'))->first();
 
 
         $usuario->asignarRol($request->get('rol'));
-        $usuario->asignarPersonal($roles->id);
+        $usuario->asignarPersonal($rolas->id);
 
         return redirect('/personalAcademico');
     }
@@ -111,9 +115,14 @@ class PersonalAcademicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+   // public function show($id)
+   public function show(PersonalAcademico $user)
     {
-        //
+        
+      //  $this->authorize('view',$user);
+        
+        return "Vista show";
+
     }
 
     /**
@@ -125,16 +134,16 @@ class PersonalAcademicoController extends Controller
     public function edit($id)
     {
 
-        
+       // $this->authorize('update',$per);
         $personal=PersonalAcademico::findOrFail($id);
-        $roles=Role::all();
+        $roles=Rola::all();
 
         $cargo = DB::table('personal_academicos')
             ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
             ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-            ->join('role_user', 'role_user.user_id', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            ->select('personal_academicos.*','users.name','users.email','users.password','roles.name')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('personal_academicos.*','users.name','users.email','users.password','rolas.name')
         ->where('personal_academicos.id','=',$id)->first();
         
             
@@ -194,16 +203,16 @@ class PersonalAcademicoController extends Controller
         $persona = DB::table('personal_academicos')
         ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
         ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-        ->join('role_user', 'role_user.user_id', '=', 'users.id')
-        ->join('roles', 'roles.id', '=', 'role_user.role_id')
-        ->select('roles.id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+        ->select('rolas.id')
         ->where('personal_academico_user.personal_academico_id','=',$id)->first();
 
         $user = DB::table('personal_academicos')
         ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
         ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-        ->join('role_user', 'role_user.user_id', '=', 'users.id')
-        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
         ->select('users.id')
         ->where('personal_academico_user.personal_academico_id','=',$id)->first();
         
@@ -213,7 +222,7 @@ class PersonalAcademicoController extends Controller
         $usuario->email = request('email');
         $usuario->password = bcrypt(request('password'));
         
-        User::Find($user->id)->roles()->updateExistingPivot($persona->id,['role_id'=> $request->get('rol')]);
+        User::Find($user->id)->rolas()->updateExistingPivot($persona->id,['rola_id'=> $request->get('rol')]);
 
         $usuario->update();
 
@@ -230,12 +239,13 @@ class PersonalAcademicoController extends Controller
     public function destroy($id)
     {
         
+        $this->authorize('haveaccess','personalAcademico.destroy');          
 
         $user = DB::table('personal_academicos')
         ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
         ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-        ->join('role_user', 'role_user.user_id', '=', 'users.id')
-        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
         ->select('users.id')
         ->where('personal_academico_user.personal_academico_id','=',$id)->first();
         

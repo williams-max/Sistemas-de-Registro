@@ -44,24 +44,9 @@
                 <ul class="navbar-nav ml-auto">
                    
                     <!-- Usuario Dropdown Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fas fa-user-alt"></i>
-                          
-                            <?php  
-                            $cargo = DB::table('personal_academicos')
-                                        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
-                                        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-                                        ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                                        ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                                        ->select('personal_academicos.*')
-                                        ->where('users.id','=',Auth::user()->id)->first();
-
-                            ?>
-                            <span >{{$cargo->nombre ?? Auth::user()->name}} {{ $cargo->apellido ?? " "}}</span>
-                          
-                        </a>
-
+                   
+                    <!--<li class="nav-item dropdown">
+                   
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="info">
                                 <a href="#" class="d-block">
@@ -83,7 +68,39 @@
                             </div>
                         </div>
 
-                    </li>
+                    </li>-->
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Cerrar Session') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
 
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
@@ -147,26 +164,14 @@
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
-                    @cannot('Administrador')
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+              
+                      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                        <!-- <div class="image">
                             <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                         </div>-->
-                        <a >
-                            <?php  
-                                $cargo = DB::table('personal_academicos')
-                                            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
-                                            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-                                            ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                                            ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                                            ->select('roles.*')
-                                            ->where('users.id','=',Auth::user()->id)->first();
-
-                    ?>
-                    <span style="color:rgb(255, 255, 255)">{{$cargo->name}}</span>
-                        </a>
+                    
                     </div>
-                    @endcannot
+              
                     
 
                     <!-- Sidebar Menu -->
@@ -180,20 +185,33 @@
                                     <p>Inicio</p>
                                 </a>
                             </li>
-                            @Can('Administrador')
-                             <li class="nav-item">
+                       
+                            @can('haveaccess','personalAcademico.index')
+                            <li class="nav-item">
                                 <a href="{{url('/personalAcademico')}}"
                                     class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                       Registrar Personal Academico
-                                       
-                                    </p>
+                                    <p><i class="nav-icon fas fa-users"></i>
+                                        Registrar Personal 
+                                        <br> <i class="nav-icon fas "></i> Academico
+                                      </p>
                                 </a>
                             </li>
+                            @endcan
+
                             
-                           
+                            @can('haveaccess','registrarUFC.index')
                             <li class="nav-item">
+                                <a href="{{url('/registrarUFC')}}"
+                                    class="{{ Request::path() === 'registrarUFC' ? 'nav-link active' : 'nav-link' }}">
+                                    <p><i class="nav-icon fas fa-university"></i>
+                                        Registrar Unidad 
+                                        <br> <i class="nav-icon fas "></i> Facultad Carrera
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan
+                           
+                           <!-- <li class="nav-item">
                                 <a href="{{url('roles')}}"
                                     class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
@@ -201,8 +219,20 @@
                                         Cargos
                                       </p>
                                 </a>
+                            </li>-->
+                            
+                            @can('haveaccess','rola.index')
+                            <li class="nav-item">
+                                <a href="{{url('rola')}}"
+                                    class="{{ Request::path() === 'rola' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-user-plus"></i>
+                                    <p>
+                                        Roles
+                                      </p>
+                                </a>
                             </li>
-                            @endCan
+                            @endcan
+              
                       
                         </ul>
                     </nav>
