@@ -42,11 +42,11 @@
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                   
+
                     <!-- Usuario Dropdown Menu -->
-                   
+
                     <!--<li class="nav-item dropdown">
-                   
+
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="info">
                                 <a href="#" class="d-block">
@@ -57,12 +57,12 @@
                                                document.getElementById('logout-form').submit();">
                                         Cerrar Sesión
                                     </a>
-    
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">
                                         @csrf
                                     </form>
-    
+
                                     @endguest
                                 </a>
                             </div>
@@ -106,14 +106,14 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fas fa-bell"></i>
-                          
+
                                 @if (count(auth()->user()->unreadNotifications))
                                     <span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications)}}</span>
                                 @endif
-                          
+
                         </a>
 
-                        
+
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-header">Notificaciones no Leidas</span>
                             @forelse (auth()->user()->unreadNotifications as $notification)
@@ -131,21 +131,21 @@
                                 <i class="fas fa-envelope mr-2"></i> {{$notification->data['description']}}
                                 <span class="ml-3 pull-right text-muted text-sm">{{$notification->created_at->diffForHumans()}}</span>
                             </a>
-                            
+
                             @empty
                              <span class="ml-3 pull-right text-muted text-sm">Sin notificaciones leeidas</span>
                             @endforelse
-                        
-                      
+
+
                             <div class="dropdown-divider"></div>
                             <a href="{{route('markAsRead')}}" class="dropdown-item dropdown-footer">Marcar todas como Leidas</a>
                         </div>
                     </li>
                 </ul>
 
-              
 
-              
+
+
             </nav>
             <!-- /.navbar -->
 
@@ -164,15 +164,15 @@
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
-              
+
                       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                        <!-- <div class="image">
                             <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                         </div>-->
-                    
+
                     </div>
-              
-                    
+
+
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
@@ -185,32 +185,47 @@
                                     <p>Inicio</p>
                                 </a>
                             </li>
-                       
+
                             @can('haveaccess','personalAcademico.index')
                             <li class="nav-item">
                                 <a href="{{url('/personalAcademico')}}"
                                     class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
                                     <p><i class="nav-icon fas fa-users"></i>
-                                        Registrar Personal 
+                                        Registrar Personal
                                         <br> <i class="nav-icon fas "></i> Academico
                                       </p>
                                 </a>
                             </li>
                             @endcan
 
-                            
+
+                            @can('haveaccess','autoAcademicas.index')
+                             <li class="nav-item">
+                                <a href="{{url('/autoAcademicas')}}"
+                                    class="{{ Request::path() === 'autoAcademicas' ? 'nav-link active' : 'nav-link' }}">
+                                    <p><i class="nav-icon fas fa-users"></i>
+                                        Registrar Autoridades
+                                        <br> <i class="nav-icon fas "></i> Academicas
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan
+
+
                             @can('haveaccess','registrarUFC.index')
                             <li class="nav-item">
                                 <a href="{{url('/registrarUFC')}}"
                                     class="{{ Request::path() === 'registrarUFC' ? 'nav-link active' : 'nav-link' }}">
                                     <p><i class="nav-icon fas fa-university"></i>
-                                        Registrar Unidad 
+                                        Registrar Unidad
                                         <br> <i class="nav-icon fas "></i> Facultad Carrera
                                       </p>
                                 </a>
                             </li>
                             @endcan
-                           
+
+
+
                            <!-- <li class="nav-item">
                                 <a href="{{url('roles')}}"
                                     class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
@@ -220,7 +235,7 @@
                                       </p>
                                 </a>
                             </li>-->
-                            
+
                             @can('haveaccess','rola.index')
                             <li class="nav-item">
                                 <a href="{{url('rola')}}"
@@ -232,8 +247,8 @@
                                 </a>
                             </li>
                             @endcan
-              
-                      
+
+
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
@@ -255,7 +270,7 @@
                 </section>
                 <!-- /.content -->
             </div>
-           
+
 
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">

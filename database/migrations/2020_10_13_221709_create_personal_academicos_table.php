@@ -21,6 +21,7 @@ class CreatePersonalAcademicosTable extends Migration
             $table->string('email');
             $table->string('telefono');
             $table->string('password');
+            $table->integer('repetidos')->default(1);
             $table->timestamps();
         });
         Schema::create('personal_academico_user', function (Blueprint $table) {

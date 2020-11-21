@@ -34,6 +34,8 @@ Route::resource('usuarios', 'UserController');
 
 Route::resource('personalAcademico', 'PersonalAcademicoController')->middleware('auth');
 
+Route::resource('autoAcademicas', 'AutoAcademicasController')->middleware('auth');
+
 Route::get('registrarUFC/registrarUnidad', 'RegistrarUFCController@createUnidad')->middleware('auth');
 Route::post('registrarUFC/registrarUnidad', 'RegistrarUFCController@storeUnidad')->middleware('auth');
 Route::get('registrarUFC/{id}/editarUnidad','RegistrarUFCController@editUnidad')->middleware('auth');
@@ -73,13 +75,13 @@ Route::get('/test',function(){
         'id' => '1003',
         'name' => 'Ronaldinho',
         'email' => 'ronaldinho@gmail.com',
-        'password' => bcrypt('sistemas'), 
+        'password' => bcrypt('sistemas'),
       ]);
-      
+
       */
      $user = User::find(1003);
     //return User::get();
-  
+
     //el indica que las usuario se le asigna el ese (Antes de hacer esto es necesario que el rol ya exista)
     //$user->rolas()->sync([2]);
 
