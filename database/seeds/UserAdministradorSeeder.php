@@ -171,6 +171,15 @@ class UserAdministradorSeeder extends Seeder
                       'description' => 'Usted puede Registrar una mas Carreras',
                       ]);
                       $permission_all[] = $permission->id;
+
+                      //permisos Registrar Autoridades Academicas
+
+                      $permission = Permission::create([
+                        'name' => 'Registrar Autoridades Academicas ',
+                        'slug' => 'autoAcademicas.index',
+                        'description' => 'Usted puede Registrar Autoridades Academicas',
+                        ]);
+                        $permission_all[] = $permission->id;
       //table permission_rola
      // $roladmin->permissions()->sync( $permission_all );
         

@@ -13,9 +13,9 @@
 
                 <thead class="thead-light">
                     <tr>
-                       
+                       <!-- <th scope="col">Rol</th>-->
                         <th scope="col">Docente</th>
-                        <th scope="col"></th>
+                       <!-- <th scope="col">Datos</th>-->
                         <th scope="col"></th>
 
                     </tr>
@@ -29,9 +29,9 @@
         <td>
         @if($personal->repetidos==1)
         <td>
-            
-            {{$personal->nombre}} {{$personal->apellido}}
            
+            {{$personal->nombre}} {{$personal->apellido}}
+     
 
 
            </td>
