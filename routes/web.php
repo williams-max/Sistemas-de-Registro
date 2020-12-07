@@ -34,6 +34,8 @@ Route::resource('usuarios', 'UserController');
 
 Route::resource('personalAcademico', 'PersonalAcademicoController')->middleware('auth');
 
+Route::resource('autoAcademicas', 'AutoAcademicasController')->middleware('auth');
+
 Route::get('registrarUFC/registrarUnidad', 'RegistrarUFCController@createUnidad')->middleware('auth');
 Route::post('registrarUFC/registrarUnidad', 'RegistrarUFCController@storeUnidad')->middleware('auth');
 Route::get('registrarUFC/{id}/editarUnidad','RegistrarUFCController@editUnidad')->middleware('auth');
@@ -57,6 +59,19 @@ Route::delete('registrarUFC/eliminarCarrera/{id}','RegistrarUFCController@destro
 
 Route::resource('registrarUFC', 'RegistrarUFCController')->middleware('auth');
 
+
+Route::resource('registroAsistencia', 'RegistroAsistenciaController');
+Route::get('registroAsistencia', 'RegistroAsistenciaController@index');
+Route::post('registroAsistencia/contacts', 'RegistroAsistenciaController@postContact');
+Route::get('/findCustomers', 'RegistroAsistenciaController@getCustomer');
+Route::get('/findCustomer', 'RegistroAsistenciaController@getCusto');
+
+Route::get('registroAsistencia/pruebas', 'RegistroAsistenciaController@pruebas');
+
+Route::resource('registroAsistenciaAuxiliar', 'AsistenciaAuxiliarController')->middleware('auth');
+Route::get('registroAsistenciaAuxiliar/descargar/{grabacion}', 'AsistenciaAuxiliarController@download')->middleware('auth');
+Route::get('registroAsistenciaAuxiliar/enviar/{id}', 'AsistenciaAuxiliarController@enviar')->middleware('auth');
+
 Route::get('markAsRead', function(){
     auth()->user()->unreadNotifications->markAsRead();
     return redirect()->back();
@@ -73,13 +88,13 @@ Route::get('/test',function(){
         'id' => '1003',
         'name' => 'Ronaldinho',
         'email' => 'ronaldinho@gmail.com',
-        'password' => bcrypt('sistemas'), 
+        'password' => bcrypt('sistemas'),
       ]);
-      
+
       */
      $user = User::find(1003);
     //return User::get();
-  
+
     //el indica que las usuario se le asigna el ese (Antes de hacer esto es necesario que el rol ya exista)
     //$user->rolas()->sync([2]);
 
@@ -87,5 +102,3 @@ Route::get('/test',function(){
     return $user;
    //return $user->havePermission('rola.create');
 });
-
-

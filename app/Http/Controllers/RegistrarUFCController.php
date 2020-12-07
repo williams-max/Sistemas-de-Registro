@@ -58,14 +58,14 @@ class RegistrarUFCController extends Controller
     public function storeUnidad(Request $request)
     {
         $campos=[
-            'nombre' => 'required|alpha|max:50',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
             'telefono' => 'required|numeric|digits_between:7,8',
         ];
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -92,7 +92,7 @@ class RegistrarUFCController extends Controller
     public function storeFacultad(Request $request)
     {
         $campos=[
-            'nombre' => 'required|alpha|max:50',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
             'telefono' => 'required|numeric|digits_between:7,8',
             'unidad' => 'required',
@@ -100,7 +100,7 @@ class RegistrarUFCController extends Controller
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -131,7 +131,7 @@ class RegistrarUFCController extends Controller
     {
 
         $campos=[
-            'nombre' => 'required|alpha|max:50',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
             'telefono' => 'required|numeric|digits_between:7,8',
             'facultad' => 'required',
@@ -139,7 +139,7 @@ class RegistrarUFCController extends Controller
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -247,14 +247,14 @@ class RegistrarUFCController extends Controller
     {
 
         $campos=[
-            'nombre' => 'required|alpha|max:50',
-            'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'correo' => 'required|email:rfc,dns|max:30',
             'telefono' => 'required|numeric|digits_between:7,8',
         ];
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -279,15 +279,15 @@ class RegistrarUFCController extends Controller
     {
 
         $campos=[
-            'nombre' => 'required|alpha|max:50',
-            'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'correo' => 'required|email:rfc,dns|max:30',
             'telefono' => 'required|numeric|digits_between:7,8',
             'unidad' => 'required',
         ];
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -317,15 +317,15 @@ class RegistrarUFCController extends Controller
 
 
         $campos=[
-            'nombre' => 'required|alpha|max:50',
-            'correo' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'correo' => 'required|email:rfc,dns|max:30',
             'telefono' => 'required|numeric|digits_between:7,8',
             'facultad' => 'required',
         ];
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
             "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',

@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\isarel\Models\Rola;
+use App\RegistrarCarrera;
+use App\RegistrarFacultad;
+use App\RegistrarUnidad;
 
 class PersonalAcademicoController extends Controller
 {
@@ -38,7 +41,10 @@ class PersonalAcademicoController extends Controller
        // $this->authorize('create',PersonalAcademico::class);
        // return 'Create';
         $roles =Rola::all();
-        return view('personalAcademico.create',['roles'=>$roles]);
+        $unidad = RegistrarUnidad::all();
+        $facultad = RegistrarFacultad::all();
+        $carrera = RegistrarCarrera::all();
+        return view('personalAcademico.create',['roles'=>$roles,'unidad'=>$unidad,'facultad'=>$facultad,'carrera'=>$carrera]);
     }
 
     /**
@@ -50,13 +56,16 @@ class PersonalAcademicoController extends Controller
     public function store(Request $request)
     {
         $campos=[
-            'nombre' => 'required|alpha|max:50',
-            'apellido' => 'required|alpha|max:50',
-            'codigoSis' => 'required|numeric|digits_between:9,10',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'apellido' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'codigoSis' => 'required|numeric|digits_between:9,10|unique:App\PersonalAcademico,codigoSis',
             'email' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
             'telefono' => 'required|numeric|digits_between:7,8',
             'password' => 'required|min:8|max:20',
             'rol' => 'required',
+            'unidad' => 'required',
+            'facultad' => 'required',
+            'carrera' => 'required',
             
         ];
 
@@ -64,8 +73,11 @@ class PersonalAcademicoController extends Controller
                 
             "required"=>'El campo es requerido',
             "rol.required"=>'Seleccione un cargo',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
-            "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
+            "unidad.required"=>'Seleccione una unidad',
+            "facultad.required"=>'Seleccione una facultad',
+            "carrera.required"=>'Seleccione una carrera',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
+            "apellido.regex"=>'Solo se acepta caracteres A-Z,chale',
             "password.min"=>'Solo se acepta 8 caracteres como minimo',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
@@ -74,7 +86,8 @@ class PersonalAcademicoController extends Controller
             "codigoSis.digits_between"=>'El codigoSis no existe',
             "password.max"=>'Solo se acepta 20 caracteres como maximo',
             "numeric"=>'Solo se acepta números',
-            "unique"=>'Correo ya registrado',
+            "codigoSis.unique"=>'Codigo Sis ya registrado',
+            "email.unique"=>'Correo ya registrado',
             "email"=>'El correo no existe',
                    ];
         $this->validate($request,$campos,$Mensaje);
@@ -88,6 +101,9 @@ class PersonalAcademicoController extends Controller
         $personal->email = request('email');
         $personal->telefono = request('telefono');
         $personal->password = request('password');
+        $personal->id_unidad = $request->get('unidad');
+        $personal->id_facultad = $request->get('facultad');
+        $personal->id_carrera = $request->get('carrera');
         
         $personal->save();
 
@@ -137,7 +153,9 @@ class PersonalAcademicoController extends Controller
        // $this->authorize('update',$per);
         $personal=PersonalAcademico::findOrFail($id);
         $roles=Rola::all();
-
+        $unidad = RegistrarUnidad::all();
+        $facultad = RegistrarFacultad::all();
+        $carrera = RegistrarCarrera::all();
         $cargo = DB::table('personal_academicos')
             ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
             ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
@@ -148,7 +166,7 @@ class PersonalAcademicoController extends Controller
         
             
 
-        return view('personalAcademico.edit',compact('personal','roles','cargo')); 
+        return view('personalAcademico.edit',compact('personal','roles','cargo','unidad','facultad','carrera')); 
         
     }
 
@@ -162,8 +180,8 @@ class PersonalAcademicoController extends Controller
     public function update(Request $request, $id)
     {
         $campos=[
-            'nombre' => 'required|alpha|max:50',
-            'apellido' => 'required|alpha|max:50',
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'apellido' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'codigoSis' => 'required|numeric|digits_between:9,10',
             'email' => 'required|email:rfc,dns|max:30',
             'telefono' => 'required|numeric|digits_between:7,8',
@@ -173,8 +191,8 @@ class PersonalAcademicoController extends Controller
         $Mensaje = [
                 
             "required"=>'El campo es requerido',
-            "nombre.alpha"=>'Solo se acepta caracteres A-Z',
-            "apellido.alpha"=>'Solo se acepta caracteres A-Z,chale',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
+            "apellido.regex"=>'Solo se acepta caracteres A-Z,chale',
             "password.min"=>'Solo se acepta 8 caracteres como minimo',
             "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
             "apellido.max"=>'Solo se acepta 50 caracteres como maximo',

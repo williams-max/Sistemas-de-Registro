@@ -20,7 +20,7 @@
 
     </div> 
     <div class="col-5">
-        <label for="Facultad">Unidad</label>
+        <label for="Facultad">Facultad</label>
         <select name="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
         <option selected disabled>Seleccione una Facultad</option>
         @foreach ($facultad as $facultads)

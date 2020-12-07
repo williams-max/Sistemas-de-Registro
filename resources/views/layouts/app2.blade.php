@@ -42,41 +42,10 @@
                 
 
                                 
-                                
-                            @Can('Administrador')
-                             <li class="nav-item">
-                                <a href="{{url('/personalAcademico')}}"
-                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                       Registrar Personal Academico
-                                        <?php  $personal_count = DB::table('personal_academicos')->count(); ?>
-                                     <--<span class="right badge badge-danger">{{ $personal_count ?? '0' }}</span>-->
-                                    </p>
-                                </a>
-                            </li>
-                            
-                           
-                            <li class="nav-item">
-                                <a href="{{url('roles')}}"
-                                    class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                        Cargos
-                                      </p>
-                                </a>
-                            </li>
-                            @endCan
-                      
-                        </ul>
-                    </nav>
-                    <!-- /.sidebar-menu -->
-                </div>
-                <!-- /.sidebar -->
-            </aside>
+                
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrappe">
                 <!-- Content Header (Page header) -->
                 <div class="content-header">
 

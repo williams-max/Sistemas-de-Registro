@@ -47,7 +47,7 @@ class RolaController extends Controller
     {
         Gate::authorize('haveaccess','rola.create');
         $request->validate([
-            'name'        => 'required|alpha|max:50|unique:rolas,name',
+            'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:200|unique:rolas,name',
           //  'slug'        => 'required|max:50|unique:rolas,slug',
             'full-access' => 'required|in:yes,no'
         ]);

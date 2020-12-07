@@ -56,7 +56,8 @@ class PostListerner
        $users = User::all();
        //Saturday
        //Monday
-       if($dia->isoFormat('dddd')=='Monday')
+       //domingo
+       if($dia->isoFormat('dddd')=='lunesx')
         {
 
       
@@ -108,7 +109,7 @@ class PostListerner
            //dia miercoles verficamos si el usaario no envio el formulario 
            //Saturday
            //Wednesday
-           if($dia->isoFormat('dddd')=='Wednesday')
+           if($dia->isoFormat('dddd')=='miercolesx')
            {
             foreach($users as $user){
              

@@ -1,0 +1,68 @@
+
+
+
+ 
+rect#c {
+  fill:rgba(204, 204, 0, 0.6);
+  stroke-width:10;
+  stroke:rgba(204, 204, 0, 1);
+}
+  
+.cuadrado{
+  padding:5px;
+  margin:5px;
+  background-color: #3691e6b2;
+  border: solid 1px rgb(255, 255, 255);
+  color: white;
+  }
+  
+  
+  #observacion{
+    width: 280px;
+  }
+  #plataforma{
+    width: 200px;
+  }
+  #contenido{
+    width: 240px;
+  }
+  #materia{
+    width: 200px;
+  }
+  #grupo{
+    width: 50px;
+  }
+  #grupo_1{
+    width: 50px;
+  }
+  #grupo_2{
+    width: 50px;
+  }
+  #grupo_3{
+    width: 50px;
+  }
+  #grupo_4{
+    width: 50px;
+  }
+  #grupo_5{
+    width: 50px;
+  }
+  #grupo_6{
+    width: 50px;
+  }
+  #grupo_7{
+    width: 50px;
+  }
+  #hora{
+    width: 85px;
+  }
+  #fecha{
+    width: 250px;
+  } 
+  #firma{
+    width: 250px;
+  }
+  #table{
+    width: 1250px;
+  }
+ 
