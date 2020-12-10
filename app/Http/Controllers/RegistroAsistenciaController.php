@@ -30,7 +30,7 @@ class RegistroAsistenciaController extends Controller
 
       //$mata= Mata::all();
 
-      //return $mata;
+      //return ;
       $date = Carbon::now();
       $date = $date->format('Y-m-d');
 

@@ -87,7 +87,7 @@ class AsistenciaAuxiliarController extends Controller
 
 $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
 //dd($registro2);
-       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2],compact('mesActual'));
+       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }
 
