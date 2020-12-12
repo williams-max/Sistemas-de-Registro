@@ -21,10 +21,6 @@
             background: rgb(161, 161, 250);
             color: aliceblue
         }
-        #grabacion{
-            background: rgb(161, 161, 250);
-            color: aliceblue
-        }
         </style>
 
 <div class="row">
@@ -109,9 +105,9 @@
 <div class="row">
     <div class="col-5">
         <label for="Grabacion"class="control-label">{{'Grabacion'}}</label>
-        <br>
-        <input type="file"  accept="video/*" class="form-control  {{$errors->has('grabacion')?'is-invalid':'' }}" name="grabacion" id="grabacion" 
-        value="{{ isset($registro->grabacion)?$registro->grabacion:old('grabacion') }}"
+        <input type="text" class="form-control  {{$errors->has('grabacion')?'is-invalid':'' }}" name="grabacion" id="grabacion" 
+        value="{{ isset($registro->grabacion)?$registro->grabacion:old('grabacion')  }}"
+        placeholder="Link de clase grabada"
         >
         {!!  $errors->first('grabacion','<div class="invalid-feedback">:message</div>') !!}
     </div>

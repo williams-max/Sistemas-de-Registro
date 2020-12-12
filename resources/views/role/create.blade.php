@@ -43,6 +43,33 @@
 
                               <hr>
                               
+                              <h3>Autoridad</h3>
+
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="fullautoyes" name="full-auto" 
+                                class="custom-control-input" value="yes"
+                                @if (old('full-auto')=="yes")
+                                    checked
+                                @endif
+                                
+                                
+                                >
+                                <label class="custom-control-label" for="fullautoyes">SI</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="fullautono" name="full-auto" 
+                                class="custom-control-input " value="no" 
+                                @if (old('full-auto')=="no")
+                                checked
+                                @endif
+                                @if (old('full-auto')==null)
+                                checked
+                                @endif
+                                >
+                                <label class="custom-control-label" for="fullautono">No</label>
+                              </div>
+                              
+                              <hr>
                               <h3>Acceso Completo</h3>
                               <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="fullaccessyes" name="full-access" 

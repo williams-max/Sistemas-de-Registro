@@ -27,6 +27,7 @@
                             <!--<th scope="col">slug</th>-->
                             <th scope="col">Descripcion</th>
                             <th scope="col">Acceso Completo</th>
+                            <th scope="col">Autoridad</th>
                             <th colspan="3"></th>
                           </tr>
                         </thead>
@@ -40,6 +41,7 @@
                              <!--<td>{{$role->slug}}</td>-->
                              <td>{{$role->description}}</td>
                              <td>{{$role['full-access']}}</td>  
+                             <td>{{$role['full-auto']}}</td>
 
                              @if ($role->name=='admin')
                                  <td><a class="btn btn-default" href="{{ route('rola.show',$role->id)}}">

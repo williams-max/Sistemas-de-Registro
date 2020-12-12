@@ -13,17 +13,14 @@
     <div class="row">
 
         <div class="col-5">
-            <label for="Docente">Docente</label>
-            <select name="docente" class="form-control  {{$errors->has('docente')?'is-invalid':'' }}">
-            <option selected disabled>Elige a un Docente</option>
-
-            @foreach ($personal as $personal)
-
-                <option value="{{$personal->id}}" >{{$personal->nombre}} {{$personal->apellido}}</option>
-
-            @endforeach
-            </select>
-            {!!  $errors->first('docente','<div class="invalid-feedback">:message</div>') !!}
+            <label for="Personal">Personal</label>
+           <select name="rol" id="rol" class="form-control  {{$errors->has('rol')?'is-invalid':'' }}">
+                <option selected disabled>Seleccione Tipo de Personal</option>
+                @foreach ($roles as $role)
+                    <option value="{{$role->id}}">{{$role->name}}</option>
+                @endforeach
+                </select>
+                {!!  $errors->first('rol','<div class="invalid-feedback">:message</div>') !!}
         </div>
 
         <div class="col-5">
@@ -38,14 +35,12 @@
     </div>
     <div class="row">
         <div class="col-5">
-            <label for="Cargo">Cargo</label>
-           <select name="rol" class="form-control  {{$errors->has('rol')?'is-invalid':'' }}">
-                <option selected disabled>Elige un rol para este Usuario</option>
-                @foreach ($roles as $role)
-                    <option value="{{$role->id}}">{{$role->name}}</option>
-                @endforeach
+            <label for="Personal"></label>
+           <select name="personal" id="personal" class="form-control  {{$errors->has('personal')?'is-invalid':'' }}">
+                <option selected disabled>Seleccione al Personal</option>
+               
                 </select>
-                {!!  $errors->first('rol','<div class="invalid-feedback">:message</div>') !!}
+                {!!  $errors->first('personal','<div class="invalid-feedback">:message</div>') !!}
         </div>
 
 
@@ -59,16 +54,43 @@
         </div>
 
 </div>
+ <div class="row">
+    <div class="col-5">
+        <label for="Cargo">Autoridad</label>
+       <select name="cargo" id="cargo" class="form-control  {{$errors->has('cargo')?'is-invalid':'' }}">
+            <option selected disabled>Elige un rol para este Usuario</option>
+            @foreach ($cargo as $role)
+                <option value="{{$role->id}}">{{$role->name}}</option>
+            @endforeach
+            </select>
+            {!!  $errors->first('cargo','<div class="invalid-feedback">:message</div>') !!}
+    </div>
+
+<script>
+    $("#rol").change(event => {
+        $.get(`envio/${event.target.value}`, function(res, sta){
+            $("#personal").empty();
+            res.forEach(element => {
+                $("#personal").append(`<option value=${element.id}> ${element.nombre} ${element.apellido} </option>`);
+            });
+        });
+    });
+</script>
+
+        
+
+</div>
 
 <label></label>
 
 <div class="row">
     <div class="col-5">
-        <input type="submit" class="btn btn-success" value="Guardar">
-    </div>
-    <div class="col-5">
         <a href="{{url('autoAcademicas')}}"class="btn btn-primary">Regresar</a>
     </div>
+    <div class="col-5">
+        <input type="submit" class="btn btn-success" value="Guardar">
+    </div>
+    
 </div>
 </div>
 </form>

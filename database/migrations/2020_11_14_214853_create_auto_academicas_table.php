@@ -17,27 +17,13 @@ class CreateAutoAcademicasTable extends Migration
             $table->bigIncrements('id');
             $table->string('direccion');
             $table->string('grado');
+            $table->unsignedBigInteger('id_user');
 
-
-            $table->timestamps();
-        });
-
-        Schema::create('auto_academica_user', function (Blueprint $table) {
-            $table->primary('user_id','auto_academica_id');
-
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('auto_academica_id');
-            $table->timestamps();
-
-            $table->foreign('user_id')
+            $table->foreign('id_user')
             ->references('id')
             ->on('users')
             ->onDelete('cascade');
-
-            $table->foreign('auto_academica_id')
-            ->references('id')
-            ->on('auto_academicas')
-            ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

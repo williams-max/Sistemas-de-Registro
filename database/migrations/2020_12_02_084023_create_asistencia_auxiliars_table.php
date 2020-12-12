@@ -24,8 +24,7 @@ class CreateAsistenciaAuxiliarsTable extends Migration
             $table->string('observacion');
             $table->string('firma');
             $table->string('ruta_firma');
-            $table->string('grabacion')->nullable();
-            $table->string('ruta_grabacion')->nullable();
+            $table->string('grabacion');
             $table->integer('enviado');
             $table->unsignedBigInteger('id_personal');
             $table->unsignedBigInteger('id_fecha_rango');

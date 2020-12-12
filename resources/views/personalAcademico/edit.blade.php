@@ -47,7 +47,8 @@
                         @else
                         <option value="{{$role->id}}">{{$role->name}}</option>
                         @endif
-                    @endforeach
+                    @endforeach 
+                    
                     </select>
                 </div>
                            
@@ -63,11 +64,15 @@
             </div>
             <div class="col-5">
                 <label for="Unidad">Unidad</label>
-                <select name="unidad" class="form-control  {{$errors->has('unidad')?'is-invalid':'' }}">
+                <select name="unidad" id="unidad" class="form-control  {{$errors->has('unidad')?'is-invalid':'' }}">
                 <option selected disabled>Elige una Unidad para este Usuario</option>
                 @foreach ($unidad as $unidad)
-                    <option value="{{$unidad->id}}">{{$unidad->nombre}}</option>
-                @endforeach
+                        @if ($unidad->nombre == $unidad_cargo->nombre)
+                        <option value="{{$unidad->id}}" selected>{{$unidad->nombre}}</option>
+                        @else
+                        <option value="{{$unidad->id}}">{{$unidad->nombre}}</option>
+                        @endif
+                    @endforeach 
                 </select>
                 {!!  $errors->first('unidad','<div class="invalid-feedback">:message</div>') !!}
             </div>
@@ -83,11 +88,15 @@
             </div>
             <div class="col-5">
                 <label for="Facultad">Facultad</label>
-                <select name="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
+                <select name="facultad" id="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
                 <option selected disabled>Elige una Facultad para este Usuario</option>
                 @foreach ($facultad as $facultad)
-                    <option value="{{$facultad->id}}">{{$facultad->nombre}}</option>
-                @endforeach
+                @if ($facultad->nombre == $facultad_cargo->nombre)
+                <option value="{{$facultad->id}}" selected>{{$facultad->nombre}}</option>
+                @else
+                <option value="{{$facultad->id}}">{{$facultad->nombre}}</option>
+                @endif
+            @endforeach 
                 </select>
                 {!!  $errors->first('facultad','<div class="invalid-feedback">:message</div>') !!}
             </div>
@@ -105,8 +114,12 @@
                     <select name="carrera" class="form-control  {{$errors->has('carrera')?'is-invalid':'' }}">
                     <option selected disabled>Elige una Carrera para este Usuario</option>
                     @foreach ($carrera as $carrera)
-                        <option value="{{$carrera->id}}">{{$carrera->nombre}}</option>
-                    @endforeach
+                    @if ($carrera->nombre == $carrera_cargo->nombre)
+                    <option value="{{$carrera->id}}" selected>{{$carrera->nombre}}</option>
+                    @else
+                    <option value="{{$carrera->id}}">{{$carrera->nombre}}</option>
+                    @endif
+                    @endforeach 
                     </select>
                     {!!  $errors->first('carrera','<div class="invalid-feedback">:message</div>') !!}
                 </div>
@@ -114,12 +127,13 @@
 <label></label>
 
 <div class="row">
-    <div class="col-5">       
-        <input type="submit" class="btn btn-success" value="Guardar">
-    </div>
     <div class="col-5">  
         <a href="{{url('personalAcademico')}}"class="btn btn-primary">Regresar</a>
     </div>
+    <div class="col-5">       
+        <input type="submit" class="btn btn-success float-right" value="Guardar">
+    </div>
+    
 </div>
 </div>
 </form>

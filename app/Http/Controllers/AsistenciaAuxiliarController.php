@@ -119,10 +119,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
-            'grabacion' => 'required',
+            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
         $Mensaje = [
-                
+            "grabacion.regex"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -151,6 +151,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
+        $auxiliar->grabacion = request('grabacion');
         $auxiliar->enviado = 0;
         $auxiliar->id_fecha_rango = $id;
         //$auxiliar->grabacion = request('grabacion');
@@ -174,15 +175,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         //$file->move(public_path().'/firmas',$file->getClientOriginalName());
         $auxiliar->ruta_firma=$file->getClientOriginalName();
     }
-    if($request->hasfile('grabacion')){
-
-        $file =$request->grabacion;
-        //$file->move(public_path().'/grabacion',$file->getClientOriginalName());
-        $auxiliar['grabacion']=$request->file('grabacion')->store('grabaciones','public');
-       
-        $auxiliar->ruta_grabacion=$file->getClientOriginalName();
-    }
-
+    
         $auxiliar->save();
         return redirect('/registroAsistenciaAuxiliar');
     }
@@ -228,9 +221,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
         $Mensaje = [
-                
+            "grabacion.regex"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -247,6 +241,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
+        $auxiliar->grabacion = request('grabacion');
 
         if($request->hasfile('firma')){
 
@@ -261,15 +256,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
             //$file->move(public_path().'/firmas',$file->getClientOriginalName());
             //$auxiliar->firma=$file->getClientOriginalName();
-        }
-        if($request->hasfile('grabacion')){
-
-            $file =$request->grabacion;
-            Storage::delete('public/'.$auxiliar->grabacion);
-            $auxiliar['grabacion']=$request->file('grabacion')->store('grabacion','public');
-            
-            //$file->move(public_path().'/grabacion',$file->getClientOriginalName());
-            $auxiliar->ruta_grabacion=$file->getClientOriginalName();
         }
 
         $auxiliar->update();
@@ -286,37 +272,13 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
     {
         $auxiliar = AsistenciaAuxiliar::FindOrFail($id);
         Storage::delete('public/'.$auxiliar->firma);
-        Storage::delete('public/'.$auxiliar->grabacion);
         AsistenciaAuxiliar::destroy($id);
         
 
         return redirect('/registroAsistenciaAuxiliar');
     }
 
-    protected function downloadFile($src)
-    {
-        if (is_file($src)) {
-            $finfo=finfo_open(FILEINFO_MIME_TYPE);
-            $content_type=finfo_file($finfo,$src);
-            $file_close=($finfo);
-            $file_name=basename($src).PHP_EOL;
-            $size=filesize($src);
-            header("Content-Type: $content_type");
-            header("Content-Disposition: attachment;filename=$file_name");
-            header("Content-Transfer-Encoding: binary");
-            header("Content -Length: $size");
-            readfile($src);
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function download($nombre){
-        if (!$this->downloadFile(public_path()."/grabacion/".$nombre)) {
-            return redirect()->back();
-        }
-    }
+    
 
     public function enviar($id){
         

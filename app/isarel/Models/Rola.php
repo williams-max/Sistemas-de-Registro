@@ -9,7 +9,7 @@ class Rola extends Model
     //es: desde aqui 
     protected $fillable = [
        // 'name', 'slug', 'description','full-access',
-        'name','description','full-access',
+        'name','description','full-access','full-auto',
 
     ];
 

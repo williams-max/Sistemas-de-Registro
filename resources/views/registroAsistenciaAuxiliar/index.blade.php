@@ -49,7 +49,7 @@
                         <th scope="col"><p>Grupo</p></th>
                         <th scope="col"><p>Materia</p></th>
                         <th scope="col">Contenido <p>de Clase</p> </th>
-                        <th scope="col">Plataforma o <p> Medio Utilizado</p></th>
+                        <th scope="col">Plataforma<p>o Medio Utilizado</p></th>
                         <th scope="col"><p>Observaciones</p></th>
                         <th scope="col"><p>Firma</p></th>
                         <th scope="col"><p>Grabacion</p></th>
@@ -69,7 +69,7 @@
         <td WIDTH="130" HEIGHT="50">{{$registro->plataforma}}</td>
         <td WIDTH="50" HEIGHT="50">{{$registro->observacion}}</td>
         <td >{{$registro->ruta_firma}}</td>
-        <td >{{$registro->ruta_grabacion}}</td>
+        <td >{{$registro->grabacion}}</td>
 
         <td>
             <form method="post" action="{{url('/registroAsistenciaAuxiliar/'.$registro->id)}}" style="display:inline">

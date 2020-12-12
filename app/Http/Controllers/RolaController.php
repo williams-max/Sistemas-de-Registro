@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use App\isarel\Models\Permission;
 use App\isarel\Models\Rola;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RolaController extends Controller
 {
@@ -49,7 +51,8 @@ class RolaController extends Controller
         $request->validate([
             'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:200|unique:rolas,name',
           //  'slug'        => 'required|max:50|unique:rolas,slug',
-            'full-access' => 'required|in:yes,no'
+            'full-access' => 'required|in:yes,no',
+            'full-auto' => 'required|in:yes,no'
         ]);
         $role = Rola::create($request->all());
 
@@ -147,8 +150,20 @@ class RolaController extends Controller
      */
     public function destroy(Rola $rola)
     {
+        
         $this->authorize('haveaccess','rola.destroy');  
-
+        $user = DB::table('personal_academicos')
+                ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+                ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+                ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+                ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+                ->select('users.id')
+                ->where('rolas.id','=',$rola->id)
+                ->first();
+                
+                $usuario = User::FindOrFail($user->id);
+                $usuario->rol = 'no';
+                $usuario->update();
         $rola->delete();
         return redirect()->route('rola.index')
         ->with('status_success','Eliminacion Exitosa');

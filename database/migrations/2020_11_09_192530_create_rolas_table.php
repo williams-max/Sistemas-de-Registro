@@ -19,6 +19,8 @@ class CreateRolasTable extends Migration
             //$table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->enum('full-access',['yes','no'])->nullable();
+            $table->enum('full-auto',['yes','no'])->nullable();
+            $table->enum('rol',['yes','no'])->nullable();
 
             $table->timestamps();
         });
