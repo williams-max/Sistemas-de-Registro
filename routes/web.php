@@ -75,6 +75,10 @@ Route::resource('registroAsistenciaAuxiliar', 'AsistenciaAuxiliarController')->m
 Route::get('registroAsistenciaAuxiliar/descargar/{grabacion}', 'AsistenciaAuxiliarController@download')->middleware('auth');
 Route::get('registroAsistenciaAuxiliar/enviar/{id}', 'AsistenciaAuxiliarController@enviar')->middleware('auth');
 
+Route::resource('registroAsistenciaDocente', 'AsistenciaDocenteController')->middleware('auth');
+//Route::get('registroAsistenciaDocente/descargar/{grabacion}', 'AsistenciaDocenteController@download')->middleware('auth');
+Route::get('registroAsistenciaDocente/enviar/{id}', 'AsistenciaDocenteController@enviar')->middleware('auth');
+
 
 
 Route::get('markAsRead', function(){
