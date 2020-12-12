@@ -92,7 +92,7 @@
             @if ($registro=="[]")
             <a onclick="nopuede()"  class="btn btn-primary float-right" >Enviar</a>
             @else
-            <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   
+            <a onclick="pulsar()" href="{{url('/registroAsistenciaAuxiliar/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   
             @endif
             
         </div>
