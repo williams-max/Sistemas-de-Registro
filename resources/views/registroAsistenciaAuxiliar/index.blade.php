@@ -86,16 +86,26 @@
       </tr>
 
     @endforeach    
-    <SCRIPT languaje="JavaScript">
-        function pulsar() {
-        alert("El Formulario Se envio Con Exito");
-        }
-        </SCRIPT>
+  
                 </tbody>
             </table>
-            <a onclick="pulsar()" href="{{url('/registroAsistenciaAuxiliar/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>
+            @if ($registro=="[]")
+            <a onclick="nopuede()"  class="btn btn-primary float-right" >Enviar</a>
+            @else
+            <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   
+            @endif
+            
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function pulsar() {
+        alert("El Formulario Se envio Con Exito");
+        }
+        function nopuede() {
+            alert("No puede Enviar el Formulario por que esta vacio");
+        }
+</script>
 
 @endsection 

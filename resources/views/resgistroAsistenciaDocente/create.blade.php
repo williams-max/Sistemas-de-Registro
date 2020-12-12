@@ -109,9 +109,9 @@
         value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
         >
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
-    </div>
-    <p class="formulario__input-error"> El este campo solo permerite palabras </p>
-</div>
+         </div>
+          <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+      </div>
         {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">

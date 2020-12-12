@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{url('/registroAsistenciaAuxiliar')}}" class="form-horizontal" method="post" enctype="multipart/form-data">
+<form action="{{url('/registroAsistenciaAuxiliar')}}" id="contactForm"  class="form-horizontal" method="post" enctype="multipart/form-data">
 
     {{ csrf_field()}}
    <h3 class="text-center">FORMULARIO REGISTRO CONTROL DE ASISTENCIA</h3> 
@@ -34,10 +34,17 @@
     
     </div> 
     <div class="col-5">
-        <label for="Contenido"class="control-label">{{'Contenido de Clase'}}</label>
-        <input type="text" class="form-control  {{$errors->has('contenido')?'is-invalid':'' }}" name="contenido" id="contenido" 
-        value="{{ isset($registro->contenido)?$registro->contenido:old('contenido') }}"
-        >
+        <div class="formulario__grupo  " id="grupo__contenido">
+            <div class="formulario__grupo-input">
+              <label for="Contenido"class="control-label">{{'Contenido de Clase'}}</label>
+              <input type="text" class="formulario__input   {{$errors->has('contenido')?'is-invalid':'' }}" name="contenido" id="contenido" 
+              value="{{ isset($registro->contenido)?$registro->contenido:old('contenido') }}"
+              >
+              <i class="formulario__validacion-estado fas fa-times-circle"></i>
+            </div>
+            <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+        </div>
+
         {!!  $errors->first('contenido','<div class="invalid-feedback">:message</div>') !!}
     </div>
     
@@ -53,12 +60,19 @@
     {!!  $errors->first('hora','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">
-        <label for="Plataforma"class="control-label">{{'Plataforma o Medio Utilizado'}}</label>
-        <input type="text" class="form-control  {{$errors->has('plataforma')?'is-invalid':'' }}" name="plataforma" id="plataforma" 
-        value="{{ isset($registro->plataforma)?$registro->plataforma:old('plataforma') }}"
-        >
+        <div class="formulario__grupo  " id="grupo__plataforma">
+            <div class="formulario__grupo-input">
+           <label for="Plataforma"class="control-label">{{'Plataforma o Medio Utilizado'}}</label>
+           <input type="text" class="formulario__input   {{$errors->has('plataforma')?'is-invalid':'' }}" name="plataforma" id="plataforma" 
+           value="{{ isset($registro->plataforma)?$registro->plataforma:old('plataforma') }}"
+           >
+          <i class="formulario__validacion-estado fas fa-times-circle"></i>
+          </div>
+       <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+        </div>
         {!!  $errors->first('plataforma','<div class="invalid-feedback">:message</div>') !!}
     </div>
+
 
                    
     
@@ -83,10 +97,16 @@
 </div>
 <div class="row">
     <div class="col-5">
+        <div class="formulario__grupo  " id="grupo__materia">
+            <div class="formulario__grupo-input">
         <label for="Materia"class="control-label">{{'Materia'}}</label>
-        <input type="text" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
+        <input type="text" class="formulario__input  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
         value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
         >
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+         </div>
+          <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+      </div>
         {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">
@@ -128,5 +148,5 @@
 </div>
 </form>
 
-
+<script src="{{ asset('dist/js/formulario.js') }} "></script>
 @endsection
