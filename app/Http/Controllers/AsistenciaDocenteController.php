@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\AsistenciaAuxiliar;
 use App\FechaEntregas;
 use App\RegistroAsistencia;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
-use finfo;
-use Illuminate\Http\Request;
+use App\AsistenciaDocente;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-;
-
-class AsistenciaAuxiliarController extends Controller
+class AsistenciaDocenteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
- 
+    
 
     public function index()
     {
@@ -77,17 +72,17 @@ class AsistenciaAuxiliarController extends Controller
         $personal = $id_personal->id;
     }
 
-        $registro = DB::table('asistencia_auxiliars')
-       ->select('asistencia_auxiliars.*')
-    ->where('asistencia_auxiliars.id_personal','=',$personal)
-    ->where('asistencia_auxiliars.enviado','=',0)->get();
+        $registro = DB::table('asistencia_docentes')
+       ->select('asistencia_docentes.*')
+    ->where('asistencia_docentes.id_personal','=',$personal)
+    ->where('asistencia_docentes.enviado','=',0)->get();
    
        
-
+//return ($registro);
 
 $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
 //dd($registro2);
-       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
+       return view('resgistroAsistenciaDocente.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }
 
@@ -98,7 +93,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      */
     public function create()
     {
-        return view('registroAsistenciaAuxiliar.create');
+        return view('resgistroAsistenciaDocente.create');
     }
  
     /**
@@ -119,10 +114,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+                
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -142,7 +137,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             $id=$dia->id;
         } 
 
-        $auxiliar = new AsistenciaAuxiliar();
+        $auxiliar = new AsistenciaDocente();
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
@@ -151,7 +146,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
-        $auxiliar->grabacion = request('grabacion');
         $auxiliar->enviado = 0;
         $auxiliar->id_fecha_rango = $id;
         //$auxiliar->grabacion = request('grabacion');
@@ -175,9 +169,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         //$file->move(public_path().'/firmas',$file->getClientOriginalName());
         $auxiliar->ruta_firma=$file->getClientOriginalName();
     }
-    
+   
+
         $auxiliar->save();
-        return redirect('/registroAsistenciaAuxiliar');
+        return redirect('/registroAsistenciaDocente');
     }
 
     /**
@@ -199,8 +194,9 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      */
     public function edit($id)
     {
-        $registro=AsistenciaAuxiliar::findOrFail($id);
-        return view('registroAsistenciaAuxiliar.edit',compact('registro')); 
+       // return "gola";
+        $registro=AsistenciaDocente::findOrFail($id);
+        return view('resgistroAsistenciaDocente.edit',compact('registro')); 
     }
 
     /**
@@ -221,10 +217,9 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+                
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -232,7 +227,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
                    $this->validate($request,$campos,$Mensaje);   
-        $auxiliar = AsistenciaAuxiliar::FindOrFail($id);
+        $auxiliar = AsistenciaDocente::FindOrFail($id);
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
@@ -241,7 +236,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
-        $auxiliar->grabacion = request('grabacion');
 
         if($request->hasfile('firma')){
 
@@ -257,9 +251,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             //$file->move(public_path().'/firmas',$file->getClientOriginalName());
             //$auxiliar->firma=$file->getClientOriginalName();
         }
+       
 
         $auxiliar->update();
-        return redirect('/registroAsistenciaAuxiliar');
+        return redirect('/registroAsistenciaDocente');
     }
 
     /**
@@ -270,32 +265,56 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      */
     public function destroy($id)
     {
-        $auxiliar = AsistenciaAuxiliar::FindOrFail($id);
+        $auxiliar = AsistenciaDocente::FindOrFail($id);
         Storage::delete('public/'.$auxiliar->firma);
-        AsistenciaAuxiliar::destroy($id);
+        Storage::delete('public/'.$auxiliar->grabacion);
+        AsistenciaDocente::destroy($id);
         
 
-        return redirect('/registroAsistenciaAuxiliar');
+        return redirect('/registroAsistenciaDocente');
     }
 
-    
+    protected function downloadFile($src)
+    {
+        if (is_file($src)) {
+            $finfo=finfo_open(FILEINFO_MIME_TYPE);
+            $content_type=finfo_file($finfo,$src);
+            $file_close=($finfo);
+            $file_name=basename($src).PHP_EOL;
+            $size=filesize($src);
+            header("Content-Type: $content_type");
+            header("Content-Disposition: attachment;filename=$file_name");
+            header("Content-Transfer-Encoding: binary");
+            header("Content -Length: $size");
+            readfile($src);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function download($nombre){
+        if (!$this->downloadFile(public_path()."/grabacion/".$nombre)) {
+            return redirect()->back();
+        }
+    }
 
     public function enviar($id){
         
-        $registro = DB::table('asistencia_auxiliars')
-       ->select('asistencia_auxiliars.*')
-        ->where('asistencia_auxiliars.id_personal','=',$id)
-        ->where('asistencia_auxiliars.enviado','=',0)->get();
+        $registro = DB::table('asistencia_docentes')
+       ->select('asistencia_docentes.*')
+        ->where('asistencia_docentes.id_personal','=',$id)
+        ->where('asistencia_docentes.enviado','=',0)->get();
 
 
 
         foreach ($registro as $registro) {
 
-            $auxiliar = AsistenciaAuxiliar::FindOrFail($registro->id);
-            $auxiliar->enviado = 1;
+            $auxiliar = AsistenciaDocente::FindOrFail($registro->id);
+            $auxiliar->enviado = 0;
             $auxiliar->update();
         }
         //dd( $registro);
-        return redirect('/registroAsistenciaAuxiliar');
+        return redirect('/registroAsistenciaDocente');
     }
 }

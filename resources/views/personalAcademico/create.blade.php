@@ -61,7 +61,7 @@
         </div>
         <div class="col-5">
             <label for="Unidad">Unidad</label>
-            <select name="unidad" class="form-control  {{$errors->has('unidad')?'is-invalid':'' }}">
+            <select name="unidad" id="unidad" class="form-control  {{$errors->has('unidad')?'is-invalid':'' }}">
             <option selected disabled>Elige una Unidad para este Usuario</option>
             @foreach ($unidad as $unidad)
                 <option value="{{$unidad->id}}">{{$unidad->nombre}}</option>
@@ -81,11 +81,9 @@
         </div>
         <div class="col-5">
             <label for="Facultad">Facultad</label>
-            <select name="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
+            <select name="facultad" id="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
             <option selected disabled>Elige una Facultad para este Usuario</option>
-            @foreach ($facultad as $facultad)
-                <option value="{{$facultad->id}}">{{$facultad->nombre}}</option>
-            @endforeach
+            
             </select>
             {!!  $errors->first('facultad','<div class="invalid-feedback">:message</div>') !!}
         </div>
@@ -100,23 +98,47 @@
             </div>
             <div class="col-5">
                 <label for="Carrera">Carrera</label>
-                <select name="carrera" class="form-control  {{$errors->has('carrera')?'is-invalid':'' }}">
+                <select name="carrera" id="carrera" class="form-control  {{$errors->has('carrera')?'is-invalid':'' }}">
                 <option selected disabled>Elige una Carrera para este Usuario</option>
-                @foreach ($carrera as $carrera)
-                    <option value="{{$carrera->id}}">{{$carrera->nombre}}</option>
-                @endforeach
+             
                 </select>
                 {!!  $errors->first('carrera','<div class="invalid-feedback">:message</div>') !!}
             </div>
     </div>  
+
+    <script>
+        $("#unidad").change(event => {
+            $.get(`envio/${event.target.value}`, function(res, sta){
+                $("#facultad").empty();
+                $("#facultad").append(`<option > Elige una Facultad para este Usuario </option>`);
+                res.forEach(element => {
+                    $("#facultad").append(`<option value=${element.id}> ${element.nombre} </option>`);
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        $("#facultad").change(event => {
+            $.get(`envio2/${event.target.value}`, function(res, sta){
+                $("#carrera").empty();
+                $("#carrera").append(`<option > Elige una Carrera para este Usuario </option>`);
+                res.forEach(element => {
+                    $("#carrera").append(`<option value=${element.id}> ${element.nombre} </option>`);
+                });
+            });
+        });
+    </script>
     <label></label>
 
     <div class="row">
-        <div class="col-5">       
-            <input type="submit" class="btn btn-success" value="Guardar">
-        </div>
+        
         <div class="col-5">  
             <a href="{{url('personalAcademico')}}"class="btn btn-primary">Regresar</a>
+        </div>
+        <div class="col-5">       
+            <input type="submit" class="btn btn-success float-right" value="Guardar">
         </div>
     </div>
     </div>

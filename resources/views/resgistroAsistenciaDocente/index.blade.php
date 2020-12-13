@@ -17,7 +17,7 @@
 
         <h5>CARRERA: {{$registro2->carrera}}</h5>
         <br>
-        <h4 class="text-center">FORMULARIO DE CONTROL DE ASISTENCIA AUXILIAR</h4>
+        <h4 class="text-center">FORMULARIO DE CONTROL DE ASISTENCIA DOCENTE</h4>
         <BR>
         <BR>
             <div class="row">
@@ -38,7 +38,7 @@
             </div>
 
 
-        <a href="{{url('registroAsistenciaAuxiliar/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
+        <a href="{{url('registroAsistenciaDocente/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
 
             <table class="table table-hover" >
 
@@ -49,10 +49,10 @@
                         <th scope="col"><p>Grupo</p></th>
                         <th scope="col"><p>Materia</p></th>
                         <th scope="col">Contenido <p>de Clase</p> </th>
-                        <th scope="col">Plataforma<p>o Medio Utilizado</p></th>
+                        <th scope="col">Plataforma o <p> Medio Utilizado</p></th>
                         <th scope="col"><p>Observaciones</p></th>
                         <th scope="col"><p>Firma</p></th>
-                        <th scope="col"><p>Grabacion</p></th>
+                       <!-- <th scope="col"><p>Grabacion</p></th>-->
                         <th scope="col"></th>
 
 
@@ -69,35 +69,36 @@
         <td WIDTH="130" HEIGHT="50">{{$registro->plataforma}}</td>
         <td WIDTH="50" HEIGHT="50">{{$registro->observacion}}</td>
         <td >{{$registro->ruta_firma}}</td>
-        <td >{{$registro->grabacion}}</td>
+     
 
         <td>
-            <form method="post" action="{{url('/registroAsistenciaAuxiliar/'.$registro->id)}}" style="display:inline">
+            <form method="post" action="{{url('/registroAsistenciaDocente/'.$registro->id)}}" style="display:inline">
                 {{csrf_field()}}
                 {{method_field('DELETE')}}
                 <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Registro?');" class="btn btn-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></button>
             </form> 
-
-            <a href="{{url('/registroAsistenciaAuxiliar/'.$registro->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
+            
+            <a href="{{url('/registroAsistenciaDocente/'.$registro->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
                 <i class="fas fa-edit"></i>
             </a>
         </td>
 
       </tr>
-
+           
     @endforeach    
   
                 </tbody>
             </table>
             @if ($registro=="[]")
-            <a onclick="nopuede()"  class="btn btn-primary float-right" >Enviar</a>
+            <a onclick="nopuede()"   class="btn btn-primary float-right" >Enviar</a>
             @else
-            <form id="myform"  action="{{url('/registroAsistenciaAuxiliar/enviar/'.$registro2->id)}}" method="GET" onsubmit="return ConfirmDemo();">
+            <form id="myform"  action="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" method="GET" onsubmit="return ConfirmDemo();">
                 @csrf
              
                 <button  class="btn btn-primary float-right">Enviar</button>
               </form>
-            <!-- <a onclick="pulsar()" href="{{url('/registroAsistenciaAuxiliar/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a> -->  
+
+           <!-- <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   -->
             @endif
             
         </div>
@@ -111,6 +112,7 @@
         function nopuede() {
             alert("No puede Enviar el Formulario por que esta vacio");
         }
+        
         var valor=0;  
         function ConfirmDemo() {
           //Ingresamos un mensaje a mostrar
@@ -138,6 +140,8 @@
            }
           }
       
+    
+        
 </script>
 
 @endsection 

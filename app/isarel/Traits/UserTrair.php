@@ -4,7 +4,6 @@ namespace App\isarel\Traits;
 
 trait UserTrair {
 
-     //codigo escrito por  israel
      public function rolas(){
         return $this->belongsToMany('App\isarel\Models\Rola')->withTimestamps();
     }
@@ -24,6 +23,9 @@ trait UserTrair {
 
             }
 
+        }
+        if($rola['full-auto']=='yes'){
+            return true;
         }
         return false;
        //return $this->rolas;

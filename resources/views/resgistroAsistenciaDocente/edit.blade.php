@@ -4,7 +4,7 @@
 @section('content')
 <link href="{{asset('css/style.css')}}">
 
-<form action="{{url('/registroAsistenciaAuxiliar/' . $registro->id)}}" method="post" enctype="multipart/form-data">
+<form action="{{url('/registroAsistenciaDocente/' . $registro->id)}}" method="post" enctype="multipart/form-data">
 
     {{csrf_field()}}
     {{method_field('PATCH')}}
@@ -88,45 +88,35 @@
                 >
                 {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
             </div>
-            <div class="col-5">
-                <label for="Grabacion"class="control-label">{{'Grabacion'}}</label>
-                <input type="text" class="form-control  {{$errors->has('grabacion')?'is-invalid':'' }}" name="grabacion" id="grabacion" 
-                value="{{ isset($registro->grabacion)?$registro->grabacion:old('grabacion')  }}"
-                >
-                {!!  $errors->first('grabacion','<div class="invalid-feedback">:message</div>') !!}
-            </div>
+           
     
         
         </div> 
         <div class="row"> 
-            <div class="col-5">
+        <div class="col-5">
                 
-                <label for="Firma"class="control-label">{{'Firma'}}</label>
-                
-                <br>
-                
-                 @if ($registro->firma != "")
-                 <img src="{{asset('storage').'/'.$registro->firma}}" alt=""  width="100">
-                   
-                @endif
-    <br>
-                <label for="firma" >
-                    <div class="cuadrado">Subir Archivo</div>
-                </label>
-                <input type="file" style='display: none;' accept="image/*" style="width:165px" value="" class="form-control  {{$errors->has('firma')?'is-invalid':'' }}" name="firma" id="firma" 
-                value="{{ isset($registro->firma)?$registro->firma:old('firma') }}"
-                >
-                {!!  $errors->first('firma','<div class="invalid-feedback">:message</div>') !!}
-             
-            </div>
-            
-    </div>
+            <label for="Firma"class="control-label">{{'Firma'}}</label>
+            <br>
+             @if ($registro->firma != "")
+             <h4>{{$registro->ruta_firma}}  <a href="{{url('registroAsistenciaAuxiliar/descargarFirma/'.$registro->firma)}}">Descargar</a></h4>
+               
+            @endif
+
+            <label for="firma" >
+                <div class="cuadrado">Subir Archivo</div>
+            </label>
+            <input type="file" style='display: none;' accept="image/*" style="width:165px" value="" class="form-control  {{$errors->has('firma')?'is-invalid':'' }}" name="firma" id="firma" 
+            value="{{ isset($registro->firma)?$registro->firma:old('firma') }}"
+            >
+            {!!  $errors->first('firma','<div class="invalid-feedback">:message</div>') !!}
+         
+        </div> </div>
 <label></label>
 
 <div class="row">
  
     <div class="col-5">  
-        <a href="{{url('registroAsistenciaAuxiliar')}}"class="btn btn-primary">Regresar</a>
+        <a href="{{url('registroAsistenciaDocente')}}"class="btn btn-primary">Regresar</a>
     </div>
     <div class="col-5">       
         <input type="submit" class="btn btn-success float-right" value="Guardar">

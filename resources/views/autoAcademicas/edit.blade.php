@@ -14,7 +14,7 @@
 
         <div class="col-5">
             <label for="Docente">Docente</label>
-            <select name="docente" class="form-control">
+            <select disabled name="docente" class="form-control">
             <option selected disabled>Elige a un Docente</option>
             @foreach ($personal as $personal)
 
@@ -36,11 +36,11 @@
     </div>
     <div class="row">
         <div class="col-5">
-            <label for="Cargo">Cargo</label>
-            <select name="rol" class="form-control">
+            <label for="Cargo">Autoridad</label>
+            <select name="cargo" class="form-control">
             <option selected disabled>Elige un cargo para este Usuario</option>
             @foreach ($roles as $role)
-                @if ($role->name == $role->name)
+                @if ($role->name == $cargo->name)
                 <option value="{{$role->id}}" selected>{{$role->name}}</option>
                 @else
                 <option value="{{$role->id}}">{{$role->name}}</option>
@@ -65,11 +65,12 @@
 
 <div class="row">
     <div class="col-5">
-        <input type="submit" class="btn btn-success" value="Guardar">
-    </div>
-    <div class="col-5">
         <a href="{{url('autoAcademicas')}}"class="btn btn-primary">Regresar</a>
     </div>
+    <div class="col-5">
+        <input type="submit" class="btn btn-success float-right" value="Guardar">
+    </div>
+    
 </div>
 </div>
 </form>

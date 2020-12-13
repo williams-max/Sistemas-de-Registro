@@ -33,8 +33,11 @@ Route::resource('/rola', 'RolaController')->names('rola');
 Route::resource('usuarios', 'UserController');
 
 Route::resource('personalAcademico', 'PersonalAcademicoController')->middleware('auth');
+Route::get('personalAcademico/envio/{id}', 'PersonalAcademicoController@personals')->middleware('auth');
+Route::get('personalAcademico/envio2/{id}', 'PersonalAcademicoController@facultad')->middleware('auth');
 
 Route::resource('autoAcademicas', 'AutoAcademicasController')->middleware('auth');
+Route::get('autoAcademicas/envio/{id}', 'AutoAcademicasController@personals')->middleware('auth');
 
 Route::get('registrarUFC/registrarUnidad', 'RegistrarUFCController@createUnidad')->middleware('auth');
 Route::post('registrarUFC/registrarUnidad', 'RegistrarUFCController@storeUnidad')->middleware('auth');
@@ -71,6 +74,12 @@ Route::get('registroAsistencia/pruebas', 'RegistroAsistenciaController@pruebas')
 Route::resource('registroAsistenciaAuxiliar', 'AsistenciaAuxiliarController')->middleware('auth');
 Route::get('registroAsistenciaAuxiliar/descargar/{grabacion}', 'AsistenciaAuxiliarController@download')->middleware('auth');
 Route::get('registroAsistenciaAuxiliar/enviar/{id}', 'AsistenciaAuxiliarController@enviar')->middleware('auth');
+
+Route::resource('registroAsistenciaDocente', 'AsistenciaDocenteController')->middleware('auth');
+//Route::get('registroAsistenciaDocente/descargar/{grabacion}', 'AsistenciaDocenteController@download')->middleware('auth');
+Route::get('registroAsistenciaDocente/enviar/{id}', 'AsistenciaDocenteController@enviar')->middleware('auth');
+
+
 
 Route::get('markAsRead', function(){
     auth()->user()->unreadNotifications->markAsRead();

@@ -10,13 +10,19 @@
 
     <title>Sistema</title>
 
+   
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" ></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="dist/js/adminlte.js"></script>
+
+    <!--Modificando codigo-->
+    <script src="{{ asset('dist/js/adminlte.js') }} "></script>
+   
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!--Modificando codigo-->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,7 +30,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('dist/css/adminlte.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -224,10 +234,10 @@
                             </li>
                             @endcan
                             @if (auth()->id()!=1)
-                            @can('haveaccess','registroAsistencia.index')
+                            @can('haveaccess','registroAsistenciaDocente.index')
                             <li class="nav-item">
-                               <a href="{{url('/registroAsistencia')}}"
-                                   class="{{ Request::path() === 'registroAsistencia' ? 'nav-link active' : 'nav-link' }}">
+                               <a href="{{url('/registroAsistenciaDocente')}}"
+                                   class="{{ Request::path() === 'registroAsistenciaDocente' ? 'nav-link active' : 'nav-link' }}">
                                    <i class="nav-icon fas fa-file-invoice"></i>
                                        <p> Registro Asistencia  
                                            <br>Docente

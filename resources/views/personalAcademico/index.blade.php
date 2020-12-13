@@ -22,7 +22,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($personal as $personal)
+                        @foreach ($personal as $personal)
+                    
     <tr>
         <td>{{$personal->nombre}}</td>
         <td>{{$personal->apellido}}</td>
@@ -47,10 +48,41 @@
       
       </tr>
         
-    @endforeach    
+    @endforeach  
+    @foreach ($person as $personal)
+                    
+    <tr>
+        <td>{{$personal->nombre}}</td>
+        <td>{{$personal->apellido}}</td>
+        <td> 
+            
+        </td>
+        <td>
+            @can('haveaccess','personalAcademico.destroy')
+            <form method="post" action="{{url('/personalAcademico/'.$personal->id)}}" style="display:inline">
+                {{csrf_field()}}
+                {{method_field('DELETE')}}
+                <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Usuario?');" class="btn btn-danger float-right">Borrar</button>
+            </form> 
+            @endcan 
+            
+            @can('haveaccess','personalAcademico.edit')
+            <a href="{{url('/personalAcademico/'.$personal->id.'/edit')}}" class="btn btn-warning float-right">
+                Editar
+            </a>
+            @endcan 
+        </td>
+      
+      </tr>
+        
+    @endforeach  
                     
                 </tbody>
             </table>
+
+
+  
+
         </div>
     </div>
 </div>

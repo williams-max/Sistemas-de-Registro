@@ -4,10 +4,10 @@
 
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
 
-<form action="{{url('/registroAsistenciaAuxiliar')}}" id="contactForm"  class="form-horizontal" method="post" enctype="multipart/form-data">
+<form action="{{url('/registroAsistenciaDocente')}}" id="contactForm" class="form-horizontal" method="post" enctype="multipart/form-data">
 
     {{ csrf_field()}}
-   <h3 class="text-center">FORMULARIO REGISTRO CONTROL DE ASISTENCIA</h3> 
+   <h3 class="text-center">FORMULARIO REGISTRO CONTROL DE DOCENTE</h3> 
 <BR></BR>
 <div class="col-md-12 mx-auto " >
     <style>
@@ -23,16 +23,25 @@
             background: rgb(161, 161, 250);
             color: aliceblue
         }
+        #grabacion{
+            background: rgb(161, 161, 250);
+            color: aliceblue
+        }
         </style>
 
 <div class="row">
     <div class="col-5">
-
+        <div class="formulario__grupo  " id="grupo__fecha">
+            <div class="formulario__grupo-input">
         <label for="Fecha" class="control-label">{{'Fecha'}}</label>
-        <input type="date" class="form-control  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
+        <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
         value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
         >
        {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
+       <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+</div>
     
     </div> 
     <div class="col-5">
@@ -64,17 +73,16 @@
     <div class="col-5">
         <div class="formulario__grupo  " id="grupo__plataforma">
             <div class="formulario__grupo-input">
-           <label for="Plataforma"class="control-label">{{'Plataforma o Medio Utilizado'}}</label>
-           <input type="text" class="formulario__input   {{$errors->has('plataforma')?'is-invalid':'' }}" name="plataforma" id="plataforma" 
-           value="{{ isset($registro->plataforma)?$registro->plataforma:old('plataforma') }}"
-           >
-          <i class="formulario__validacion-estado fas fa-times-circle"></i>
-          </div>
-       <p class="formulario__input-error"> El este campo solo permerite palabras </p>
-        </div>
+        <label for="Plataforma"class="control-label">{{'Plataforma o Medio Utilizado'}}</label>
+        <input type="text" class="formulario__input   {{$errors->has('plataforma')?'is-invalid':'' }}" name="plataforma" id="plataforma" 
+        value="{{ isset($registro->plataforma)?$registro->plataforma:old('plataforma') }}"
+        >
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+</div>
         {!!  $errors->first('plataforma','<div class="invalid-feedback">:message</div>') !!}
     </div>
-
 
                    
     
@@ -136,24 +144,13 @@
 
 
 </div>  
-<div class="row">
-    <div class="col-5">
-        <label for="Grabacion"class="control-label">{{'Grabacion'}}</label>
-        <input type="text" class="form-control  {{$errors->has('grabacion')?'is-invalid':'' }}" name="grabacion" id="grabacion" 
-        value="{{ isset($registro->grabacion)?$registro->grabacion:old('grabacion')  }}"
-        placeholder="Link de clase grabada"
-        >
-        {!!  $errors->first('grabacion','<div class="invalid-feedback">:message</div>') !!}
-    </div>
 
-
-</div> 
 <label></label>
 
 <div class="row">
    
     <div class="col-5">  
-        <a href="{{url('registroAsistenciaAuxiliar')}}"class="btn btn-primary">Regresar</a>
+        <a href="{{url('registroAsistenciaDocente')}}"class="btn btn-primary">Regresar</a>
     </div> 
     <div class="col-5 ">       
         <input type="submit" class="btn btn-success float-right" value="Guardar">
@@ -163,4 +160,5 @@
 </form>
 
 <script src="{{ asset('dist/js/formulario.js') }} "></script>
+
 @endsection

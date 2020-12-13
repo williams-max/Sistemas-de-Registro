@@ -27,6 +27,7 @@
                             <!--<th scope="col">slug</th>-->
                             <th scope="col">Descripcion</th>
                             <th scope="col">Acceso Completo</th>
+                            <th scope="col">Autoridad</th>
                             <th colspan="3"></th>
                           </tr>
                         </thead>
@@ -40,6 +41,7 @@
                              <!--<td>{{$role->slug}}</td>-->
                              <td>{{$role->description}}</td>
                              <td>{{$role['full-access']}}</td>  
+                             <td>{{$role['full-auto']}}</td>
 
                              @if ($role->name=='admin')
                                  <td><a class="btn btn-default" href="{{ route('rola.show',$role->id)}}">
@@ -55,10 +57,10 @@
                                @endcan 
                               <td>
                                @can('haveaccess','rola.destroy')
-                               <form action="{{ route('rola.destroy',$role->id)}}" method="POST">
+                               <form id="myform"  action="{{ route('rola.destroy',$role->id)}}" method="POST" onsubmit="return ConfirmDemo();">
                                  @csrf
                                  @method('DELETE')
-                                 <button class="btn btn-danger">Eliminar</button>
+                                 <button  class="btn btn-danger">Eliminar</button>
                                </form>
                                @endcan 
                                  
@@ -80,5 +82,36 @@
         </div> 
     </div>
  </div>
+
+    <script type="text/javascript">
+    
+    var valor=0;  
+    function ConfirmDemo() {
+      //Ingresamos un mensaje a mostrar
+      var formulario = document.getElementById("myform");
+      var mensaje = confirm("¿Estas Seguro que Deseas Eliminar?");
+      //Detectamos si el usuario acepto el mensaje
+      if (mensaje) {
+        valor=1;
+      alert("¡Gracias por aceptar!");
+             if (valor==1) {
+              //alert("Enviando el formulario");
+              formulario.submit();
+              return true;
+             } else {
+               alert("Error al Eliminar el Formulario");
+             return false;
+      }
+   
+      }
+      //Detectamos si el usuario denegó el mensaje
+      else {
+      alert("¡operacion Denegada!");
+        return false;
+   
+       }
+      }
+    </script>
+
  
 @endsection

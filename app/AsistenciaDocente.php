@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
-class Riga extends Model
+class AsistenciaDocente extends Model
 {
- //
+    //
 }

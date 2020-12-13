@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\isarel\Traits\UserTrair ;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -67,6 +68,18 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
- 
+    public static function personal2($id){
+        $persona = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+        ->select('personal_academicos.*')
+        ->where('users.autoridad','=','no')
+        ->where('rola_user.rola_id','=',$id)
+        ->get();
+        return $persona;
+    }
+
 
 }

@@ -40,6 +40,33 @@
                               </textarea>
                               </div>
 
+                              <h3>Autoridad</h3>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="fullautoyes" name="full-auto" 
+                                class="custom-control-input" value="yes"
+                                @if ( $rola['full-auto']=="yes")
+                                    checked
+                                
+                                @elseif (old('full-auto')=="yes")
+                                    checked
+                                @endif
+                                
+                                >
+                                <label class="custom-control-label" for="fullautoyes">SI</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="fullautono" name="full-auto" 
+                                class="custom-control-input " value="no" 
+                                @if ($rola['full-auto']=="no")
+                                checked
+                                
+                                @elseif (old('full-auto')=="no")
+                                checked
+                                @endif
+                                >
+                                <label class="custom-control-label" for="fullautono">No</label>
+                              </div>
+                              
                               <hr>
                               
                               <h3>Acceso Completo</h3>

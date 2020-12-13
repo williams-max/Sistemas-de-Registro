@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAsistenciaAuxiliarsTable extends Migration
+class CreateAsistenciaDocentesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAsistenciaAuxiliarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('asistencia_auxiliars', function (Blueprint $table) {
+        Schema::create('asistencia_docentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('fecha');
             $table->time('hora');
@@ -24,7 +24,7 @@ class CreateAsistenciaAuxiliarsTable extends Migration
             $table->string('observacion');
             $table->string('firma');
             $table->string('ruta_firma');
-            $table->string('grabacion');
+           
             $table->integer('enviado');
             $table->unsignedBigInteger('id_personal');
             $table->unsignedBigInteger('id_fecha_rango');
@@ -49,6 +49,6 @@ class CreateAsistenciaAuxiliarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asistencia_auxiliars');
+        Schema::dropIfExists('asistencia_docentes');
     }
 }
