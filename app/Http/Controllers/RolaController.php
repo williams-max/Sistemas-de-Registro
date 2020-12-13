@@ -150,22 +150,43 @@ class RolaController extends Controller
      */
     public function destroy(Rola $rola)
     {
-        
-        $this->authorize('haveaccess','rola.destroy');  
-        $user = DB::table('personal_academicos')
-                ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
-                ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
-                ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
-                ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
-                ->select('users.id')
-                ->where('rolas.id','=',$rola->id)
-                ->first();
-                
-                $usuario = User::FindOrFail($user->id);
-                $usuario->rol = 'no';
-                $usuario->update();
-        $rola->delete();
-        return redirect()->route('rola.index')
-        ->with('status_success','Eliminacion Exitosa');
+         // $products = DB::table('rola_user')->get();
+       $data = DB::select('select user_id from rola_user  where rola_id = ?', [$rola->id]);
+
+      
+       //  return $products;
+        // dd($rola->id);
+ 
+         
+ 
+         if(empty($data)) {
+ 
+        // dd("Esta vacio");
+         
+             
+            $rola->delete();
+            return redirect()->route('rola.index')->with('status_success','Eliminacion Exitosa');
+          }else{
+              /*
+             $this->authorize('haveaccess','rola.destroy');  
+             $user = DB::table('personal_academicos')
+                 ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+                 ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+                 ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+                 ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+                 ->select('users.id')
+                 ->where('rolas.id','=',$rola->id)
+                 ->first();
+                 
+                 $usuario = User::FindOrFail($user->id);
+                 $usuario->rol = 'no';
+                 $usuario->update();
+                 */
+        //  dd("no esta vacio");
+           return redirect()->route('rola.index')->with('status_success','No puedes Elimanar el rol por que tiene un asignado un personal');
+         }
+        //  dd("para");
+ 
+        // $rola->delete();
     }
 }
