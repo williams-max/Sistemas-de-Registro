@@ -90,9 +90,15 @@
                 </tbody>
             </table>
             @if ($registro=="[]")
-            <a onclick="nopuede()"  class="btn btn-primary float-right" >Enviar</a>
+            <a onclick="nopuede()"   class="btn btn-primary float-right" >Enviar</a>
             @else
-            <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   
+            <form id="myform"  action="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" method="GET" onsubmit="return ConfirmDemo();">
+                @csrf
+             
+                <button  class="btn btn-primary float-right">Enviar</button>
+              </form>
+
+           <!-- <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   -->
             @endif
             
         </div>
@@ -106,6 +112,36 @@
         function nopuede() {
             alert("No puede Enviar el Formulario por que esta vacio");
         }
+        
+        var valor=0;  
+        function ConfirmDemo() {
+          //Ingresamos un mensaje a mostrar
+          var formulario = document.getElementById("myform");
+          var mensaje = confirm("¿Estas Seguro que Deseas Enviar?");
+          //Detectamos si el usuario acepto el mensaje
+          if (mensaje) {
+            valor=1;
+          alert("¡Gracias por aceptar!");
+                 if (valor==1) {
+                  //alert("Enviando el formulario");
+                  formulario.submit();
+                  return true;
+                 } else {
+                   alert("Error al Eliminar el Formulario");
+                 return false;
+          }
+       
+          }
+          //Detectamos si el usuario denegó el mensaje
+          else {
+          alert("¡operacion Denegada!");
+            return false;
+       
+           }
+          }
+      
+    
+        
 </script>
 
 @endsection 

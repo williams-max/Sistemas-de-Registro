@@ -8,10 +8,12 @@ const inputs = document.querySelectorAll('#contactForm input');
 
 const expresiones = {
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,200}$/, // Letras y espacios, pueden llevar acentos.
 	password: /^.{4,12}$/, // 4 a 12 digitos.
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-	telefono: /^\d{7,14}$/ // 7 a 14 numeros.
+  telefono: /^\d{7,14}$/, // 7 a 14 numeros.
+ // grupo:   /^[1-9]\d{1,3}*$/
+  grupo: /^\d{1,2}$/ // 7 a 14 numeros.
 }
 
 const campos = {
@@ -28,6 +30,7 @@ const validarFormulario = (e) => {
     
         //event.preventDefault();
   console.log(e.target.name);
+  console.log(e.target.value);
   switch (e.target.name) {
    
     case "materia":
@@ -38,7 +41,7 @@ const validarFormulario = (e) => {
     
 
     case "contenido":
-      console.log("funciona");
+      
     validarCampo(expresiones.nombre, e.target,'contenido');
      
       break;
@@ -49,9 +52,13 @@ const validarFormulario = (e) => {
       //  validarPassword2();
     break;
     case "observacion":
-      console.log("estoy aqui");
+     // console.log("estoy aqui");
         validarCampo(expresiones.nombre, e.target, 'observacion');
       //  validarPassword2();
+    break;
+    case "grupo":
+      console.log("funciona");
+        validarCampo(expresiones.grupo, e.target, 'grupo');
     break;
     case "correo":
         validarCampo(expresiones.correo, e.target, 'correo');
