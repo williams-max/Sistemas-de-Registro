@@ -87,6 +87,8 @@
     
     var valor=0;  
     function ConfirmDemo() {
+
+      //console.log()
       //Ingresamos un mensaje a mostrar
       var formulario = document.getElementById("myform");
       var mensaje = confirm("¿Estas Seguro que Deseas Eliminar?");

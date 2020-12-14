@@ -40,7 +40,9 @@
        {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
        <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
-    <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+    <p class="formulario__input-error"> El este campo solo permite fechas del 
+     <br>   DEL: 2020-12-07       AL: 2020-12-21
+    </p>
 </div>
     
     </div> 
@@ -153,12 +155,31 @@
         <a href="{{url('registroAsistenciaDocente')}}"class="btn btn-primary">Regresar</a>
     </div> 
     <div class="col-5 ">       
-        <input type="submit" class="btn btn-success float-right" value="Guardar">
+        <input type="submit"  class="btn btn-success float-right" value="Guardar">
     </div>
 </div>
 </div>
 </form>
 
 <script src="{{ asset('dist/js/formulario.js') }} "></script>
-
+<script type="text/javascript">
+formulario.addEventListener('submit', (e) => {
+    // e.preventDefault();
+    // console.log(e.isTrusted);
+  console.log(campos.contenido);
+     console.log("eventos de sumbits");
+     
+     if( campos.materia && campos.contenido && campos.fecha && campos.plataforma && campos.observacion && campos.grupo){
+         alert("Se guardo Correctamente... ");
+         
+         //return true;
+     }else{
+         alert("Por favor complete los campos correctamente");
+         e.preventDefault();
+      //   return false;
+       //  e.preventDefault();
+     }
+    // console.log(e.target);
+ });
+</script>
 @endsection
