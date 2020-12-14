@@ -22,7 +22,7 @@
         <BR>
             <div class="row">
                 <div class="col-5">
-                    <h5>AUXILIAR: {{$registro2->nombre}} {{$registro2->apellido}}</h5>
+                    <h5>Docente: {{$registro2->nombre}} {{$registro2->apellido}}</h5>
                 </div> 
                 <div class="col-5">
                     <h5>DEL: {{$dia2->fecha_inicio}}</h5>
