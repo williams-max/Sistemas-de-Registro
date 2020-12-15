@@ -94,14 +94,14 @@
         </div> 
         <div class="row"> 
         <div class="col-5">
-                
+                 
             <label for="Firma"class="control-label">{{'Firma'}}</label>
             <br>
-             @if ($registro->firma != "")
-             <h4>{{$registro->ruta_firma}}  <a href="{{url('registroAsistenciaAuxiliar/descargarFirma/'.$registro->firma)}}">Descargar</a></h4>
-               
-            @endif
-
+            @if ($registro->firma != "")
+            <img src="{{asset('storage').'/'.$registro->firma}}" alt=""  width="100">
+              
+           @endif
+<br>
             <label for="firma" >
                 <div class="cuadrado">Subir Archivo</div>
             </label>
