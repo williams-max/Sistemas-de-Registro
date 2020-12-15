@@ -82,12 +82,19 @@ class AsistenciaAuxiliarController extends Controller
     ->where('asistencia_auxiliars.id_personal','=',$personal)
     ->where('asistencia_auxiliars.enviado','=',0)->get();
    
-       
+    $registroAusencia = DB::table('registrar_ausencias')
+    ->select('registrar_ausencias.*')
+ ->where('registrar_ausencias.id_personal','=',$personal)
+ ->where('registrar_ausencias.enviado','=',0)->get();
 
 
-$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
-//dd($registro2);
-       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
+    $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* 
+    from    personal_academicos, registrar_facultads,registrar_carreras 
+    where   personal_academicos.id_facultad = registrar_facultads.id and
+            personal_academicos.id_carrera = registrar_carreras.id and
+            personal_academicos.id ='.$personal);
+
+       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registroAusencia' => $registroAusencia,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }
 
@@ -119,10 +126,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'grabacion' => 'required|url',
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+            "grabacion.url"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -221,10 +228,10 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'grabacion' => 'required|url',
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+            "grabacion.url"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',

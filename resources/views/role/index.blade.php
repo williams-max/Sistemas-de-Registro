@@ -11,7 +11,7 @@
                    
                   @can('haveaccess','rola.create')
                     <a href="{{route('rola.create')}}"
-                     class="btn btn-primary float-right"
+                     class="btn btn-success float-right"
                     >Crear
                     </a> 
                     <br><br> 
@@ -52,7 +52,7 @@
                                Ver</a></td>
                                @endcan 
                                @can('haveaccess','rola.edit')
-                             <td><a class="btn btn-success" href="{{ route('rola.edit',$role->id)}}">
+                             <td><a class="btn btn-warning" href="{{ route('rola.edit',$role->id)}}">
                                Editar</a></td>
                                @endcan 
                               <td>

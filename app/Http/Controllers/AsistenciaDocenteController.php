@@ -77,11 +77,15 @@ class AsistenciaDocenteController extends Controller
     ->where('asistencia_docentes.id_personal','=',$personal)
     ->where('asistencia_docentes.enviado','=',0)->get();
    
-       
+
 //return ($registro);
 
-$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
-//dd($registro2);
+$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* 
+                        from    personal_academicos, registrar_facultads,registrar_carreras 
+                        where   personal_academicos.id_facultad = registrar_facultads.id and
+                                personal_academicos.id_carrera = registrar_carreras.id and
+                                personal_academicos.id ='.$personal);
+
        return view('resgistroAsistenciaDocente.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }

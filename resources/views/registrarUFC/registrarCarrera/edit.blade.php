@@ -22,7 +22,7 @@
 
     </div> 
     <div class="col-5">
-        <label for="Facultad">Unidad</label>
+        <label for="Facultad">Facultad</label>
         <select name="facultad" class="form-control">
         <option selected disabled>Seleccione una Unidad</option>
         @foreach ($facultad as $facultads)
