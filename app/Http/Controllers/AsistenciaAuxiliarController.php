@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AsistenciaAuxiliar;
 use App\FechaEntregas;
+use App\RegistrarAusencia;
 use App\RegistroAsistencia;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
@@ -294,11 +295,22 @@ class AsistenciaAuxiliarController extends Controller
         ->where('asistencia_auxiliars.id_personal','=',$id)
         ->where('asistencia_auxiliars.enviado','=',0)->get();
 
-
-
         foreach ($registro as $registro) {
 
-            $auxiliar = AsistenciaAuxiliar::FindOrFail($registro->id);
+                    $auxiliar = AsistenciaAuxiliar::FindOrFail($registro->id);
+                    $auxiliar->enviado = 1;
+                    $auxiliar->update();
+                }
+
+        $registroAusencia = DB::table('registrar_ausencias')
+        ->select('registrar_ausencias.*')
+         ->where('registrar_ausencias.id_personal','=',$id)
+         ->where('registrar_ausencias.enviado','=',0)->get();
+        
+
+        foreach ($registroAusencia as $registro) {
+
+            $auxiliar = RegistrarAusencia::FindOrFail($registro->id);
             $auxiliar->enviado = 1;
             $auxiliar->update();
         }
