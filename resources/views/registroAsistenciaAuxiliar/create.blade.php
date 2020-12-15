@@ -44,7 +44,7 @@
               >
               <i class="formulario__validacion-estado fas fa-times-circle"></i>
             </div>
-            <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+            <p class="formulario__input-error"> El este campo solo permerite palabras , comas y puntos </p>
         </div>
 
         {!!  $errors->first('contenido','<div class="invalid-feedback">:message</div>') !!}
@@ -103,7 +103,7 @@
           >
           <i class="formulario__validacion-estado fas fa-times-circle"></i>
          </div>
-       <p class="formulario__input-error"> El este campo solo permerite palabras </p>
+       <p class="formulario__input-error"> El este campo solo permerite palabras,comas y puntos  </p>
        </div>
         {!!  $errors->first('observacion','<div class="invalid-feedback">:message</div>') !!}
     </div>
