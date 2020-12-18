@@ -13,8 +13,14 @@ class CreateRegistrarMateriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('registrar_materias', function (Blueprint $table) {
+        Schema::create('dias', function (Blueprint $table) {
             $table->id();
+            $table->string('dia');
+            $table->timestamps();
+        });
+
+        Schema::create('registrar_materias', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->time('hora');
             $table->unsignedBigInteger('horas_asignadas')->nullable();
             $table->unsignedBigInteger('id_personal');
@@ -32,11 +38,7 @@ class CreateRegistrarMateriasTable extends Migration
             ->onDelete('cascade');
         });
 
-        Schema::create('dias', function (Blueprint $table) {
-            $table->id();
-            $table->string('dia');
-            $table->timestamps();
-        });
+
     }
 
     /**
