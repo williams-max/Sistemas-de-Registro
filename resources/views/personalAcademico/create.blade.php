@@ -82,8 +82,7 @@
         <div class="col-5">
             <label for="Facultad">Facultad</label>
             <select name="facultad" id="facultad" class="form-control  {{$errors->has('facultad')?'is-invalid':'' }}">
-            <option selected disabled>Elige una Facultad para este Usuario</option>
-            
+                 
             </select>
             {!!  $errors->first('facultad','<div class="invalid-feedback">:message</div>') !!}
         </div>
@@ -99,8 +98,7 @@
             <div class="col-5">
                 <label for="Carrera">Carrera</label>
                 <select name="carrera" id="carrera" class="form-control  {{$errors->has('carrera')?'is-invalid':'' }}">
-                <option selected disabled>Elige una Carrera para este Usuario</option>
-             
+                
                 </select>
                 {!!  $errors->first('carrera','<div class="invalid-feedback">:message</div>') !!}
             </div>
@@ -110,6 +108,7 @@
         $("#unidad").change(event => {
             $.get(`envio/${event.target.value}`, function(res, sta){
                 $("#facultad").empty();
+                $("#carrera").empty();
                 $("#facultad").append(`<option > Elige una Facultad para este Usuario </option>`);
                 res.forEach(element => {
                     $("#facultad").append(`<option value=${element.id}> ${element.nombre} </option>`);

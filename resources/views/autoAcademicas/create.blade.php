@@ -37,8 +37,8 @@
         <div class="col-5">
             <label for="Personal"></label>
            <select name="personal" id="personal" class="form-control  {{$errors->has('personal')?'is-invalid':'' }}">
-                <option selected disabled>Seleccione al Personal</option>
-               
+                
+            
                 </select>
                 {!!  $errors->first('personal','<div class="invalid-feedback">:message</div>') !!}
         </div>
@@ -70,6 +70,7 @@
     $("#rol").change(event => {
         $.get(`envio/${event.target.value}`, function(res, sta){
             $("#personal").empty();
+            $("#personal").append(`<option > Seleccione una Persona </option>`);
             res.forEach(element => {
                 $("#personal").append(`<option value=${element.id}> ${element.nombre} ${element.apellido} </option>`);
             });

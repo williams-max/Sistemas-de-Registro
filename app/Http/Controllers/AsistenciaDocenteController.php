@@ -281,31 +281,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         return redirect('/registroAsistenciaDocente');
     }
 
-    protected function downloadFile($src)
-    {
-        if (is_file($src)) {
-            $finfo=finfo_open(FILEINFO_MIME_TYPE);
-            $content_type=finfo_file($finfo,$src);
-            $file_close=($finfo);
-            $file_name=basename($src).PHP_EOL;
-            $size=filesize($src);
-            header("Content-Type: $content_type");
-            header("Content-Disposition: attachment;filename=$file_name");
-            header("Content-Transfer-Encoding: binary");
-            header("Content -Length: $size");
-            readfile($src);
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function download($nombre){
-        if (!$this->downloadFile(public_path()."/grabacion/".$nombre)) {
-            return redirect()->back();
-        }
-    }
-
     public function enviar($id){
         
         $registro = DB::table('asistencia_docentes')
@@ -334,5 +309,5 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         }
         //dd( $registro);
         return redirect('/registroAsistenciaDocente');
-    }
+    } 
 }

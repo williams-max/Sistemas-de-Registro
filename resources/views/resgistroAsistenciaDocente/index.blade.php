@@ -105,24 +105,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($registroAusencia as $registro)
+                    @foreach ($registroAusencia as $registro3)
                     <tr>
-                        <td WIDTH="106" HEIGHT="50">{{$registro->fecha}}</td>
-                        <td WIDTH="70" HEIGHT="50">{{$registro->hora}}</td>
-                        <td WIDTH="70" HEIGHT="50">{{$registro->grupo}}</td>
-                        <td WIDTH="50" HEIGHT="50">{{$registro->materia}}</td>
-                        <td WIDTH="50" HEIGHT="50">{{$registro->dia_reposicion}}</td>
-                        <td WIDTH="130" HEIGHT="50">{{$registro->hora_reposicion}}</td>
-                        <td WIDTH="50" HEIGHT="50">{{$registro->motivo}}</td>
-                        <td >{{$registro->ruta_firma}}</td>
+                        <td WIDTH="106" HEIGHT="50">{{$registro3->fecha}}</td>
+                        <td WIDTH="70" HEIGHT="50">{{$registro3->hora}}</td>
+                        <td WIDTH="70" HEIGHT="50">{{$registro3->grupo}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->materia}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->dia_reposicion}}</td>
+                        <td WIDTH="130" HEIGHT="50">{{$registro3->hora_reposicion}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->motivo}}</td>
+                        <td >{{$registro3->ruta_firma}}</td>
                         <td>
-                            <form method="post" action="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro->id)}}" style="display:inline">
+                            <form method="post" action="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro3->id)}}" style="display:inline">
                                 {{csrf_field()}}
                                 {{method_field('DELETE')}}
                                 <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Registro?');" class="btn btn-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></button>
                             </form> 
                 
-                            <a href="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
+                            <a href="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro3->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>

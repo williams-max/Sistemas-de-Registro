@@ -100,10 +100,30 @@ class RegistrarAusenciaController extends Controller
             //$file->move(public_path().'/firmas',$file->getClientOriginalName());
             $auxiliar->ruta_firma=$file->getClientOriginalName();
         }
-        
+
+
+        $personal = DB::table('personal_academicos')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('rolas.name')
+            ->where('users.id','=',Auth::user()->id)
+            ->get();
+
+            foreach ($personal as $personal) {
+                $cadena = $personal->name;
+            }
+
+
             $auxiliar->save();
 
-        return redirect('/registroAsistenciaAuxiliar');
+            if (strlen(stristr($cadena,'DOCENTE'))>0 || strlen(stristr($cadena,'DOCENTES'))>0 || strlen(stristr($cadena,'PROFESORES'))>0 || strlen(stristr($cadena,'MAESTRO'))>0 || strlen(stristr($cadena,'PROFESOR'))>0) {
+                return redirect('/resgistroAsistenciaDocente')  ;         
+            }else{
+                return redirect('/registroAsistenciaAuxiliar');
+            }
+
     }
 
     /**
@@ -180,9 +200,26 @@ class RegistrarAusenciaController extends Controller
             //$file->move(public_path().'/firmas',$file->getClientOriginalName());
             //$auxiliar->firma=$file->getClientOriginalName();
         }
+        $personal = DB::table('personal_academicos')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('rolas.name')
+            ->where('users.id','=',Auth::user()->id)
+            ->get();
+
+            foreach ($personal as $personal) {
+                $cadena = $personal->name;
+            }
 
         $auxiliar->update();
-        return redirect('/registroAsistenciaAuxiliar');
+
+        if (strlen(stristr($cadena,'DOCENTE'))>0 || strlen(stristr($cadena,'DOCENTES'))>0 || strlen(stristr($cadena,'PROFESORES'))>0 || strlen(stristr($cadena,'MAESTRO'))>0 || strlen(stristr($cadena,'PROFESOR'))>0) {
+            return redirect('/resgistroAsistenciaDocente')  ;         
+        }else{
+            return redirect('/registroAsistenciaAuxiliar');
+        }
     }
 
     /**
@@ -197,7 +234,24 @@ class RegistrarAusenciaController extends Controller
         Storage::delete('public/'.$auxiliar->firma);
         RegistrarAusencia::destroy($id);
         
+        
+        $personal = DB::table('personal_academicos')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('rolas.name')
+            ->where('users.id','=',Auth::user()->id)
+            ->get();
 
-        return redirect('/registroAsistenciaAuxiliar');
+            foreach ($personal as $personal) {
+                $cadena = $personal->name;
+            }
+
+        if (strlen(stristr($cadena,'DOCENTE'))>0 || strlen(stristr($cadena,'DOCENTES'))>0 || strlen(stristr($cadena,'PROFESORES'))>0 || strlen(stristr($cadena,'MAESTRO'))>0 || strlen(stristr($cadena,'PROFESOR'))>0) {
+            return redirect('/resgistroAsistenciaDocente')  ;         
+        }else{
+            return redirect('/registroAsistenciaAuxiliar');
+        }
     }
 }

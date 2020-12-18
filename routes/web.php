@@ -81,6 +81,11 @@ Route::get('registroAsistenciaDocente/enviar/{id}', 'AsistenciaDocenteController
 
 Route::resource('registroAsistenciaAuxiliar/registrarAusencia', 'RegistrarAusenciaController')->middleware('auth');
 
+Route::resource('registroMateria', 'RegistrarMateriaController')->middleware('auth');
+Route::get('registroMateria/envio/{id}', 'RegistrarMateriaController@personals')->middleware('auth');
+Route::get('registroMateria/envio2/{id}', 'RegistrarMateriaController@facultad')->middleware('auth');
+Route::get('registroMateria/envio3/{id}', 'RegistrarMateriaController@carrera')->middleware('auth');
+Route::get('registroMateria/envio4/{id}/{id2}', 'RegistrarMateriaController@personal')->middleware('auth');
 
 Route::get('markAsRead', function(){
     auth()->user()->unreadNotifications->markAsRead();
