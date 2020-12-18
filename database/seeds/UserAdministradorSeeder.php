@@ -25,6 +25,30 @@ class UserAdministradorSeeder extends Seeder
             'fecha_inicio' => '2020/12/07',
             'fecha_entrega' => '2020/12/21', 
           ]);
+          DB::table('dias')->insert([
+            'id' => '1',
+            'dia' => 'lunes',
+          ]);
+          DB::table('dias')->insert([
+            'id' => '2',
+            'dia' => 'martes',
+          ]);
+          DB::table('dias')->insert([
+            'id' => '3',
+            'dia' => 'miercoles',
+          ]);
+          DB::table('dias')->insert([
+            'id' => '4',
+            'dia' => 'jueves',
+          ]);
+          DB::table('dias')->insert([
+            'id' => '5',
+            'dia' => 'viernes',
+          ]);
+          DB::table('dias')->insert([
+            'id' => '6',
+            'dia' => 'sabado',
+          ]);
          /* 
           
           DB::table('roles')->insert([

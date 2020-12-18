@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RegistrarMateria extends Model
+class AsignarHorario extends Model
 {
-    protected $guarded =[];
+    //
 }

@@ -85,11 +85,26 @@ class RegistrarMateriaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($this->var);
+
+        
+        //LUNES
         if ($request->input('lunes')) {
-            dd(request('lunes'),request('martes')); 
-            // El usuario marcó el checkbox 
+            $lunes = request('lunes');
+            foreach ($lunes as $lunes) {
+                $materia = new RegistrarMateria();
+                $materia->id_personal = request('personal');
+                $materia->id_dia = '1';
+                $materia->hora = $lunes;
+
+                $materia->save();
+            }
         }
+
+        $materia->id_dia = request('hora');
+        $materia->grupo = request('grupo');
+
+        dd($this->var);
+        
         
     }
 

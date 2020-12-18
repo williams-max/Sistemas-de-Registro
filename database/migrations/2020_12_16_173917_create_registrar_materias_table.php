@@ -13,28 +13,18 @@ class CreateRegistrarMateriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('dias', function (Blueprint $table) {
-            $table->id();
-            $table->string('dia');
-            $table->timestamps();
-        });
+    
 
         Schema::create('registrar_materias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->time('hora');
-            $table->unsignedBigInteger('horas_asignadas')->nullable();
+            $table->string('materia');
+            $table->string('grupo');
             $table->unsignedBigInteger('id_personal');
-            $table->unsignedBigInteger('id_dia');
             $table->timestamps();
 
             $table->foreign('id_personal')
             ->references('id')
             ->on('personal_academicos')
-            ->onDelete('cascade');
-
-            $table->foreign('id_dia')
-            ->references('id')
-            ->on('dias')
             ->onDelete('cascade');
         });
 
