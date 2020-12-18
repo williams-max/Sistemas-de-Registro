@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\AsignarHorario;
 use App\PersonalAcademico;
 use App\RegistrarCarrera;
 use App\RegistrarFacultad;
 use App\RegistrarMateria;
 use App\RegistrarUnidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Environment\Console;
 use Symfony\Component\Console\Input\Input;
@@ -85,25 +87,100 @@ class RegistrarMateriaController extends Controller
      */
     public function store(Request $request)
     {
-
+        $materia = new RegistrarMateria();
+        $materia->materia =  request('materia');
+        $materia->grupo =  request('grupo');
+        $materia->id_personal = request('personal');
+        $materia->save();
         
-        //LUNES
+        $id_materia = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+            ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+            ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+            ->select('registrar_materias.id')
+            ->where('personal_academicos.id','=',request('personal'))
+            ->first();
+
         if ($request->input('lunes')) {
+
             $lunes = request('lunes');
             foreach ($lunes as $lunes) {
-                $materia = new RegistrarMateria();
-                $materia->id_personal = request('personal');
-                $materia->id_dia = '1';
-                $materia->hora = $lunes;
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $lunes;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '1';
+                $horario->save();
+            }
+        }
+        if ($request->input('martes')) {
 
-                $materia->save();
+            $martes = request('martes');
+            foreach ($martes as $martes) {
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $martes;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '2';
+                $horario->save();
+            }
+        }
+        if ($request->input('miercoles')) {
+
+            $miercoles = request('miercoles');
+            foreach ($miercoles as $miercoles) {
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $miercoles;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '3';
+                $horario->save();
+            }
+        }
+        if ($request->input('jueves')) {
+
+            $jueves = request('jueves');
+            foreach ($jueves as $jueves) {
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $jueves;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '4';
+                $horario->save();
+            }
+        }
+        if ($request->input('viernes')) {
+
+            $viernes = request('viernes');
+            foreach ($viernes as $viernes) {
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $viernes;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '5';
+                $horario->save();
+            }
+        }
+        if ($request->input('sabado')) {
+
+            $sabado = request('sabado');
+            foreach ($sabado as $sabado) {
+                
+                $horario = new AsignarHorario();
+                $horario->hora = $sabado;
+                $horario->id_materia =  $id_materia->id;
+                $horario->id_dia = '6';
+                $horario->save();
             }
         }
 
-        $materia->id_dia = request('hora');
-        $materia->grupo = request('grupo');
+            $auxiliar = PersonalAcademico::FindOrFail(request('personal'));
+            $auxiliar->mat_asignada = 1;
+            $auxiliar->update();
 
-        dd($this->var);
+        return redirect('/registroMateria');
         
         
     }
