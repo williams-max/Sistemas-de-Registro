@@ -36,10 +36,10 @@
                     <h5>AL: {{$dia2->fecha_entrega}}</h5>
                 </div> 
             </div>
-
+ 
 
         <a href="{{url('registroAsistenciaDocente/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
-        <a href="{{url('registroAsistenciaAuxiliar/registrarAusencia/create')}}" class="btn btn-secondary float-right" >Registrar Ausencia</a>
+        <a href="{{url('registroAsistenciaDocente/registrarAusencia/create')}}" class="btn btn-secondary float-right" >Registrar Ausencia</a>
             <table class="table table-hover" >
 
                 <thead class="thead-light">
@@ -116,13 +116,13 @@
                         <td WIDTH="50" HEIGHT="50">{{$registro3->motivo}}</td>
                         <td >{{$registro3->ruta_firma}}</td>
                         <td>
-                            <form method="post" action="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro3->id)}}" style="display:inline">
+                            <form method="post" action="{{url('/registroAsistenciaDocente/registrarAusencia/'.$registro3->id)}}" style="display:inline">
                                 {{csrf_field()}}
                                 {{method_field('DELETE')}}
                                 <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Registro?');" class="btn btn-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></button>
                             </form> 
                 
-                            <a href="{{url('/registroAsistenciaAuxiliar/registrarAusencia/'.$registro3->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
+                            <a href="{{url('/registroAsistenciaDocente/registrarAusencia/'.$registro3->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>

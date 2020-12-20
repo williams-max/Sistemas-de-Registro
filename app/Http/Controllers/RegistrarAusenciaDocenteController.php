@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\RegistrarAusencia;
+use App\RegistrarAusenciaDocente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class RegistrarAusenciaController extends Controller
+class RegistrarAusenciaDocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,7 @@ class RegistrarAusenciaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-
+    {
         //
     }
 
@@ -29,7 +28,7 @@ class RegistrarAusenciaController extends Controller
      */
     public function create()
     {
-        return view('registrarAusencia.create');
+        return view('registrarAusenciaDocente.create');
     }
 
     /**
@@ -70,7 +69,7 @@ class RegistrarAusenciaController extends Controller
             $id=$dia->id;
         } 
 
-        $auxiliar = new RegistrarAusencia();
+        $auxiliar = new RegistrarAusenciaDocente();
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
@@ -102,23 +101,20 @@ class RegistrarAusenciaController extends Controller
         }
 
 
-
-
             $auxiliar->save();
 
-           
-                return redirect('/registroAsistenciaAuxiliar');
             
-
+                return redirect('/registroAsistenciaDocente');
+            
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\RegistrarAusencia  $registrarAusencia
+     * @param  \App\RegistrarAusenciaDocente  $registrarAusenciaDocente
      * @return \Illuminate\Http\Response
      */
-    public function show(RegistrarAusencia $registrarAusencia)
+    public function show(RegistrarAusenciaDocente $registrarAusenciaDocente)
     {
         //
     }
@@ -126,23 +122,23 @@ class RegistrarAusenciaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\RegistrarAusencia  $registrarAusencia
+     * @param  \App\RegistrarAusenciaDocente  $registrarAusenciaDocente
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(RegistrarAusenciaDocente $registrarAusenciaDocente,$id)
     {
-        $registro=RegistrarAusencia::findOrFail($id);
-        return view('registrarAusencia.edit',compact('registro')); 
+        $registro=RegistrarAusenciaDocente::findOrFail($id);
+        return view('registrarAusenciaDocente.edit',compact('registro')); 
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\RegistrarAusencia  $registrarAusencia
+     * @param  \App\RegistrarAusenciaDocente  $registrarAusenciaDocente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, RegistrarAusenciaDocente $registrarAusenciaDocente, $id)
     {
         $campos=[
             'fecha' => 'required',
@@ -162,7 +158,7 @@ class RegistrarAusenciaController extends Controller
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
                    $this->validate($request,$campos,$Mensaje);   
-        $auxiliar = RegistrarAusencia::FindOrFail($id);
+        $auxiliar = RegistrarAusenciaDocente::FindOrFail($id);
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
@@ -186,29 +182,31 @@ class RegistrarAusenciaController extends Controller
             //$file->move(public_path().'/firmas',$file->getClientOriginalName());
             //$auxiliar->firma=$file->getClientOriginalName();
         }
-  
+      
 
         $auxiliar->update();
 
-            return redirect('/registroAsistenciaAuxiliar');
+        
+            return redirect('/registroAsistenciaDocente');
         
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RegistrarAusencia  $registrarAusencia
+     * @param  \App\RegistrarAusenciaDocente  $registrarAusenciaDocente
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RegistrarAusenciaDocente $registrarAusenciaDocente,$id)
     {
-        $auxiliar = RegistrarAusencia::FindOrFail($id);
+        $auxiliar = RegistrarAusenciaDocente::FindOrFail($id);
         Storage::delete('public/'.$auxiliar->firma);
-        RegistrarAusencia::destroy($id);
+        RegistrarAusenciaDocente::destroy($id);
         
         
-  
-            return redirect('/registroAsistenciaAuxiliar');
+     
+            return redirect('/resgistroAsistenciaDocente');
         
+    
     }
 }

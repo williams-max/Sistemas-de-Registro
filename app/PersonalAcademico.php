@@ -53,7 +53,6 @@ class PersonalAcademico extends Authenticatable
         ->where('rolas.full-auto','=','no')
         ->where('rolas.id','=',$id)
         ->where('personal_academicos.id_carrera','=',$carrera)
-        ->where('personal_academicos.mat_asignada','=','0')
         ->get();
         return $persona;
     }

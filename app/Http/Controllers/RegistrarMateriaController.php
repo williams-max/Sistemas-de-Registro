@@ -28,8 +28,13 @@ class RegistrarMateriaController extends Controller
     public function index()
     {
 
-        
-        return view('registroMateria.index');
+        $personal = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->select('personal_academicos.*','registrar_materias.*')
+            ->where('personal_academicos.mat_asignada','=','1')
+            ->get();
+
+        return view('registroMateria.index',['personal' => $personal]);
     }
 
     /**
@@ -202,9 +207,24 @@ class RegistrarMateriaController extends Controller
      * @param  \App\RegistrarMateria  $registrarMateria
      * @return \Illuminate\Http\Response
      */
-    public function edit(RegistrarMateria $registrarMateria)
+    public function edit(RegistrarMateria $registrarMateria,$id)
     {
-        //
+        
+        $materia=RegistrarMateria::findOrFail($id);
+        $personal = DB::table('personal_academicos')
+        ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+        ->select('personal_academicos.*','registrar_materias.*')
+        ->where('registrar_materias.id','=',$id)
+        ->get();
+        $horario = DB::table('personal_academicos')
+        ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+        ->join('asignar_horarios', 'asignar_horarios.id_materia', '=', 'registrar_materias.id')
+        ->select('asignar_horarios.*')
+        ->where('registrar_materias.id','=',$id)
+        ->get();
+        
+
+        return view('registroMateria.edit',compact('materia','personal','horario'));
     }
 
     /**

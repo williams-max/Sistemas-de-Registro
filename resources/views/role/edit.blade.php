@@ -128,7 +128,15 @@
  
                               @endforeach
                               <hr>
-                              <input class="btn btn-primary" type="submit" value="Guardar">
+                              <div class="row">
+   
+                                <div class="col-5">  
+                                    <a href="{{url('rola')}}"class="btn btn-primary">Regresar</a>
+                                </div> 
+                                <div class="col-5 ">       
+                                    <input type="submit"  class="btn btn-success float-right" value="Guardar">
+                                </div>
+                            </div>
                              
                         </div>
 

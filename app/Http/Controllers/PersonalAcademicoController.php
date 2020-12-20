@@ -129,6 +129,7 @@ class PersonalAcademicoController extends Controller
         $personal->email = request('email');
         $personal->telefono = request('telefono');
         $personal->password = request('password');
+        $personal->mat_asignada = '0';
         $personal->id_unidad = $request->get('unidad');
         $personal->id_facultad = $request->get('facultad');
         $personal->id_carrera = $request->get('carrera');

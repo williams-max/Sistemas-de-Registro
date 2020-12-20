@@ -60,7 +60,7 @@
                                <form id="myform"  action="{{ route('rola.destroy',$role->id)}}" method="POST" onsubmit="return ConfirmDemo();">
                                  @csrf
                                  @method('DELETE')
-                                 <button  class="btn btn-danger">Eliminar</button>
+                                 <button  class="btn btn-danger">Borrar</button>
                                </form>
                                @endcan 
                                  

@@ -80,6 +80,7 @@ Route::resource('registroAsistenciaDocente', 'AsistenciaDocenteController')->mid
 Route::get('registroAsistenciaDocente/enviar/{id}', 'AsistenciaDocenteController@enviar')->middleware('auth');
 
 Route::resource('registroAsistenciaAuxiliar/registrarAusencia', 'RegistrarAusenciaController')->middleware('auth');
+Route::resource('registroAsistenciaDocente/registrarAusencia', 'RegistrarAusenciaDocenteController')->middleware('auth');
 
 Route::resource('registroMateria', 'RegistrarMateriaController')->middleware('auth');
 Route::get('registroMateria/envio/{id}', 'RegistrarMateriaController@personals')->middleware('auth');

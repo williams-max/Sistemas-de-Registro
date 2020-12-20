@@ -161,6 +161,7 @@ class AsistenciaAuxiliarController extends Controller
         $auxiliar->observacion = request('observacion');
         $auxiliar->grabacion = request('grabacion');
         $auxiliar->enviado = 0;
+        $auxiliar->mat_asignada = 0;
         $auxiliar->id_fecha_rango = $id;
         //$auxiliar->grabacion = request('grabacion');
 

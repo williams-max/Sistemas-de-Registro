@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
 use App\AsistenciaDocente;
 use App\RegistrarAusencia;
+use App\RegistrarAusenciaDocente;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -76,10 +77,10 @@ class AsistenciaDocenteController extends Controller
     ->where('asistencia_docentes.id_personal','=',$personal)
     ->where('asistencia_docentes.enviado','=',0)->get();
     
-    $registroAusencia = DB::table('registrar_ausencias')
-    ->select('registrar_ausencias.*')
- ->where('registrar_ausencias.id_personal','=',$personal)
- ->where('registrar_ausencias.enviado','=',0)->get();
+    $registroAusencia = DB::table('registrar_ausencia_docentes')
+    ->select('registrar_ausencia_docentes.*')
+ ->where('registrar_ausencia_docentes.id_personal','=',$personal)
+ ->where('registrar_ausencia_docentes.enviado','=',0)->get();
 
 //return ($registro);
 
@@ -288,22 +289,23 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         ->where('asistencia_docentes.id_personal','=',$id)
         ->where('asistencia_docentes.enviado','=',0)->get();
 
+
         foreach ($registro as $registro) {
 
                     $auxiliar = AsistenciaDocente::FindOrFail($registro->id);
-                    $auxiliar->enviado = 0;
+                    $auxiliar->enviado = 1;
                     $auxiliar->update();
                 }
 
-        $registroAusencia = DB::table('registrar_ausencias')
-        ->select('registrar_ausencias.*')
-         ->where('registrar_ausencias.id_personal','=',$id)
-         ->where('registrar_ausencias.enviado','=',0)->get();
+        $registroAusencia = DB::table('registrar_ausencia_docentes')
+        ->select('registrar_ausencia_docentes.*')
+         ->where('registrar_ausencia_docentes.id_personal','=',$id)
+         ->where('registrar_ausencia_docentes.enviado','=',0)->get();
  
 
         foreach ($registroAusencia as $registro) {
 
-            $auxiliar = RegistrarAusencia::FindOrFail($registro->id);
+            $auxiliar = RegistrarAusenciaDocente::FindOrFail($registro->id);
             $auxiliar->enviado = 1;
             $auxiliar->update();
         }
