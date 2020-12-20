@@ -183,7 +183,6 @@
                     </div>
 
 
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -246,7 +245,7 @@
                             @endcan
                             @if (auth()->id()!=1)
                             @can('haveaccess','registroAsistenciaDocente.index')
-                            <li class="nav-item">
+                            <li class="nav-item ">
                                <a href="{{url('/registroAsistenciaDocente')}}"
                                    class="{{ Request::path() === 'registroAsistenciaDocente' ? 'nav-link active' : 'nav-link' }}">
                                    <i class="nav-icon fas fa-file-invoice"></i>

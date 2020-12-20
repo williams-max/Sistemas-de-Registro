@@ -131,7 +131,7 @@
 <div class="row">
    
     <div class="col-5">  
-        <a href="{{url('registroAsistenciaAuxiliar')}}"class="btn btn-primary">Regresar</a>
+        <a href="{{url('registroAsistenciaDocente')}}"class="btn btn-primary">Regresar</a>
     </div> 
     <div class="col-5 ">       
         <input type="submit" class="btn btn-success float-right" value="Guardar">

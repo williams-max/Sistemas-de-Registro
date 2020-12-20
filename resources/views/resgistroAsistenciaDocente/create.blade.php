@@ -182,4 +182,5 @@ formulario.addEventListener('submit', (e) => {
     // console.log(e.target);
  });
 </script>
+
 @endsection
