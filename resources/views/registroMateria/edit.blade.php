@@ -105,6 +105,8 @@
                 
                 <tr>
                     @foreach ($horario as $horario)
+                        
+                    @endforeach
                     <td>
                         6:45
                     </td>
