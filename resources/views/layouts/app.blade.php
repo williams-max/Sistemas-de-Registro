@@ -220,17 +220,7 @@
                             </li>
                             @endcan
 
-                            @can('haveaccess','registroMateria.index')
-                             <li class="nav-item">
-                                <a href="{{url('/registroMateria')}}"
-                                    class="{{ Request::path() === 'registroMateria' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-layer-group"></i>
-                                        <p>Registrar Materia
-                                        <br> Grupo Horario
-                                      </p>
-                                </a>
-                            </li>
-                            @endcan
+                            
 
                             @can('haveaccess','registrarUFC.index')
                             <li class="nav-item">
@@ -320,7 +310,9 @@
 
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
+               <script>
+
+               </script>
             </aside>
             <!-- /.control-sidebar -->
         </div>
