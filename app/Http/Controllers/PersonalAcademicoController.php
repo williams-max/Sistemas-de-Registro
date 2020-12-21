@@ -90,7 +90,7 @@ class PersonalAcademicoController extends Controller
             'codigoSis' => 'required|numeric|unique:App\PersonalAcademico,codigoSis',
             'email' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
             'telefono' => 'required|numeric|digits_between:7,8',
-            'password' => 'required|min:8|max:20',
+            //'password' => 'required|min:8|max:20',
             'rol' => 'required',
             'unidad' => 'required',
             'facultad' => 'required',
