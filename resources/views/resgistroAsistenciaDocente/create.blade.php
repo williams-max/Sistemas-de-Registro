@@ -41,7 +41,7 @@
        <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
     <p class="formulario__input-error"> El este campo solo permite fechas del 
-     <br>   DEL: 2020-12-07       AL: 2020-12-21
+     <br>   DEL: 2020-12-21       AL: 2021-01-04
     </p>
 </div>
     
@@ -166,8 +166,14 @@
 formulario.addEventListener('submit', (e) => {
     // e.preventDefault();
     // console.log(e.isTrusted);
-  console.log(campos.contenido);
+ // console.log(campos.contenido);
      console.log("eventos de sumbits");
+     console.log(campos.contenido);
+     console.log(campos.observacion);
+     console.log(campos.fecha);
+     console.log(campos.materia);
+     console.log(campos.plataforma);
+     console.log(campos.grupo);
      
      if( campos.materia && campos.contenido && campos.fecha && campos.plataforma && campos.observacion && campos.grupo){
          alert("Se guardo Correctamente... ");
@@ -182,5 +188,4 @@ formulario.addEventListener('submit', (e) => {
     // console.log(e.target);
  });
 </script>
-
 @endsection

@@ -118,9 +118,9 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
             'hora' => 'required',
             'grupo' => 'required|numeric',
             'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-            'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+           // 'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+           // 'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
             
         ];

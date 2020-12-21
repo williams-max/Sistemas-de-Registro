@@ -27,12 +27,19 @@
 
 <div class="row">
     <div class="col-5">
-
+        <div class="formulario__grupo  " id="grupo__fecha">
+            <div class="formulario__grupo-input">
         <label for="Fecha" class="control-label">{{'Fecha'}}</label>
-        <input type="date" class="form-control  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
+        <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
         value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
         >
        {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
+       <i class="formulario__validacion-estado fas fa-times-circle"></i>
+       </div>
+      <p class="formulario__input-error"> El este campo solo permite fechas del 
+     <br>   DEL: 2020-12-21       AL: 2021-01-04
+      </p>
+   </div>
     
     </div> 
     <div class="col-5">
@@ -163,4 +170,30 @@
 </form>
 
 <script src="{{ asset('dist/js/formulario.js') }} "></script>
+<script type="text/javascript">
+    formulario.addEventListener('submit', (e) => {
+        // e.preventDefault();
+        // console.log(e.isTrusted);
+     // console.log(campos.contenido);
+         console.log("eventos de sumbits");
+         console.log(campos.contenido);
+         console.log(campos.observacion);
+         console.log(campos.fecha);
+         console.log(campos.materia);
+         console.log(campos.plataforma);
+         console.log(campos.grupo);
+         
+         if( campos.materia && campos.contenido && campos.fecha && campos.plataforma && campos.observacion && campos.grupo){
+             alert("Se guardo Correctamente... ");
+             
+             //return true;
+         }else{
+             alert("Por favor complete los campos correctamente");
+             e.preventDefault();
+          //   return false;
+           //  e.preventDefault();
+         }
+        // console.log(e.target);
+     });
+    </script>
 @endsection
