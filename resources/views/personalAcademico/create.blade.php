@@ -100,7 +100,7 @@
             {!!  $errors->first('codigoSis','<div class="invalid-feedback">:message</div>') !!}
             <i class="formulario__validacion-estado fas fa-times-circle"></i>
         </div>
-        <p class="formulario__input-error"> El este campo números de 9 digitos
+        <p class="formulario__input-error"> El este campo solo permite tener números de 9 digitos
          <br> ejemplo: 201605678
         </p>
     </div>
@@ -128,7 +128,7 @@
             {!!  $errors->first('telefono','<div class="invalid-feedback">:message</div>') !!}
             <i class="formulario__validacion-estado fas fa-times-circle"></i>
         </div>
-        <p class="formulario__input-error"> El este campo números de 7 a 14 digitos postivos
+        <p class="formulario__input-error"> El este campo solo permite tener números de 7 a 14 digitos postivos
       
         </p>
     </div>
@@ -154,7 +154,7 @@
                 {!!  $errors->first('password','<div class="invalid-feedback">:message</div>') !!}
                 <i class="formulario__validacion-estado fas fa-times-circle"></i>
             </div>
-            <p class="formulario__input-error"> El este campo solo puede tener de 4 a 12 digitos
+            <p class="formulario__input-error"> El este campo solo permite tener de 4 a 12 digitos
           
             </p>
         </div>
