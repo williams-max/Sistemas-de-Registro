@@ -283,6 +283,26 @@
                                 </a>
                             </li>
                             @endcan
+                            <li class="nav-item">
+                                <a href="{{url('reportes')}}"
+                                    class="{{ Request::path() === 'rola' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        Repostes Prueba
+                                      </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{url('resumen')}}"
+                                    class="{{ Request::path() === 'rola' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        Resumen De Faltas Prueba
+                                      </p>
+                                </a>
+                            </li>
+
 
 
                         </ul>

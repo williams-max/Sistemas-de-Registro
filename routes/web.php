@@ -88,6 +88,10 @@ Route::get('registroMateria/envio2/{id}', 'RegistrarMateriaController@facultad')
 Route::get('registroMateria/envio3/{id}', 'RegistrarMateriaController@carrera')->middleware('auth');
 Route::get('registroMateria/envio4/{id}/{id2}', 'RegistrarMateriaController@personal')->middleware('auth');
 
+
+Route::resource('reportes', 'ReporteController');
+Route::resource('resumen', 'ResumenfaltaController');
+
 Route::get('markAsRead', function(){
     auth()->user()->unreadNotifications->markAsRead();
     return redirect()->back();
@@ -95,6 +99,8 @@ Route::get('markAsRead', function(){
 
 
 Route::resource('post', 'PostController');
+
+
 
 Route::get('/test',function(){
 
