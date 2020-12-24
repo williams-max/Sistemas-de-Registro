@@ -216,7 +216,8 @@ class RegistrarMateriaController extends Controller
         ->select('personal_academicos.*','registrar_materias.*')
         ->where('registrar_materias.id','=',$id)
         ->get();
-        $horario = DB::table('personal_academicos')
+
+        $horarios = DB::table('personal_academicos')
         ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
         ->join('asignar_horarios', 'asignar_horarios.id_materia', '=', 'registrar_materias.id')
         ->select('asignar_horarios.*')
@@ -224,7 +225,7 @@ class RegistrarMateriaController extends Controller
         ->get();
         
 
-        return view('registroMateria.edit',compact('materia','personal','horario'));
+        return view('registroMateria.edit',compact('materia','personal','horarios'));
     }
 
     /**

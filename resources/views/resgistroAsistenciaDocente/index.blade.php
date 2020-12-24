@@ -38,7 +38,7 @@
             </div>
  
         <a href="{{url('registroAsistenciaDocente/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
-        <a href="{{url('registroAsistenciaDocente/registrarAusencia/create')}}" class="btn btn-secondary float-right" >Registrar Ausencia</a>
+        <a href="{{url('registroAsistenciaDocente/registrarAusencia/create')}}" class="btn btn-secondary float-right" >Registrar Reposicion</a>
             <table class="table table-hover" >
 
                 <thead class="thead-light">

@@ -102,34 +102,50 @@
                 </tr>
             </thead>
             <tbody>
-                
+                 @foreach ($horarios as $horarios)
                 <tr>
-                    @foreach ($horario as $horario)
-                        
-                    @endforeach
                     <td>
                         6:45
                     </td>
+                   
                     <td class="text-center">
-                        
-                        @if ($horario->hora == "06:45:00" && $horario->id_dia == '1')
-                           <input checked type="checkbox" class="myinput large" name="lunes[]" value="06:45:00"> 
-                        @endif
-                        
+                        @if ( $horarios->id_dia == '1')
+                            <input checked type="checkbox" class="myinput large" name="lunes[]" value="06:45:00"> 
+                        @else
+                            @if ( $horarios->id_dia != '2' && $horarios->id_dia != '3' && $horarios->id_dia != '4' && $horarios->id_dia != '5' && $horarios->id_dia != '6')
+                            <input type="checkbox" class="myinput large" name="lunes[]" value="06:45:00"> 
+                            @endif
+                        @endif  
                     </td>
                     <td class="text-center"> 
-                        @if ($horario->hora == "06:45:00" && $horario->id_dia == '2')
-                            <input checked type="checkbox" class="myinput large" name="martes[]" value="06:45:00"> 
-                        @endif 
+                        @if ($horarios->id_dia == '2')
+                            <input checked type="checkbox" class="myinput large" name="martes[]" value="06:45:00">
+                        @else
+                            @if ( $horarios->id_dia != '1' && $horarios->id_dia != '3' && $horarios->id_dia != '4' && $horarios->id_dia != '5' && $horarios->id_dia != '6')
+                            <input  type="checkbox" class="myinput large" name="martes[]" value="06:45:00">
+                            @endif
+                        @endif
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
+                        @if ($horarios->id_dia == '3')
+                            <input checked type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
+                        @else
+                            <input type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
+                        @endif
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
+                        @if ($horarios ?? '' || $jueves->id_dia != '4' )
+                            <input type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
+                        @else
+                            <input checked type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
+                        @endif
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
+                        @if ($horarios->id_dia == '5')
+                            <input checked type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
+                        @else
+                            <input type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
+                        @endif
                     </td>
                     <td class="text-center">
                         <input type="checkbox" class="myinput large" name="sabado[]" value="06:45:00">
@@ -366,7 +382,7 @@
                         <input type="checkbox" class="myinput large" name="sabado[]" value="21:45:00">
                     </td>
                 </tr>
-               
+                @endforeach 
             </tbody>
         </table>
         
