@@ -7,7 +7,7 @@
         <div class="col-md-8 mx-auto ">
         <h2>Personal Academico
             @can('haveaccess','personalAcademico.create')
-            <a href="{{url('personalAcademico/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
+            <a href="{{url('personalAcademico/create')}}" class="btn btn-success float-right " ><i class="fas fa-plus"></i></a>
             @endcan  
         </h2>
 

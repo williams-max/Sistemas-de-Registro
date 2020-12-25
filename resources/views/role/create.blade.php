@@ -43,7 +43,7 @@
 
                               <hr>
                               
-                              <h3>Autoridad</h3>
+                              <h3>Autoridad Academica</h3>
 
                               <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="fullautoyes" name="full-auto" 

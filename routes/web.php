@@ -38,6 +38,9 @@ Route::get('personalAcademico/envio2/{id}', 'PersonalAcademicoController@faculta
 
 Route::resource('autoAcademicas', 'AutoAcademicasController')->middleware('auth');
 Route::get('autoAcademicas/envio/{id}', 'AutoAcademicasController@personals')->middleware('auth');
+Route::get('autoAcademicas/envio2/{id}', 'AutoAcademicasController@facultad')->middleware('auth');
+Route::get('autoAcademicas/envio3/{id}', 'AutoAcademicasController@carrera')->middleware('auth');
+Route::get('autoAcademicas/envio4/{id}/{id2}', 'AutoAcademicasController@personal')->middleware('auth');
 
 Route::get('registrarUFC/registrarUnidad', 'RegistrarUFCController@createUnidad')->middleware('auth');
 Route::post('registrarUFC/registrarUnidad', 'RegistrarUFCController@storeUnidad')->middleware('auth');

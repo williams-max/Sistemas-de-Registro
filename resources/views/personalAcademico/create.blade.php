@@ -17,7 +17,7 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
    
-    <form action="{{url('/personalAcademico')}}" id="contactPer" class="form-horizontal"  method="post" enctype="multipart/form-data">
+    <form action="{{url('/personalAcademico')}}" id="contactPer" class="form-horizontal "  method="post" enctype="multipart/form-data">
 
         {{ csrf_field()}}
        <h3 class="text-center">FORMULARIO REGISTRO DE PERSONAL</h3> 

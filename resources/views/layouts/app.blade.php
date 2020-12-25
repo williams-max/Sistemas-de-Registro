@@ -198,8 +198,8 @@
                             @can('haveaccess','personalAcademico.index')
                             <li class="nav-item">
                                 <a href="{{url('/personalAcademico')}}"
-                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
-                                   <i class="nav-icon fas fa-users"></i>
+                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">   
+                                 <i class="nav-icon fas fa-users"></i>
                                          <p>Registrar Personal
                                         <br>Academico
                                       </p>
@@ -293,9 +293,10 @@
                                 </a>
                             </li>
                             @endcan
+                            
                             <li class="nav-item">
                                 <a href="{{url('reportes')}}"
-                                    class="{{ Request::path() === 'rola' ? 'nav-link active' : 'nav-link' }}">
+                                    class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-file-invoice"></i>
                                     <p>
                                         Repostes Prueba
@@ -305,14 +306,14 @@
 
                             <li class="nav-item">
                                 <a href="{{url('resumen')}}"
-                                    class="{{ Request::path() === 'rola' ? 'nav-link active' : 'nav-link' }}">
+                                    class="{{ Request::path() === 'resumen' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-file-invoice"></i>
                                     <p>
                                         Resumen De Faltas Prueba
                                       </p>
                                 </a>
                             </li>
-
+                            
 
 
                         </ul>
