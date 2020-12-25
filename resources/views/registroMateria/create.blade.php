@@ -39,8 +39,6 @@
             </select>
             {!!  $errors->first('unidad','<div class="invalid-feedback">:message</div>') !!}
         
-            </select>
-            {!!  $errors->first('personal','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">
         <label for="Materia"class="control-label">{{'Materia'}}</label>
@@ -174,6 +172,11 @@
 
 <label></label>
 <h4 class="text-center">Horarios</h4>
+<div class="col-md-8 mx-auto " >
+   <h4 >
+    @include('custom.message')
+</h4> 
+</div>
 
 <div class="col-md-8 mx-auto " >
      <table class="table table-hover"  border="3" bordercolor="#008000">
