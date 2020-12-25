@@ -90,7 +90,10 @@ Route::get('registroMateria/envio4/{id}/{id2}', 'RegistrarMateriaController@pers
 
 
 Route::resource('reportes', 'ReporteController');
-Route::resource('resumen', 'ResumenfaltaController');
+//Route::resource('resumen', 'ResumenfaltaController');
+
+Route::get('resumen', 'ResumenfaltaController@index');
+Route::get('resumen/vista', 'ResumenfaltaController@test')->name('resumen.vista');
 
 Route::get('markAsRead', function(){
     auth()->user()->unreadNotifications->markAsRead();

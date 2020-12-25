@@ -3,7 +3,28 @@
 @section('content')
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
 
-<link href="{{ asset('css/estilorepo.css')}}" rel="stylesheet">
+
+
+<style>
+    .container {
+      background: #e0e0e0;
+      margin: 0 0 1rem;
+      height: 10rem;
+      display: flex;
+      /* align-items por defecto tiene el valor `stretch` */
+      align-items: start;
+    }
+    .center-h {
+      justify-content: center;
+    }
+    .center-v {
+      align-items: center;
+    }
+    .child {
+      background: #60e0b0;
+      padding: .2rem;
+    }
+    </style>
 
 <div class="container">
     <div class="row">
@@ -13,10 +34,13 @@
             <h6>Centro de Procesamiento de Datos</h6>
             <h5 align="center">FORMULARIO RESUMEN DE FALTAS A CLASES VIRTUALES  <br> (9 de noviembre al  14 de noviembre 2020)</h5>
 
-            <div class="row">
+            <form action="{{url('/resumen/vista')}}" id="contactResum" class="form-horizontal" method="get" enctype="multipart/form-data">
+            <div class="container center-h center-v" >
                 <div class="formulario__grupo  " id="grupo__fecha">
                     <div class="formulario__grupo-input">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <label for="Fecha" class="control-label">{{'Del'}}</label>
+               
                 <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
                 value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
                 >
@@ -30,10 +54,10 @@
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         
-        <div class="formulario__grupo  " id="grupo__fecha">
+        <div class="formulario__grupo  " id="grupo__fecha1">
             <div class="formulario__grupo-input">
         <label for="Fecha" class="control-label">{{'Al'}}</label>
-        <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
+        <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha1" id="fecha1" 
         value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
         >
        {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
@@ -42,12 +66,19 @@
     <p class="formulario__input-error"> El este campo solo permite fechas del 
      <br>   DEL: 2020-12-07       AL: 2020-12-21
     </p>
+    
 </div>
             
-            </div> 
-        <h2>Personal Academico
+             
             
-        </h2>
+                    
+                <input type="submit"  class="btn btn-success " value="Actualizar">
+            
+
+
+            
+            </div> 
+          </form>
 
             <table class="table table-bordered table-dark">
                 
@@ -72,12 +103,13 @@
                     @foreach ($repos as $repos)
                     
                     <tr>
-                        <td>{{$repos->nombre}}</td>
-                        <td>{{$repos->apellido}}</td>
+                        <td>2020-12-12</td>
+                        <td>{{$repos->codigoSis}}</td>
+                        <td>{{$repos->nombre ,$repos->apellido}}</td>
                         <td>{{$repos->unidad}}</td>
                         <td>{{$repos->falculdad}}</td>
-                        <td>{{2020}}</td>
-                        <td>{{15000}}</td>
+                        <td>{{2}}</td>
+                        <td>Lunes</td>
                         <td>{{14}}</td>
                         <td>{{20}}</td>
                         <td>
@@ -99,12 +131,80 @@
                 </tbody>
                 
             </table>
-          
+            <form id="myform"  action="" method="GET" onsubmit="return ConfirmDemo();">
+                @csrf
+             
+                <button  class="btn btn-primary float-left">Enviar</button>
+              </form>
 
   
 
         </div>
     </div>
 </div>
+
+<script src="{{ asset('dist/js/resumenvalidationfecha.js') }} "></script>
+<script type="text/javascript">
+  formulario.addEventListener('submit', (e) => {
+      // e.preventDefault();
+      // console.log(e.isTrusted);
+   // console.log(campos.contenido);
+       console.log("eventos de sumbits");
+       
+       console.log(campos.fecha);
+       console.log(campos.fecha1);
+       
+       if( campos.fecha && campos.fecha1 ){
+          // alert("Se guardo Correctamente... ");
+           
+           //return true;
+       }else{
+           alert("Los campos de las fechas estan incorrectas ... por favor intente nuevamente");
+           e.preventDefault();
+        //   return false;
+         //  e.preventDefault();
+       }
+      // console.log(e.target);
+   });
+  </script>
+<script type="text/javascript">
+    function pulsar() {
+        alert("El Formulario Se envio Con Exito");
+        }
+        function nopuede() {
+            alert("No puede Enviar el Formulario por que esta vacio");
+        }
+        
+        var valor=0;  
+        function ConfirmDemo() {
+          //Ingresamos un mensaje a mostrar
+          var formulario = document.getElementById("myform");
+          var mensaje = confirm("Esta formulario se Enviara a la UTI \n .¿Estas Seguro que deseas enviar ?");
+          //Detectamos si el usuario acepto el mensaje
+          if (mensaje) {
+            valor=1;
+          alert("¡Gracias por aceptar!");
+                 if (valor==1) {
+                  //alert("Enviando el formulario");
+                  formulario.submit();
+                  return true;
+                 } else {
+                   alert("Error al Eliminar el Formulario");
+                 return false;
+          }
+       
+          }
+          //Detectamos si el usuario denegó el mensaje
+          else {
+          alert("¡operacion Denegada!");
+            return false;
+       
+           }
+          }
+      
+    
+        
+</script>
+
     
 @endsection
