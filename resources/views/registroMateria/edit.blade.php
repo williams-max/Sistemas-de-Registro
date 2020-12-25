@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{url('/registroMateria/' . $materia->id)}}" method="post" enctype="multipart/form-data">
+<form action="{{url('/registroMateria/' . $materia->id)}}" method="post" enctype="multipart/form-data" >
 
     {{csrf_field()}}
     {{method_field('PATCH')}}
@@ -10,6 +10,7 @@
 
 <h3 class="text-center">REGISTRO DE MATERIA</h3> 
 <BR></BR>
+
 
 <div class="col-md-11 mx-auto " >
    <style>
@@ -33,7 +34,7 @@
 
 <div class="row">
     <div class="col-5">
-        <label for="Unidad">Personal</label>
+        <label for="Personal">Personal</label>
        <select disabled name="personal" id="personal" class="form-control  {{$errors->has('personal')?'is-invalid':'' }}">
             <option selected disabled>Seleccione una Unidad</option>
             @foreach ($personal as $personal)
@@ -56,7 +57,12 @@
 <div class="row">
 
     <div class="col-5">
-    
+        <label for=""class="control-label">{{'Horarios Asignados'}}</label> <br>
+        @foreach ($horarios as $horarios)
+        
+        <label  for=""class="control-label"><h5>{{'DIA: '}}  {{$horarios->dia}} {{$horarios->hora}}</h5></label> <br>
+        @endforeach
+
     </div>
     <div class="col-5">
         <label for="Grupo"class="control-label">{{'Grupo'}}</label>
@@ -76,20 +82,19 @@
 </div>
 
 </div>
-<div class="form-check">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      value=""
-      id="flexCheckChecked"
-      checked
-    />
-  </div>
 <label></label>
+<div class="col-md-8 mx-auto " >
+    <h4 class="text-center">
+        <p class="p-2 bg-primary text-white">Marque los nuevos horarios por favor</p>
+    </h4>
+    <h4 >
+        @include('custom.message')
+    </h4>
+</div>
 <h4 class="text-center">Horarios</h4>
 
 <div class="col-md-8 mx-auto " >
-     <table class="table table-hover"  border="3" bordercolor="#008000">
+     <table class="table table-hover"  border="3" bordercolor="#008000" id="mytable">
             <thead class="thead-light">
                 <tr>
                     <th class="text-center">Horarios</th>
@@ -101,51 +106,26 @@
                     <th class="text-center">Sabado</th>
                 </tr>
             </thead>
-            <tbody>
-                 @foreach ($horarios as $horarios)
+            <tbody >
                 <tr>
                     <td>
                         6:45
                     </td>
                    
                     <td class="text-center">
-                        @if ( $horarios->id_dia == '1')
-                            <input checked type="checkbox" class="myinput large" name="lunes[]" value="06:45:00"> 
-                        @else
-                            @if ( $horarios->id_dia != '2' && $horarios->id_dia != '3' && $horarios->id_dia != '4' && $horarios->id_dia != '5' && $horarios->id_dia != '6')
-                            <input type="checkbox" class="myinput large" name="lunes[]" value="06:45:00"> 
-                            @endif
-                        @endif  
+                       <input type="checkbox" class="myinput large" name="lunes[]" value="06:45:00">   
                     </td>
                     <td class="text-center"> 
-                        @if ($horarios->id_dia == '2')
-                            <input checked type="checkbox" class="myinput large" name="martes[]" value="06:45:00">
-                        @else
-                            @if ( $horarios->id_dia != '1' && $horarios->id_dia != '3' && $horarios->id_dia != '4' && $horarios->id_dia != '5' && $horarios->id_dia != '6')
-                            <input  type="checkbox" class="myinput large" name="martes[]" value="06:45:00">
-                            @endif
-                        @endif
+                         <input  type="checkbox" class="myinput large" name="martes[]" value="06:45:00">
                     </td>
                     <td class="text-center">
-                        @if ($horarios->id_dia == '3')
-                            <input checked type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
-                        @else
-                            <input type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
-                        @endif
+                        <input type="checkbox" class="myinput large" name="miercoles[]" value="06:45:00">
                     </td>
                     <td class="text-center">
-                        @if ($horarios ?? '' || $jueves->id_dia != '4' )
-                            <input type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
-                        @else
-                            <input checked type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
-                        @endif
+                        <input type="checkbox" class="myinput large" name="jueves[]" value="06:45:00">
                     </td>
                     <td class="text-center">
-                        @if ($horarios->id_dia == '5')
-                            <input checked type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
-                        @else
-                            <input type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
-                        @endif
+                        <input type="checkbox" class="myinput large" name="viernes[]" value="06:45:00">
                     </td>
                     <td class="text-center">
                         <input type="checkbox" class="myinput large" name="sabado[]" value="06:45:00">
@@ -382,7 +362,6 @@
                         <input type="checkbox" class="myinput large" name="sabado[]" value="21:45:00">
                     </td>
                 </tr>
-                @endforeach 
             </tbody>
         </table>
         

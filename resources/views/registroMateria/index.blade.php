@@ -5,7 +5,7 @@
 <div class="container" >
 
     <h2 class="text-center">ASIGNAR MATERIA</h2>
-
+   
     <div  class="col-md-8 mx-auto" >
             <a href="{{url('registroMateria/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
         <table class="table table-light">
