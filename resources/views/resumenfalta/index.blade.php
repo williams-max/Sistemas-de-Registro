@@ -95,7 +95,7 @@
                         <th scope="col">HORA FIN</th>
                         <th scope="col">FALTA</th>
                         <th scope="col">  </th>
-                     
+                        <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -131,12 +131,15 @@
                 </tbody>
                 
             </table>
+            @if ($repos==[])
+            <a onclick="nopuede()"   class="btn btn-primary float-left" >Enviar</a>
+            @else
             <form id="myform"  action="" method="GET" onsubmit="return ConfirmDemo();">
                 @csrf
              
                 <button  class="btn btn-primary float-left">Enviar</button>
               </form>
-
+             @endif
   
 
         </div>
@@ -145,6 +148,21 @@
 
 <script src="{{ asset('dist/js/resumenvalidationfecha.js') }} "></script>
 <script type="text/javascript">
+
+  var $el = $('#contactResum');
+$el.data('oldVal',  $el.val());
+
+
+$el.change(function(){
+  //store new value
+  var $this = $(this);
+  var newValue = $this.data('newVal', $this.val());
+})
+.focus(function(){
+  // Get the value when input gains focus
+  var oldValue = $(this).data('oldVal');
+})
+
   formulario.addEventListener('submit', (e) => {
       // e.preventDefault();
       // console.log(e.isTrusted);
