@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\isarel\Models\Rola;
+use App\Mail\Bienvenido;
 use App\Mail\correoEnviado;
 use App\RegistrarCarrera;
 use App\RegistrarFacultad;
@@ -182,7 +183,7 @@ class PersonalAcademicoController extends Controller
                 ->where('personal_academicos.id','=',$personal->id)
                 ->first();
 
-        Mail::to(request('email'))->send(new correoEnviado($rolas));
+        Mail::to(request('email'))->send(new Bienvenido($rolas));
 
 
         return redirect('/personalAcademico');
@@ -262,7 +263,7 @@ class PersonalAcademicoController extends Controller
                 ->where('personal_academicos.id','=',$personal->id)
                 ->first();
 
-                Mail::to($personal->email)->send(new correoEnviado($pass));
+                Mail::to($personal->email)->send(new Bienvenido($pass));
             }
         }
 
