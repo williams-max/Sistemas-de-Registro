@@ -32,6 +32,7 @@
             <h6>UNIVERSIDAD MAYOR DE SAN SIMON</h6>
             <h6>Facultad de Ciencias y Tecnologia </h6>
             <h6>Centro de Procesamiento de Datos</h6>
+          
             <h5 align="center">FORMULARIO RESUMEN DE FALTAS A CLASES VIRTUALES  <br> (9 de noviembre al  14 de noviembre 2020)</h5>
 
             <form action="{{url('/resumen/vista')}}" id="contactResum" class="form-horizontal" method="get" enctype="multipart/form-data">
@@ -40,9 +41,9 @@
                     <div class="formulario__grupo-input">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <label for="Fecha" class="control-label">{{'Del'}}</label>
-               
+                 
                 <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha" id="fecha" 
-                value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
+                value="{{old('fecha', $fechaini)}}"
                 >
                {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
                <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -58,7 +59,7 @@
             <div class="formulario__grupo-input">
         <label for="Fecha" class="control-label">{{'Al'}}</label>
         <input type="date" class="formulario__input  {{$errors->has('fecha')?'is-invalid':'' }}" name="fecha1" id="fecha1" 
-        value="{{ isset($registro->fecha)?$registro->fecha:old('fecha') }}"
+        value="{{old('fecha1', $fechafin)}}"
         >
        {!!  $errors->first('fecha','<div class="invalid-feedback">:message</div>') !!}
        <i class="formulario__validacion-estado fas fa-times-circle"></i>
@@ -103,12 +104,12 @@
                     @foreach ($repos as $repos)
                     
                     <tr>
-                        <td>2020-12-12</td>
+                        <td>{{$repos->fecha}}</td>
                         <td>{{$repos->codigoSis}}</td>
                         <td>{{$repos->nombre ,$repos->apellido}}</td>
                         <td>{{$repos->unidad}}</td>
-                        <td>{{$repos->falculdad}}</td>
-                        <td>{{2}}</td>
+                        <td>{{$repos->materia}}</td>
+                        <td>{{$repos->grupo}}</td>
                         <td>Lunes</td>
                         <td>{{14}}</td>
                         <td>{{20}}</td>

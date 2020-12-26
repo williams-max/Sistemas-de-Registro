@@ -22,8 +22,8 @@ class UserAdministradorSeeder extends Seeder
         
         DB::table('fecha_entregas')->insert([
             'id' => '1',
-            'fecha_inicio' => '2020/12/07',
-            'fecha_entrega' => '2020/12/21', 
+            'fecha_inicio' => '2020/12/21',
+            'fecha_entrega' => '2021/01/04', 
           ]);
           DB::table('dias')->insert([
             'id' => '1',

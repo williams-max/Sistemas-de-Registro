@@ -15,6 +15,8 @@ class CreateResumenfaltasTable extends Migration
     {
         Schema::create('resumenfaltas', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_ini');
+            $table->date('fecha_fin');
             $table->timestamps();
         });
     }

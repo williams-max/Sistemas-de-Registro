@@ -176,7 +176,7 @@ formulario.addEventListener('submit', (e) => {
      console.log(campos.grupo);
      
      if( campos.materia && campos.contenido && campos.fecha && campos.plataforma && campos.observacion && campos.grupo){
-         alert("Se guardo Correctamente... ");
+         alert("Guardando... ");
          
          //return true;
      }else{
