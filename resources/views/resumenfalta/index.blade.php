@@ -110,7 +110,7 @@
                         <td>{{$repos->grupo}}</td>
                         <td>Lunes</td>
                         <td>{{$repos->hora}}</td>
-                        <td>{{20}}</td>
+                        <td>{{$repos->hora}}</td>
                         <td></td>
                         
                       </tr>
@@ -123,7 +123,7 @@
             @if ($repos==[])
             <a onclick="nopuede()"   class="btn btn-primary float-left" >Enviar</a>
             @else
-            <form id="myform"  action="" method="GET" onsubmit="return ConfirmDemo();">
+            <form id="myform"  action="{{url('/resumen/vista')}}" method="GET" onsubmit="return ConfirmDemo();">
                 @csrf
              
                 <button  class="btn btn-primary float-left">Enviar</button>
