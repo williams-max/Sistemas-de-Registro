@@ -33,18 +33,21 @@ class ResumenfaltaController extends Controller
 
     //fecha men dias
     
-    DB::select("select 
+    DB::select("select DISTINCT 
                   personal_academicos.nombre as nombre, 
                   personal_academicos.apellido as apellido,
                   personal_academicos.codigoSis as codigoSis,
                   registrar_unidads.nombre as unidad, 
                   registrar_facultads.nombre as falculdad,
-                  asistencia_docentes.fecha as fecha,
-                  asistencia_docentes.materia as materia,
-                  asistencia_docentes.grupo as grupo
-           from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads 
+                  registrar_ausencia_docentes.fecha as fecha,
+                  registrar_ausencia_docentes.materia as materia,
+                  registrar_ausencia_docentes.id as id,
+                  registrar_ausencia_docentes.hora as hora,
+                  registrar_ausencia_docentes.grupo as grupo
+                
+           from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads,registrar_ausencia_docentes
            
-           where personal_academicos.id=asistencia_docentes.id_personal and
+           where personal_academicos.id=registrar_ausencia_docentes.id_personal and
                  personal_academicos.id_unidad=registrar_unidads.id     and
                  personal_academicos.id_facultad=registrar_facultads.id 
            
@@ -76,11 +79,11 @@ class ResumenfaltaController extends Controller
     
     }
    
-     
+     /*
     $datofechas->fecha_ini=$request->fecha;
     $datofechas->fecha_fin=$request->fecha1;
     $datofechas->save();
-  
+  */
    $fechas=
    DB::select('select fecha_ini,fecha_fin
                from resumenfaltas');
@@ -98,12 +101,15 @@ class ResumenfaltaController extends Controller
   personal_academicos.codigoSis as codigoSis,
   registrar_unidads.nombre as unidad, 
   registrar_facultads.nombre as falculdad,
-  asistencia_docentes.fecha as fecha,
-  asistencia_docentes.materia as materia,
-  asistencia_docentes.grupo as grupo
-                from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads 
+  registrar_ausencia_docentes.fecha as fecha,
+  registrar_ausencia_docentes.materia as materia,
+  registrar_ausencia_docentes.id as id,
+  registrar_ausencia_docentes.hora as hora,
+  registrar_ausencia_docentes.grupo as grupo
+  
+                from personal_academicos,registrar_unidads,registrar_facultads,registrar_ausencia_docentes 
                 
-                where personal_academicos.id=asistencia_docentes.id_personal and ( asistencia_docentes.fecha BETWEEN  '$request->fecha' and '$request->fecha1')  and
+                where personal_academicos.id=registrar_ausencia_docentes.id_personal and ( registrar_ausencia_docentes.fecha BETWEEN  '$request->fecha' and '$request->fecha1')  and
                       personal_academicos.id_unidad=registrar_unidads.id     and
                       personal_academicos.id_facultad=registrar_facultads.id 
                 

@@ -95,9 +95,7 @@
                         <th scope="col">HORA INICIO</th>
                         <th scope="col">HORA FIN</th>
                         <th scope="col">FALTA</th>
-                        <th scope="col">  </th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+               
                     </tr>
                 </thead>
                 <tbody>
@@ -107,24 +105,14 @@
                         <td>{{$repos->fecha}}</td>
                         <td>{{$repos->codigoSis}}</td>
                         <td>{{$repos->nombre ,$repos->apellido}}</td>
-                        <td>{{$repos->unidad}}</td>
+                        <td>{{$repos->id}}</td>
                         <td>{{$repos->materia}}</td>
                         <td>{{$repos->grupo}}</td>
                         <td>Lunes</td>
-                        <td>{{14}}</td>
+                        <td>{{$repos->hora}}</td>
                         <td>{{20}}</td>
-                        <td>
-                            @can('haveaccess','personalAcademico.destroy')
-                            <form method="post" action="{{url('/personalAcademico/'.$repos->nombre)}}" style="display:inline">
-                                {{csrf_field()}}
-                                {{method_field('DELETE')}}
-                                <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Usuario?');" class="fas fa-plus"></button>
-                            </form> 
-                            @endcan 
-                            
-                            
-                        </td>
-                      
+                        <td></td>
+                        
                       </tr>
                         
                     @endforeach  
