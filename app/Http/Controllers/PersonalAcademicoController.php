@@ -10,10 +10,12 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\isarel\Models\Rola;
+use App\Mail\correoEnviado;
 use App\RegistrarCarrera;
 use App\RegistrarFacultad;
 use App\RegistrarUnidad;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalAcademicoController extends Controller
@@ -246,6 +248,13 @@ class PersonalAcademicoController extends Controller
                 $usuario->update();
 
                 $usuario->asignarRol($request->get('rol'));
+
+                $pass = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->where('personal_academicos.id','=',$personal->id)
+                ->first();
+
+                Mail::to($personal->email)->send(new correoEnviado($pass));
             }
         }
 
