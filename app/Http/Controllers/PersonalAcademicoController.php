@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PersonalImport;
+use App\Imports\UsersImport;
 use App\PersonalAcademico;
 use App\Role;
 use App\User;
@@ -12,6 +14,7 @@ use App\RegistrarCarrera;
 use App\RegistrarFacultad;
 use App\RegistrarUnidad;
 use Illuminate\Contracts\Routing\Registrar;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalAcademicoController extends Controller
 {
@@ -22,6 +25,8 @@ class PersonalAcademicoController extends Controller
      */
     public function index()
     {
+        
+
         $this->authorize('haveaccess','personalAcademico.index');  
 
         $person = DB::table('personal_academicos')
@@ -61,6 +66,22 @@ class PersonalAcademicoController extends Controller
             return response()->json( $personal);
         }
      }
+    public function vistaCSV()
+        {
+        // $this->authorize('create',PersonalAcademico::class);
+        // return 'Create';
+            //$roles =Rola::all();
+            $roles = DB::table('rolas')
+            ->select('*')
+            ->where('rolas.full-auto','=','no')
+            ->get();
+            $unidad = RegistrarUnidad::all();
+            $facultad = RegistrarFacultad::all();
+            $carrera = RegistrarCarrera::all();
+            return view('personalAcademico.importar',['roles'=>$roles,'unidad'=>$unidad,'facultad'=>$facultad,'carrera'=>$carrera]);
+        }
+
+
     public function create()
     {
        // $this->authorize('create',PersonalAcademico::class);
@@ -76,6 +97,7 @@ class PersonalAcademicoController extends Controller
         return view('personalAcademico.create',['roles'=>$roles,'unidad'=>$unidad,'facultad'=>$facultad,'carrera'=>$carrera]);
     }
 
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -154,6 +176,83 @@ class PersonalAcademicoController extends Controller
         $usuario->asignarPersonal($rolas->id);
 
         return redirect('/personalAcademico');
+    }
+
+
+    public function importar( Request $request)
+    {
+        $campos=[
+            'file' => 'required',
+            'rol' => 'required',
+            'unidad' => 'required',
+            'facultad' => 'required',
+            'carrera' => 'required',
+            
+        ];
+
+        $Mensaje = [
+                
+            "required"=>'El campo es requerido',
+            "rol.required"=>'Seleccione un cargo',
+            "unidad.required"=>'Seleccione una unidad',
+            "facultad.required"=>'Seleccione una facultad',
+            "carrera.required"=>'Seleccione una carrera',
+            "file.required"=>'Suba un Archivo CSV por favor',
+                   ];
+        $this->validate($request,$campos,$Mensaje);
+        
+
+        if ($request->hasFile('file')){
+            $file = $request->file('file');
+            Excel::import(new PersonalImport ,$file);
+            Excel::import(new UsersImport ,$file);
+
+            $personal = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->whereNull('personal_academicos.password')
+                ->get();
+            
+
+            foreach ($personal as $personal) {
+                $password = substr( md5(microtime()), 1, 8);
+
+                $persona = PersonalAcademico::FindOrFail($personal->id);
+                $persona->password = $password;
+                $persona->mat_asignada = '0';
+                $persona->id_unidad = $request->get('unidad');
+                $persona->id_facultad = $request->get('facultad');
+                $persona->id_carrera = $request->get('carrera');
+                $persona->update();
+
+                $id = DB::table('users')
+                ->select('id')
+                ->where('email','=',$personal->email)
+                ->first();
+
+                DB::table('personal_academico_user')->insert([
+                    'user_id' => $id->id,
+                    'personal_academico_id' => $personal->id
+                ]);
+
+                $id_new = DB::table('personal_academico_user')
+                ->select('user_id')
+                ->where('personal_academico_id','=',$personal->id)
+                ->first();
+
+                $usuario = User::FindOrFail($id_new->user_id);
+                $usuario->password = bcrypt($password);
+                $usuario->autoridad = 'no';
+                $usuario->rol = 'yes';
+                $usuario->update();
+
+                $usuario->asignarRol($request->get('rol'));
+            }
+        }
+
+        
+
+        
+        return redirect('/personalAcademico'); 
     }
 
     /**
@@ -237,6 +336,7 @@ class PersonalAcademicoController extends Controller
         return view('personalAcademico.edit',compact('personal','roles','cargo','unidad_cargo','carrera_cargo','unidad','facultad','facultad_cargo','carrera')); 
         
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -283,6 +383,9 @@ class PersonalAcademicoController extends Controller
         $personal->email = request('email');
         $personal->telefono = request('telefono');
         $personal->password = request('password');
+        $personal->id_unidad = $request->get('unidad');
+        $personal->id_facultad = $request->get('facultad');
+        $personal->id_carrera = $request->get('carrera');
         
         $personal->update();
 

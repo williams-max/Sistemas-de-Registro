@@ -32,9 +32,14 @@ Route::resource('/rola', 'RolaController')->names('rola');
 
 Route::resource('usuarios', 'UserController');
 
+Route::get('personalAcademico/importarCSV', 'PersonalAcademicoController@vistaCSV')->middleware('auth');
+Route::post('personalAcademico/importarCSV', 'PersonalAcademicoController@importar')->middleware('auth');
 Route::resource('personalAcademico', 'PersonalAcademicoController')->middleware('auth');
+
 Route::get('personalAcademico/envio/{id}', 'PersonalAcademicoController@personals')->middleware('auth');
 Route::get('personalAcademico/envio2/{id}', 'PersonalAcademicoController@facultad')->middleware('auth');
+Route::get('personalAcademico/envio2/{id}', 'PersonalAcademicoController@facultad')->middleware('auth');
+
 
 Route::resource('autoAcademicas', 'AutoAcademicasController')->middleware('auth');
 Route::get('autoAcademicas/envio/{id}', 'AutoAcademicasController@personals')->middleware('auth');

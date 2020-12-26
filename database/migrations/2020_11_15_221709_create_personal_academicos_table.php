@@ -20,14 +20,14 @@ class CreatePersonalAcademicosTable extends Migration
             $table->string('codigoSis');
             $table->string('email');
             $table->string('telefono');
-            $table->string('mat_asignada');
-            $table->string('password');
+            $table->string('mat_asignada')->nullable();
+            $table->string('password')->nullable();
             $table->integer('enviados')->default(0); 
             $table->integer('actualizar')->default(0); 
             $table->integer('repetidos')->default(1);
-            $table->unsignedBigInteger('id_unidad');
-            $table->unsignedBigInteger('id_facultad');
-            $table->unsignedBigInteger('id_carrera');
+            $table->unsignedBigInteger('id_unidad')->nullable();
+            $table->unsignedBigInteger('id_facultad')->nullable();
+            $table->unsignedBigInteger('id_carrera')->nullable();
             $table->timestamps();
 
             $table->foreign('id_unidad')
