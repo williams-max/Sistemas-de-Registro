@@ -299,7 +299,7 @@
                                     class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-file-invoice"></i>
                                     <p>
-                                        Repostes Prueba
+                                        Plan mensual de asistencia
                                       </p>
                                 </a>
                             </li>
@@ -309,7 +309,8 @@
                                     class="{{ Request::path() === 'resumen' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-file-invoice"></i>
                                     <p>
-                                        Resumen De Faltas Prueba
+                                        
+                                      Formulario resumen de <br>faltas a clases virtuales
                                       </p>
                                 </a>
                             </li>
