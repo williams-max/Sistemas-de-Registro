@@ -409,6 +409,13 @@ class PersonalAcademicoController extends Controller
         $personal->password = request('password');
         $personal->update();
 
+        $usuario = User::FindOrFail(Auth::user()->id);
+
+                    $usuario->name = request('nombre');
+                    $usuario->email = request('email');
+                    $usuario->password = bcrypt(request('password'));
+                    
+                    $usuario->update();
         return redirect('/');
     }
     /**
