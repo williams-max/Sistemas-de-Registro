@@ -160,6 +160,7 @@ class PersonalAcademicoController extends Controller
         
         $personal->save();
 
+
         $usuario = new User();
 
         $usuario->name = request('nombre');
@@ -173,9 +174,16 @@ class PersonalAcademicoController extends Controller
     
         $rolas = DB::table('personal_academicos')->where('email', request('email'))->first();
 
-
         $usuario->asignarRol($request->get('rol'));
         $usuario->asignarPersonal($rolas->id);
+
+        $pass = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->where('personal_academicos.id','=',$personal->id)
+                ->first();
+
+        Mail::to(request('email'))->send(new correoEnviado($rolas));
+
 
         return redirect('/personalAcademico');
     }
