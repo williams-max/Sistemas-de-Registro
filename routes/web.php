@@ -34,6 +34,8 @@ Route::resource('usuarios', 'UserController');
 
 Route::get('personalAcademico/importarCSV', 'PersonalAcademicoController@vistaCSV')->middleware('auth');
 Route::post('personalAcademico/importarCSV', 'PersonalAcademicoController@importar')->middleware('auth');
+Route::get('EditarDatos', 'PersonalAcademicoController@vistaConf')->middleware('auth');
+Route::patch('EditarDatos', 'PersonalAcademicoController@EditarDatos')->middleware('auth');
 Route::resource('personalAcademico', 'PersonalAcademicoController')->middleware('auth');
 
 Route::get('personalAcademico/envio/{id}', 'PersonalAcademicoController@personals')->middleware('auth');

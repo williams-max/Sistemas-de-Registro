@@ -16,6 +16,7 @@ use App\RegistrarCarrera;
 use App\RegistrarFacultad;
 use App\RegistrarUnidad;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -265,6 +266,7 @@ class PersonalAcademicoController extends Controller
 
                 Mail::to($personal->email)->send(new Bienvenido($pass));
             }
+            
         }
 
         
@@ -295,6 +297,18 @@ class PersonalAcademicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function vistaConf(){
+        $personal = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->select('personal_academicos.*')
+        ->where('users.id','=',Auth::user()->id)
+        ->first();
+        $personal=PersonalAcademico::findOrFail($personal->id);
+        return view('personalAcademico.setting',['personal' => $personal]);
+     }
+
     public function edit($id)
     {
 
@@ -356,6 +370,47 @@ class PersonalAcademicoController extends Controller
     }
     
 
+    public function EditarDatos(Request $request){
+        $personal = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->select('personal_academicos.*')
+        ->where('users.id','=',Auth::user()->id)
+        ->first();
+
+        $campos=[
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'apellido' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'email' => 'required|email:rfc,dns|max:30',
+            'telefono' => 'numeric|digits_between:7,8',
+            'password' => 'min:8|max:20',
+        ];
+
+        $Mensaje = [
+                
+            "required"=>'El campo es requerido',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
+            "apellido.regex"=>'Solo se acepta caracteres A-Z,chale',
+            "password.min"=>'Solo se acepta 8 caracteres como minimo',
+            "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
+            "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
+            "email.max"=>'Solo se acepta 30 caracteres como maximo',
+            "telefono.digits_between"=>'El numero no existe',
+            "password.max"=>'Solo se acepta 20 caracteres como maximo',
+            "numeric"=>'Solo se acepta números',
+            "email"=>'El correo no existe',
+                   ];
+        $this->validate($request,$campos,$Mensaje);
+        $personal=PersonalAcademico::findOrFail($personal->id);
+        $personal->nombre = request('nombre');
+        $personal->apellido = request('apellido');
+        $personal->email = request('email');
+        $personal->telefono = request('telefono');
+        $personal->password = request('password');
+        $personal->update();
+
+        return redirect('/');
+    }
     /**
      * Update the specified resource in storage.
      *

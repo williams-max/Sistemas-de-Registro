@@ -16,10 +16,10 @@ class CreatePersonalAcademicosTable extends Migration
         Schema::create('personal_academicos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('apellido');
+            $table->string('apellido')->nullable();
             $table->string('codigoSis');
             $table->string('email');
-            $table->string('telefono');
+            $table->string('telefono')->nullable();
             $table->string('mat_asignada')->nullable();
             $table->string('password')->nullable();
             $table->integer('enviados')->default(0); 
