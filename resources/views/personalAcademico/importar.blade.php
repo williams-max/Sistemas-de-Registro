@@ -51,7 +51,7 @@
         
         <div class="col-5">
             <h5>
-            <p class="p-1 bg-white text-secondary">El Archivo CSV debe tener el siguiente formado <br>|nombre|apellido|codigo sis|correo|telefono|</p>
+            <p class="p-1 bg-white text-secondary">El Archivo CSV,EXCEL debe tener el siguiente formado<br>|nombre|apellido|codigo sis|correo|telefono|</p>
         </h5>
         </div>
         <div class="col-5">
