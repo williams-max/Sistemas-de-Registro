@@ -13,25 +13,10 @@ class ResumenfaltaController extends Controller
     public function index()
     {
       $id=1;
+      $fechaini="2020-12-27";
+      $fechafin="2021-01-01";
     $repos=
-    /*
-    DB::select('select DISTINCT 
-                         personal_academicos.nombre as nombre, 
-                         personal_academicos.apellido as apellido,
-                         personal_academicos.codigoSis as codigoSis,
-                         registrar_unidads.nombre as unidad, 
-                         registrar_facultads.nombre as falculdad
-                  from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads 
-                  
-                  where personal_academicos.id=asistencia_docentes.id_personal and
-                        personal_academicos.id_unidad=registrar_unidads.id     and
-                        personal_academicos.id_facultad=registrar_facultads.id 
-                  
-                  ');
-*/
-    //WHERE fecha_hora BETWEEN '20100615' AND '20100615 8:00:00'
-
-    //fecha men dias
+  
     
     DB::select("select DISTINCT 
                   personal_academicos.nombre as nombre, 
@@ -48,6 +33,7 @@ class ResumenfaltaController extends Controller
            from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads,registrar_ausencia_docentes
            
            where personal_academicos.id=registrar_ausencia_docentes.id_personal and
+           ( registrar_ausencia_docentes.fecha BETWEEN  '$fechaini' and '$fechafin')  and
                  personal_academicos.id_unidad=registrar_unidads.id     and
                  personal_academicos.id_facultad=registrar_facultads.id 
            
@@ -58,9 +44,7 @@ class ResumenfaltaController extends Controller
 
 
 
-  // dd($repos);
-  $fechaini="";
-  $fechafin="";
+ 
 
 
      // return view('resumenfalta.index',['repos'=>$repos]);
@@ -96,20 +80,21 @@ class ResumenfaltaController extends Controller
   
   $repos=
   DB::select("select 
-  personal_academicos.nombre as nombre, 
-  personal_academicos.apellido as apellido,
-  personal_academicos.codigoSis as codigoSis,
-  registrar_unidads.nombre as unidad, 
-  registrar_facultads.nombre as falculdad,
-  registrar_ausencia_docentes.fecha as fecha,
-  registrar_ausencia_docentes.materia as materia,
-  registrar_ausencia_docentes.id as id,
-  registrar_ausencia_docentes.hora as hora,
-  registrar_ausencia_docentes.grupo as grupo
+        personal_academicos.nombre as nombre, 
+        personal_academicos.apellido as apellido,
+        personal_academicos.codigoSis as codigoSis,
+        registrar_unidads.nombre as unidad, 
+        registrar_facultads.nombre as falculdad,
+        registrar_ausencia_docentes.fecha as fecha,
+        registrar_ausencia_docentes.materia as materia,
+        registrar_ausencia_docentes.id as id,
+        registrar_ausencia_docentes.hora as hora,
+        registrar_ausencia_docentes.grupo as grupo
   
                 from personal_academicos,registrar_unidads,registrar_facultads,registrar_ausencia_docentes 
                 
-                where personal_academicos.id=registrar_ausencia_docentes.id_personal and ( registrar_ausencia_docentes.fecha BETWEEN  '$request->fecha' and '$request->fecha1')  and
+                where personal_academicos.id=registrar_ausencia_docentes.id_personal and 
+                    ( registrar_ausencia_docentes.fecha BETWEEN  '$request->fecha' and '$request->fecha1')  and
                       personal_academicos.id_unidad=registrar_unidads.id     and
                       personal_academicos.id_facultad=registrar_facultads.id 
                 
@@ -118,10 +103,19 @@ class ResumenfaltaController extends Controller
 
   
 
+                //$array = array(1, 2, 3, 4);
+                $valor="";
+                foreach ($repos as $valor) {
+                    $valor = $valor->hora;
+                }
+ //dd($valor);
+ //dd($valor=(array)$valor);
+
+ //$valor = explode(":", $valor);
+ //$valor = explode("", $valor);
+//dd(($valor[0]+1).":".($valor[1]+30).":".$valor[2]);
 
 
-  //dd($repos);
- $hola="welcome";
 
  $fechaini=$request->fecha;
  $fechafin=$request->fecha1;
@@ -134,5 +128,8 @@ class ResumenfaltaController extends Controller
     {
      return "aaaaaaaa";
       //
+    }
+    public function some() {
+      // do something
     }
 }
