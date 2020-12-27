@@ -2,12 +2,12 @@
 
 @section('content')
   
- <div class="container">
+ <div class="container ">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"><h2>Lista de Roles</h2> </div>
-                <div class="card-body">
+        <div class="col-md-14 mx-auto ">
+            <div class="card" style="width:1000px">
+                <div class="card-header" ><h2>Lista de Roles</h2> </div>
+                <div class="card-body" >
                    
                   @can('haveaccess','rola.create')
                     <a href="{{route('rola.create')}}"
@@ -18,7 +18,7 @@
                   @endcan  
                     @include('custom.message')
 
-                    <table class="table table-hover">
+                    <table class="table table-hover" >
                       
                         <thead>
                           <tr>
