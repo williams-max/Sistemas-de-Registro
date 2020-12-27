@@ -278,19 +278,33 @@
 
                                </a>
                             </li>
+                            
+                            @can('haveaccess','ReporteController@index')
+                            <li class="nav-item">
+                                <a href="{{url('reportes')}}"
+                                    class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        Plan mensual de asistencia
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan  
+                            @can('haveaccess','ResumenfaltaController@index')
+                            <li class="nav-item">
+                                <a href="{{url('resumen')}}"
+                                    class="{{ Request::path() === 'resumen' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        
+                                      Formulario resumen de <br>faltas a clases virtuales
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan 
                             @endif
                             
                           
-
-                           <!-- <li class="nav-item">
-                                <a href="{{url('roles')}}"
-                                    class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                        Cargos
-                                      </p>
-                                </a>
-                            </li>-->
 
                             @can('haveaccess','rola.index')
                             <li class="nav-item">
@@ -303,27 +317,12 @@
                                 </a>
                             </li>
                             @endcan
-                            
-                            <li class="nav-item">
-                                <a href="{{url('reportes')}}"
-                                    class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-file-invoice"></i>
-                                    <p>
-                                        Plan mensual de asistencia
-                                      </p>
-                                </a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a href="{{url('resumen')}}"
-                                    class="{{ Request::path() === 'resumen' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-file-invoice"></i>
-                                    <p>
-                                        
-                                      Formulario resumen de <br>faltas a clases virtuales
-                                      </p>
-                                </a>
-                            </li>
+                          
+                        
+                      
+                            
+                           
                             
 
 

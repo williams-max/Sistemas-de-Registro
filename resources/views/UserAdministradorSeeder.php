@@ -195,164 +195,23 @@ class UserAdministradorSeeder extends Seeder
                           'description' => 'Usted puede llenar el registro de asistencia Auxliar',
                           ]);
                           $permission_all[] = $permission->id;
+                             //plan mensual de asistencia docentes
+                        $permission = Permission::create([
+                          'name' => 'Plan mensual de asistencia docentes ',
+                          'slug' => 'reportes.vista',
+                          'description' => 'Usted puede ver  el Plan mensual de asistencia docentes',
+                          ]);
+                          $permission_all[] = $permission->id;
+                             //formulario de resumen a clase virtuales solo para docentes
+                        $permission = Permission::create([
+                          'name' => 'formulario de resumen a clase virtuales solo para docentes ',
+                          'slug' => 'ResumenfaltaController@index',
+                          'description' => 'Usted puede ver formulario de resumen a clase virtuales ',
+                          ]);
+                          $permission_all[] = $permission->id;
       //table permission_rola
      // $roladmin->permissions()->sync( $permission_all );
-     
-     DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '11:15',
-      'grupo' => '6',
-      'materia' => 'INGLES I',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '9:45',
-      'grupo' => '5',
-      'materia' => 'FISICA GENERAL',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'INTRODUCCION A LA PROGRAMACION',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '1',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '18:45',
-      'grupo' => '5',
-      'materia' => 'Estadistica',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '20:15',
-      'grupo' => '4',
-      'materia' => 'Ing de Software',
-      'id_personal' => 1, 
-    ]);
     
-    
-    
-
-
-    //tabla mata para el usurio 2
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 2, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '11:15',
-      'grupo' => '6',
-      'materia' => 'INGLES I',
-      'id_personal' => 2, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '9:45',
-      'grupo' => '5',
-      'materia' => 'FISICA GENERAL',
-      'id_personal' => 2, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'INTRODUCCION A LA PROGRAMACION',
-      'id_personal' => 1, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '1',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 2, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '18:45',
-      'grupo' => '5',
-      'materia' => 'Estadistica',
-      'id_personal' => 2, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '20:15',
-      'grupo' => '4',
-      'materia' => 'Ing de Software',
-      'id_personal' => 2, 
-    ]);
-    
-
-     //tabla mata para el usurio 3
-
-     DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '11:15',
-      'grupo' => '6',
-      'materia' => 'INGLES I',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '9:45',
-      'grupo' => '5',
-      'materia' => 'FISICA GENERAL',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '2',
-      'materia' => 'INTRODUCCION A LA PROGRAMACION',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '14:15',
-      'grupo' => '1',
-      'materia' => 'Ecuaciones Diferenciales',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '18:45',
-      'grupo' => '5',
-      'materia' => 'Estadistica',
-      'id_personal' => 3, 
-    ]);
-
-    DB::table('matas')->insert([
-      'hora' => '20:15',
-      'grupo' => '4',
-      'materia' => 'Ing de Software',
-      'id_personal' => 3, 
-    ]);
         
     }
 }
