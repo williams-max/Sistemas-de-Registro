@@ -7,7 +7,7 @@
 <form action="{{url('/registroAsistenciaDocente/registrarAusencia')}}" id="contactForm"  class="form-horizontal" method="post" enctype="multipart/form-data">
 
     {{ csrf_field()}}
-   <h3 class="text-center">FORMULARIO REGISTRO DE AUSENCIA</h3> 
+   <h3 class="text-center">FORMULARIO REGISTRO DE REPOSICION</h3> 
 <BR></BR>
 <div class="col-md-12 mx-auto " >
     <style>
@@ -98,16 +98,10 @@
 </div>
 <div class="row">
     <div class="col-5">
-        <div class="formulario__grupo  " id="grupo__grupo">
-            <div class="formulario__grupo-input">
-        <label for="Grupo"class="control-label">{{'Grupo'}}</label>
-        <input type="text" class="formulario__input  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
-        value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
-        >
-        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-    </div>
-    <p class="formulario__input-error"> El este campo solo permite numeros en el ranfo 0-99 </p>
-   </div>
+        <label for="Grupo">Grupo</label>
+        <select name="grupo" id="grupo" class="form-control  {{$errors->has('grupo')?'is-invalid':'' }}">
+        
+        </select>
         {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">
@@ -120,7 +114,17 @@
         
         {!!  $errors->first('firma','<div class="invalid-feedback">:message</div>') !!}
     </div>
+    <script>
+        $("#materia").change(event => {
+            $.get(`envio/${event.target.value}`, function(res, sta){
+                $("#grupo").empty();
+                res.forEach(element => {
+                    $("#grupo").append(`<option value=${element.id}> ${element.grupo} </option>`);
+                });
+            });
+        });
 
+    </script>
 
 </div>  
 

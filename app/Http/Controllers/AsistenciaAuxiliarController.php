@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AsistenciaAuxiliar;
 use App\FechaEntregas;
 use App\RegistrarAusencia;
+use App\RegistrarMateria;
 use App\RegistroAsistencia;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
@@ -121,13 +122,20 @@ class AsistenciaAuxiliarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+
     public function store(Request $request)
     {
 
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
+            'grupo' => 'required',
             'materia' => 'required',
           //  'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -139,7 +147,6 @@ class AsistenciaAuxiliarController extends Controller
             "grabacion.url"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -160,7 +167,13 @@ class AsistenciaAuxiliarController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
+       
+        
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
         
         $mat = DB::table('registrar_materias')
         ->select('registrar_materias.materia')
@@ -236,7 +249,6 @@ class AsistenciaAuxiliarController extends Controller
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -255,7 +267,6 @@ class AsistenciaAuxiliarController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');

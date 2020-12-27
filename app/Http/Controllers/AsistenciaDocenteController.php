@@ -11,6 +11,7 @@ use Facade\FlareClient\Stacktrace\File;
 use App\AsistenciaDocente;
 use App\RegistrarAusencia;
 use App\RegistrarAusenciaDocente;
+use App\RegistrarMateria;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -94,7 +95,13 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
     
     }
 
-    /**
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -123,7 +130,7 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
+            'grupo' => 'required',
             'materia' => 'required',
            // 'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -135,7 +142,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
                 
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -156,7 +162,12 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
+
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
 
         $mat = DB::table('registrar_materias')
         ->select('registrar_materias.materia')
@@ -233,7 +244,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -251,7 +261,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');

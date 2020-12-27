@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col-5">
                 <label for="Grupo"class="control-label">{{'Grupo'}}</label>
-                <input type="text" class="form-control  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
+                <input disabled type="text" class="form-control  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
                 value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
                 >
                 {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}

@@ -84,13 +84,19 @@ Route::get('registroAsistencia/pruebas', 'RegistroAsistenciaController@pruebas')
 Route::resource('registroAsistenciaAuxiliar', 'AsistenciaAuxiliarController')->middleware('auth');
 Route::get('registroAsistenciaAuxiliar/descargar/{grabacion}', 'AsistenciaAuxiliarController@download')->middleware('auth');
 Route::get('registroAsistenciaAuxiliar/enviar/{id}', 'AsistenciaAuxiliarController@enviar')->middleware('auth');
+Route::get('registroAsistenciaAuxiliar/envio/{id}', 'AsistenciaAuxiliarController@personals')->middleware('auth');
+
 
 Route::resource('registroAsistenciaDocente', 'AsistenciaDocenteController')->middleware('auth');
 //Route::get('registroAsistenciaDocente/descargar/{grabacion}', 'AsistenciaDocenteController@download')->middleware('auth');
 Route::get('registroAsistenciaDocente/enviar/{id}', 'AsistenciaDocenteController@enviar')->middleware('auth');
+Route::get('registroAsistenciaDocente/envio/{id}', 'AsistenciaDocenteController@personals')->middleware('auth');
 
 Route::resource('registroAsistenciaAuxiliar/registrarAusencia', 'RegistrarAusenciaController')->middleware('auth');
+Route::get('registroAsistenciaAuxiliar/registrarAusencia/envio/{id}', 'RegistrarAusenciaController@personals')->middleware('auth');
+
 Route::resource('registroAsistenciaDocente/registrarAusencia', 'RegistrarAusenciaDocenteController')->middleware('auth');
+Route::get('registroAsistenciaDocente/registrarAusencia/envio/{id}', 'RegistrarAusenciaDocenteController@personals')->middleware('auth');
 
 Route::resource('registroMateria', 'RegistrarMateriaController')->middleware('auth');
 Route::get('registroMateria/envio/{id}', 'RegistrarMateriaController@personals')->middleware('auth');

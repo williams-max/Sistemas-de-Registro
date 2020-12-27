@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\RegistrarAusenciaDocente;
+use App\RegistrarMateria;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,7 +81,12 @@ class RegistrarAusenciaDocenteController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
+
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
        
         $mat = DB::table('registrar_materias')
         ->select('registrar_materias.materia')
@@ -144,6 +150,12 @@ class RegistrarAusenciaDocenteController extends Controller
         return view('registrarAusenciaDocente.edit',compact('registro')); 
     }
 
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
     /**
      * Update the specified resource in storage.
      *
@@ -156,7 +168,6 @@ class RegistrarAusenciaDocenteController extends Controller
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
             'motivo' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'dia_reposicion' => 'required',
             'hora_reposicion' => 'required',
@@ -165,7 +176,6 @@ class RegistrarAusenciaDocenteController extends Controller
             
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -174,7 +184,6 @@ class RegistrarAusenciaDocenteController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
         $auxiliar->motivo = request('motivo');
         $auxiliar->dia_reposicion = request('dia_reposicion');
         $auxiliar->hora_reposicion = request('hora_reposicion');

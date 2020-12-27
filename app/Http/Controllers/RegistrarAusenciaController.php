@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\RegistrarAusencia;
+use App\RegistrarMateria;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,7 @@ class RegistrarAusenciaController extends Controller
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
+            'grupo' => 'required',
             'materia' => 'required',
             'motivo' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'dia_reposicion' => 'required',
@@ -59,7 +60,6 @@ class RegistrarAusenciaController extends Controller
         $Mensaje = [
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -80,7 +80,12 @@ class RegistrarAusenciaController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
+        
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
         
         $mat = DB::table('registrar_materias')
         ->select('registrar_materias.materia')
@@ -153,13 +158,20 @@ class RegistrarAusenciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\RegistrarAusencia  $registrarAusencia
      * @return \Illuminate\Http\Response
+    
      */
+
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
     public function update(Request $request,  $id)
     {
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
             'motivo' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'dia_reposicion' => 'required',
             'hora_reposicion' => 'required',
@@ -177,7 +189,6 @@ class RegistrarAusenciaController extends Controller
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
         $auxiliar->motivo = request('motivo');
         $auxiliar->dia_reposicion = request('dia_reposicion');
         $auxiliar->hora_reposicion = request('hora_reposicion');

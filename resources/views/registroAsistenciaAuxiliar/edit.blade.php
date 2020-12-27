@@ -63,12 +63,13 @@
             
         </div>
         <div class="row">
+            
             <div class="col-5">
-                <label for="Grupo"class="control-label">{{'Grupo'}}</label>
-                <input type="text" class="form-control  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
-                value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
+                <label for="Materia"class="control-label">{{'Materia'}}</label>
+                <input disabled type="text" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
+                value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
                 >
-                {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}
+                {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
             </div>
             
             <div class="col-5">
@@ -82,11 +83,11 @@
         </div>
         <div class="row">
             <div class="col-5">
-                <label for="Materia"class="control-label">{{'Materia'}}</label>
-                <input disabled type="text" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
-                value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
+                <label for="Grupo"class="control-label">{{'Grupo'}}</label>
+                <input disabled type="text" class="form-control  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
+                value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
                 >
-                {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
+                {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}
             </div>
             <div class="col-5">
                 <label for="Grabacion"class="control-label">{{'Grabacion'}}</label>
