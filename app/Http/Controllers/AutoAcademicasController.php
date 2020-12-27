@@ -160,10 +160,10 @@ public function index()
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     */ 
      public function personal(Request $request, $id,$id2){
         if($request->ajax()){
-            $personal=PersonalAcademico::personal2($id,$id2);
+            $personal=PersonalAcademico::personal3($id,$id2);
             return response()->json( $personal);
         }
      }
