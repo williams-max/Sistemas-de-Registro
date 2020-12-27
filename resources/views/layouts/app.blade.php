@@ -269,15 +269,7 @@
                             </li>
                            @endcan 
 
-                           <li class="nav-item">
-                               <a href="{{url('/EditarDatos')}}"
-                                   class="{{ Request::path() === 'EditarDatos' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-cog"></i>
-                                    <p> Editar Datos
-                                    </p>
-
-                               </a>
-                            </li>
+                          
                             
                             @can('haveaccess','ReporteController@index')
                             <li class="nav-item">
@@ -302,6 +294,16 @@
                                 </a>
                             </li>
                             @endcan 
+
+                            <li class="nav-item">
+                                <a href="{{url('/EditarDatos')}}"
+                                    class="{{ Request::path() === 'EditarDatos' ? 'nav-link active' : 'nav-link' }}">
+                                     <i class="nav-icon fas fa-cog"></i>
+                                     <p> Editar Datos
+                                     </p>
+ 
+                                </a>
+                             </li>
                             @endif
                             
                           
