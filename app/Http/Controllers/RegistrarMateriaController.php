@@ -277,16 +277,17 @@ class RegistrarMateriaController extends Controller
                    ];
         $this->validate($request,$campos,$Mensaje);
         
-            if ($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) {    
-                
-                DB::table('asignar_horarios')->where('id_materia', $id)->delete();
-        
-                $materia = RegistrarMateria::FindOrFail($id);
+            
+         $materia = RegistrarMateria::FindOrFail($id);
                 $materia->materia =  request('materia');
                 $materia->grupo =  request('grupo');
                 $materia->update();
+        
+        
+        if ($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) {    
                 
-
+                DB::table('asignar_horarios')->where('id_materia', $id)->delete();
+        
                 if ($request->input('lunes')) {
 
                     $lunes = request('lunes');
@@ -359,13 +360,11 @@ class RegistrarMateriaController extends Controller
                         $horario->save();
                     }
                 }
-                    return redirect('/registroMateria');
+                    
 
-            }else{
-                return redirect('/registroMateria/'.$id.'/edit')->with('status','No Es Posible Continuar Debe Asignar Un Nuevo Horario Para El Personal');;
-                
             }
-          
+              
+          return redirect('/registroMateria');
         
     }
 
