@@ -69,18 +69,16 @@
     
 </div>
 <div class="row">
+    
     <div class="col-5">
-        <div class="formulario__grupo  " id="grupo__grupo">
-            <div class="formulario__grupo-input">
-        <label for="Grupo"class="control-label">{{'Grupo'}}</label>
-        <input type="text" class="formulario__input  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
-        value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
-        >
-        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-    </div>
-    <p class="formulario__input-error"> El este campo solo permite numeros en el ranfo 0-99 </p>
-   </div>
-        {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}
+        <label for="Materia">Materia</label>
+        <select name="materia" id="materia" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}">
+        <option selected disabled>Seleccione una Materia</option>
+        @foreach ($materia as $materia)
+            <option value="{{$materia->id}}">{{$materia->materia}}</option>
+        @endforeach
+        </select>
+        {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
     </div>
     
     <div class="col-5">
@@ -100,17 +98,17 @@
 </div>
 <div class="row">
     <div class="col-5">
-        <div class="formulario__grupo  " id="grupo__materia">
+        <div class="formulario__grupo  " id="grupo__grupo">
             <div class="formulario__grupo-input">
-        <label for="Materia"class="control-label">{{'Materia'}}</label>
-        <input type="text" class="formulario__input  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
-        value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
+        <label for="Grupo"class="control-label">{{'Grupo'}}</label>
+        <input type="text" class="formulario__input  {{$errors->has('grupo')?'is-invalid':'' }}" name="grupo" id="grupo" 
+        value="{{ isset($registro->grupo)?$registro->grupo:old('grupo') }}"
         >
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
-         </div>
-          <p class="formulario__input-error"> El este campo solo permerite palabras </p>
-      </div>
-        {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
+    </div>
+    <p class="formulario__input-error"> El este campo solo permite numeros en el ranfo 0-99 </p>
+   </div>
+        {!!  $errors->first('grupo','<div class="invalid-feedback">:message</div>') !!}
     </div>
     <div class="col-5">
         <label for="Firma"class="control-label">{{'Firma'}}</label>

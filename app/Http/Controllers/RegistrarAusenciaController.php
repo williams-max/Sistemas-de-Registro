@@ -29,7 +29,13 @@ class RegistrarAusenciaController extends Controller
      */
     public function create()
     {
-        return view('registrarAusencia.create');
+        $materia = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->select('registrar_materias.*')
+            ->where('personal_academico_user.user_id','=', Auth::user()->id  )
+            ->get();
+        return view('registrarAusencia.create',['materia'=> $materia]);
     }
 
     /**
@@ -44,7 +50,7 @@ class RegistrarAusenciaController extends Controller
             'fecha' => 'required',
             'hora' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'materia' => 'required',
             'motivo' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'dia_reposicion' => 'required',
             'hora_reposicion' => 'required',
@@ -75,7 +81,13 @@ class RegistrarAusenciaController extends Controller
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
         $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
+        
+        $mat = DB::table('registrar_materias')
+        ->select('registrar_materias.materia')
+        ->where('registrar_materias.id','=',$request->get('materia'))->first();
+
+        $auxiliar->materia = $mat->materia;
+
         $auxiliar->motivo = request('motivo');
         $auxiliar->dia_reposicion = request('dia_reposicion');
         $auxiliar->hora_reposicion = request('hora_reposicion');
@@ -148,7 +160,6 @@ class RegistrarAusenciaController extends Controller
             'fecha' => 'required',
             'hora' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'motivo' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'dia_reposicion' => 'required',
             'hora_reposicion' => 'required',
@@ -167,7 +178,6 @@ class RegistrarAusenciaController extends Controller
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
         $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
         $auxiliar->motivo = request('motivo');
         $auxiliar->dia_reposicion = request('dia_reposicion');
         $auxiliar->hora_reposicion = request('hora_reposicion');

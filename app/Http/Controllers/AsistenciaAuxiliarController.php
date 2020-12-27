@@ -106,7 +106,13 @@ class AsistenciaAuxiliarController extends Controller
      */
     public function create()
     {
-        return view('registroAsistenciaAuxiliar.create');
+        $materia = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->select('registrar_materias.*')
+            ->where('personal_academico_user.user_id','=', Auth::user()->id  )
+            ->get();
+        return view('registroAsistenciaAuxiliar.create',['materia'=> $materia]);
     }
  
     /**
@@ -122,7 +128,7 @@ class AsistenciaAuxiliarController extends Controller
             'fecha' => 'required',
             'hora' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'materia' => 'required',
           //  'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
           //  'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -155,7 +161,13 @@ class AsistenciaAuxiliarController extends Controller
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
         $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
+        
+        $mat = DB::table('registrar_materias')
+        ->select('registrar_materias.materia')
+        ->where('registrar_materias.id','=',$request->get('materia'))->first();
+
+        $auxiliar->materia = $mat->materia;
+
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
@@ -225,7 +237,6 @@ class AsistenciaAuxiliarController extends Controller
             'fecha' => 'required',
             'hora' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -245,7 +256,6 @@ class AsistenciaAuxiliarController extends Controller
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
         $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');

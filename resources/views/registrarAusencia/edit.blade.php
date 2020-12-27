@@ -9,7 +9,7 @@
     {{csrf_field()}}
     {{method_field('PATCH')}}
 
-    <h3 class="text-center">EDITAR FORMULARIO REGISTRO DE AUSENCIA</h3> 
+    <h3 class="text-center">EDITAR FORMULARIO REGISTRO DE REPOSICION</h3> 
     <BR></BR>
     <div class="col-md-12 mx-auto " >
     
@@ -85,7 +85,7 @@
         <div class="row">
             <div class="col-5">
                 <label for="Materia"class="control-label">{{'Materia'}}</label>
-                <input type="text" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
+                <input disabled type="text" class="form-control  {{$errors->has('materia')?'is-invalid':'' }}" name="materia" id="materia" 
                 value="{{ isset($registro->materia)?$registro->materia:old('materia')  }}"
                 >
                 {!!  $errors->first('materia','<div class="invalid-feedback">:message</div>') !!}
