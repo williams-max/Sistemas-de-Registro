@@ -9,7 +9,7 @@
             @can('haveaccess','personalAcademico.create')
             <a href="{{url('personalAcademico/create')}}" class="btn btn-success float-right " ><i class="fas fa-plus"></i></a>
             @endcan  
-            <a href="{{url('personalAcademico/importarCSV')}}" class="btn btn-secondary float-right" >Archivo CSV</a>
+            <a href="{{url('personalAcademico/importarCSV')}}" class="btn btn-dark float-right" >Archivo CSV</a>
         </h2>
 
             <table class="table table-hover">
