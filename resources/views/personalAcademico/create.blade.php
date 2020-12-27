@@ -11,7 +11,7 @@
         cursor: pointer;
     }
 </style>
-<link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
+
 
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
@@ -27,54 +27,36 @@
 
     <div class="row">
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__nombre">
-                <div class="formulario__grupo-input">
+      
               <label for="Nombre" class="control-label">{{'Nombre'}}</label>
-            <input type="text" class="formulario__input   {{$errors->has('nombre')?'is-invalid':'' }}" name="nombre" id="nombre" 
+            <input type="text" class="form-control     {{$errors->has('nombre')?'is-invalid':'' }}" name="nombre" id="nombre" 
             value="{{ isset($personal->nombre)?$personal->nombre:old('nombre') }}"
             >
             {!!  $errors->first('nombre','<div class="invalid-feedback">:message</div>') !!}
-            <i class="formulario__validacion-estado fas fa-times-circle"></i>
-        </div>
-        <p class="formulario__input-error"> El este campo solo permite palabras
-         
-        </p>
-    </div>
+       
 
         </div> 
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__email">
-                <div class="formulario__grupo-input">
+          
             <label for="Correo"class="control-label">{{'Correo'}}</label>
-            <input type="email" class="formulario__input  {{$errors->has('email')?'is-invalid':'' }}" name="email" id="email" 
+            <input type="email" class="form-control      {{$errors->has('email')?'is-invalid':'' }}" name="email" id="email" 
             value="{{ isset($personal->email)?$personal->email:old('email')  }}"
             >
         {!!  $errors->first('email','<div class="invalid-feedback">:message</div>') !!}
-        <i class="formulario__validacion-estado fas fa-times-circle"></i>
-    </div>
-    <p class="formulario__input-error"> el formato del correo no es correcto 
-     <br> ejemplo : example.gmail.com
-    </p>
-</div>
+      
 
         </div>
        
     </div>
     <div class="row">
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__apellido">
-                <div class="formulario__grupo-input">
+          
             <label for="Apellido"class="control-label">{{'Apellido'}}</label>
-            <input type="text" class="formulario__input  {{$errors->has('apellido')?'is-invalid':'' }}" name="apellido" id="apellido" 
+            <input type="text" class="form-control   {{$errors->has('apellido')?'is-invalid':'' }}" name="apellido" id="apellido" 
             value="{{ isset($personal->apellido)?$personal->apellido:old('apellido') }}"
             >
             {!!  $errors->first('apellido','<div class="invalid-feedback">:message</div>') !!}
-            <i class="formulario__validacion-estado fas fa-times-circle"></i>
-        </div>
-        <p class="formulario__input-error"> El este campo solo permite palabras
-         
-        </p>
-    </div>
+           
         </div>
         <div class="col-5">
             <label for="Cargo">Cargo</label>
@@ -91,19 +73,13 @@
     </div>
     <div class="row">
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__codigoSis">
-                <div class="formulario__grupo-input">
+         
             <label for="CodigoSis"class="control-label">{{'Codigo sis'}}</label>
-            <input type="text" class="formulario__input  {{$errors->has('codigoSis')?'is-invalid':'' }}" name="codigoSis" id="codigoSis" 
+            <input type="text" class="form-control  {{$errors->has('codigoSis')?'is-invalid':'' }}" name="codigoSis" id="codigoSis" 
             value="{{ isset($personal->codigoSis)?$personal->codigoSis:old('codigoSis') }}"
             >
             {!!  $errors->first('codigoSis','<div class="invalid-feedback">:message</div>') !!}
-            <i class="formulario__validacion-estado fas fa-times-circle"></i>
-        </div>
-        <p class="formulario__input-error"> El este campo solo permite tener números de 9 digitos
-         <br> ejemplo: 201605678
-        </p>
-    </div>
+          
         </div>
         <div class="col-5">
             <label for="Unidad">Unidad</label>
@@ -119,19 +95,13 @@
     </div>
     <div class="row">
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__telefono">
-                <div class="formulario__grupo-input">
+           
             <label for="Telefono"class="control-label">{{'Telefono'}}</label>
-            <input type="number" class="formulario__input  {{$errors->has('telefono')?'is-invalid':'' }}" name="telefono" id="telefono" 
+            <input type="number" class="form-control   {{$errors->has('telefono')?'is-invalid':'' }}" name="telefono" id="telefono" 
             value="{{ isset($personal->telefono)?$personal->telefono:old('telefono')  }}"
             >
             {!!  $errors->first('telefono','<div class="invalid-feedback">:message</div>') !!}
-            <i class="formulario__validacion-estado fas fa-times-circle"></i>
-        </div>
-        <p class="formulario__input-error"> El este campo solo permite tener números de 7 a 14 digitos postivos
-      
-        </p>
-    </div>
+         
         </div>
         <div class="col-5">
             <label for="Facultad">Facultad</label>
@@ -143,21 +113,15 @@
     </div>  
     <div class="row">
         <div class="col-5">
-            <div class="formulario__grupo  " id="grupo__password">
-                <div class="formulario__grupo-input">
+            
                 <label for="Contraseña"class="control-label">{{'Contraseña'}}</label>
                 <div class="input-group">
-                <input type="password" class="formulario__input  {{$errors->has('password')?'is-invalid':'' }}" name="password" id="password" 
+                <input type="password" class="form-control  {{$errors->has('password')?'is-invalid':'' }}" name="password" id="password" 
                 value="{{ isset($personal->password)?$personal->password:old('password') }}"
                 >
                 <span id="show-hide-passwd" action="hide" class="input-group-addon glyphicon glyphicon glyphicon-eye-open"></span>
                 {!!  $errors->first('password','<div class="invalid-feedback">:message</div>') !!}
-                <i class="formulario__validacion-estado fas fa-times-circle"></i>
-            </div>
-            <p class="formulario__input-error"> El este campo solo permite tener de 4 a 12 digitos
-          
-            </p>
-        </div>
+              
               </div>
             </div>
          
@@ -229,7 +193,7 @@
 		})
     </script>
     
-    <script src="{{ asset('dist/js/validacionesPerosnalAdemico.js') }} "></script>
+  
 <script type="text/javascript">
 formulario.addEventListener('submit', (e) => {
     // e.preventDefault();

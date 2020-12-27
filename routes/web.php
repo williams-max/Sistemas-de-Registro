@@ -99,7 +99,11 @@ Route::get('registroMateria/envio3/{id}', 'RegistrarMateriaController@carrera')-
 Route::get('registroMateria/envio4/{id}/{id2}', 'RegistrarMateriaController@personal')->middleware('auth');
 
 
-Route::resource('reportes', 'ReporteController');
+//Route::resource('reportes', 'ReporteController');
+//Route::resource('resumen', 'ResumenfaltaController');
+
+Route::get('reportes', 'ReporteController@index');
+Route::get('reportes/vista', 'ReporteController@test')->name('reportes.vista');
 //Route::resource('resumen', 'ResumenfaltaController');
 
 Route::get('resumen', 'ResumenfaltaController@index');

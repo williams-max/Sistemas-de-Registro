@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+ @php
+ function hola($valor) {
+
+  $valor = explode(":", $valor);
+  //dd($valor);
+ //$valor = explode("", $valor);
+//dd(($valor[0]+1).":".($valor[1]+30).":".$valor[2]);
+  return ($valor[0]+1).":".($valor[1]).":".$valor[2];
+  //return "565665";
+}
+ @endphp 
+
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
 
 
@@ -33,7 +45,7 @@
             <h6>Facultad de Ciencias y Tecnologia </h6>
             <h6>Centro de Procesamiento de Datos</h6>
           
-            <h5 align="center">FORMULARIO RESUMEN DE FALTAS A CLASES VIRTUALES  <br> (9 de noviembre al  14 de noviembre 2020)</h5>
+            <h5 align="center">FORMULARIO RESUMEN DE FALTAS A CLASES VIRTUALES  </h5>
 
             <form action="{{url('/resumen/vista')}}" id="contactResum" class="form-horizontal" method="get" enctype="multipart/form-data">
             <div class="container center-h center-v" >
@@ -72,8 +84,10 @@
             
              
             
-                    
-                <input type="submit"  class="btn btn-success " value="Actualizar">
+                   <div>
+                    <input type="submit"  class="btn btn-success btn-sm" value="Actualizar" style="width:70px">
+                     </div> 
+              
             
 
 
@@ -105,15 +119,22 @@
                         <td>{{$repos->fecha}}</td>
                         <td>{{$repos->codigoSis}}</td>
                         <td>{{$repos->nombre ,$repos->apellido}}</td>
-                        <td>{{$repos->id}}</td>
+                        <td>{{$repos->id+8}}</td>
                         <td>{{$repos->materia}}</td>
                         <td>{{$repos->grupo}}</td>
                         <td>Lunes</td>
                         <td>{{$repos->hora}}</td>
-                        <td>{{$repos->hora}}</td>
-                        <td></td>
+                        <td>{{ hola($repos->hora)}}</td>
+                        <td>
+                         
+                          </td>
+
+                        
+ 
+
                         
                       </tr>
+                      
                         
                     @endforeach  
                     
@@ -135,22 +156,12 @@
     </div>
 </div>
 
-<script src="{{ asset('dist/js/resumenvalidationfecha.js') }} "></script>
+
+
+<script src="{{ asset('dist/js/resumenvalidationfechares.js') }} "></script>
 <script type="text/javascript">
 
-  var $el = $('#contactResum');
-$el.data('oldVal',  $el.val());
-
-
-$el.change(function(){
-  //store new value
-  var $this = $(this);
-  var newValue = $this.data('newVal', $this.val());
-})
-.focus(function(){
-  // Get the value when input gains focus
-  var oldValue = $(this).data('oldVal');
-})
+ 
 
   formulario.addEventListener('submit', (e) => {
       // e.preventDefault();
