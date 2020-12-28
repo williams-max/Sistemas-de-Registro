@@ -27,15 +27,21 @@ class ResumenfaltaController extends Controller
                   registrar_ausencia_docentes.fecha as fecha,
                   registrar_ausencia_docentes.materia as materia,
                   registrar_ausencia_docentes.id as id,
-                  registrar_ausencia_docentes.hora as hora,
-                  registrar_ausencia_docentes.grupo as grupo
+                  asignar_horarios.hora as hora,
+                  registrar_ausencia_docentes.grupo as grupo,
+                  dias.dia as dia
                 
-           from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads,registrar_ausencia_docentes
+           from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads,registrar_ausencia_docentes,
+           registrar_materias,asignar_horarios,dias
            
            where personal_academicos.id=registrar_ausencia_docentes.id_personal and
            ( registrar_ausencia_docentes.fecha BETWEEN  '$fechaini' and '$fechafin')  and
                  personal_academicos.id_unidad=registrar_unidads.id     and
-                 personal_academicos.id_facultad=registrar_facultads.id 
+                 personal_academicos.id_facultad=registrar_facultads.id and
+                 registrar_ausencia_docentes.id_personal=registrar_materias.id_personal and
+                 registrar_materias.id=asignar_horarios.id_materia and
+                 registrar_ausencia_docentes.grupo=registrar_materias.grupo and
+                 asignar_horarios.id_dia=dias.id
            
            ");
 
@@ -44,7 +50,7 @@ class ResumenfaltaController extends Controller
 
 
 
- 
+ //dd($repos);
 
 
      // return view('resumenfalta.index',['repos'=>$repos]);

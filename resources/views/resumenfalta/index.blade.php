@@ -122,7 +122,7 @@
                         <td>{{$repos->id+8}}</td>
                         <td>{{$repos->materia}}</td>
                         <td>{{$repos->grupo}}</td>
-                        <td>Lunes</td>
+                        <td>{{$repos->dia}}</td>
                         <td>{{$repos->hora}}</td>
                         <td>{{ hola($repos->hora)}}</td>
                         <td>
