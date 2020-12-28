@@ -86,7 +86,7 @@ formulario.addEventListener('submit', (e) => {
     
      
      if( campos.nombre && campos.correo && campos.telefono ){
-         alert("Se guardo Correctamente... ");
+         alert("Guardando... ");
          
          //return true;
      }else{

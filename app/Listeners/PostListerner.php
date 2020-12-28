@@ -57,7 +57,7 @@ class PostListerner
        //Saturday
        //Monday
        //domingo
-       if($dia->isoFormat('dddd')=='lunesx')
+       if($dia->isoFormat('dddd')=='domingo')
         {
 
       
@@ -109,7 +109,7 @@ class PostListerner
            //dia miercoles verficamos si el usaario no envio el formulario 
            //Saturday
            //Wednesday
-           if($dia->isoFormat('dddd')=='miercolesx')
+           if($dia->isoFormat('dddd')=='miercoles')
            {
             foreach($users as $user){
              
