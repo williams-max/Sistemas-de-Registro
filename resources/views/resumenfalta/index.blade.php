@@ -95,9 +95,9 @@
             </div> 
           </form>
 
-            <table class="table table-bordered table-dark">
+            <table class="table">
                 
-                <thead class="thead-light">
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">FECHA</th>
                         <th scope="col">SIS DOCENTE</th>
