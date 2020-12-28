@@ -61,9 +61,9 @@
             </div> 
         </form>
 
-            <table class="table table-hover">
+            <table class="table">
                 
-                <thead class="thead-light">
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
