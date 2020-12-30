@@ -3,7 +3,13 @@
 @section('content')
 @php
    function dinero(){
-    return mt_rand(10000,20000);
+    return mt_rand(100,160);
+   } 
+   function horaspagables(){
+    return mt_rand(100,120);
+   } 
+   function horasnopagables(){
+    return mt_rand(10,20);
    } 
 @endphp
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
@@ -88,8 +94,8 @@
                         <td>{{$repos->falculdad}}</td>
                         <td>{{2020}}</td>
                         <td>{{dinero()}}</td>
-                        <td>{{14}}</td>
-                        <td>{{20}}</td>
+                        <td>{{horaspagables()}}</td>
+                        <td>{{horasnopagables()}}</td>
                         <td>
                            
                             

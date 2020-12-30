@@ -82,11 +82,15 @@
     
 </div>
             
-             
-            
-                   <div>
+     
+         
+
+
+                     <h1></h1>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                    <br><br><br>
                     <input type="submit"  class="btn btn-success btn-sm" value="Actualizar" style="width:70px">
-                     </div> 
+                  
               
             
 
