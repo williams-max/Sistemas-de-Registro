@@ -2,6 +2,10 @@
 
 @section('content')
 @php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
    function dinero(){
     return mt_rand(100,160);
    } 
@@ -11,6 +15,22 @@
    function horasnopagables(){
     return mt_rand(10,20);
    } 
+   function pagablesMensual($id){
+
+    //DISTINCT 
+    $contar=
+    DB::select("
+    select count(*) as cantidadMaterias
+    from registrar_materias
+    where id_personal=$id");
+
+     $cantidadMaterias=0;
+        foreach ($contar as $contar) {
+            $cantidadMaterias=$contar->cantidadMaterias;
+        }
+      
+     return $cantidadMaterias*4;
+   }
 @endphp
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
 
@@ -93,7 +113,7 @@
                         <td>{{$repos->unidad}}</td>
                         <td>{{$repos->falculdad}}</td>
                         <td>{{2020}}</td>
-                        <td>{{dinero()}}</td>
+                        <td>{{pagablesMensual($repos->id)}}</td>
                         <td>{{horaspagables()}}</td>
                         <td>{{horasnopagables()}}</td>
                         <td>

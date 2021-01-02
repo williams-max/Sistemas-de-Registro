@@ -16,8 +16,9 @@ class ReporteController extends Controller
        // dd($d);
       $repos=
       DB::select("select DISTINCT 
-                           personal_academicos.nombre nombre, 
-                           personal_academicos.apellido apellido,
+                           personal_academicos.id as id,
+                           personal_academicos.nombre as nombre, 
+                           personal_academicos.apellido as apellido,
                            registrar_unidads.nombre as unidad, 
                            registrar_facultads.nombre as falculdad
                     from personal_academicos,asistencia_docentes,registrar_unidads,registrar_facultads 
