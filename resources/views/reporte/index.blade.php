@@ -95,11 +95,18 @@ use Illuminate\Support\Facades\DB;
         </p>
          </div>
          
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <div>
+            <h1></h1>
+           <br>
                 <input type="submit"  class="btn btn-success " value="Actualizar" 
-                style='width:90px; height:30px;text-align: center'>
+                style="height:40px; width:90px">
+
+        </div>
+        
             
             </div> 
+            <br>
         </form>
 
             <table class="table">
