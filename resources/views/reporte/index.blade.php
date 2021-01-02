@@ -12,8 +12,22 @@ use Illuminate\Support\Facades\DB;
    function horaspagables(){
     return mt_rand(100,120);
    } 
-   function horasnopagables(){
-    return mt_rand(10,20);
+   function horasnopagables($id){
+  //  registrar_ausencia_docentes
+    $contar=
+    DB::select("
+    select count(*) as totalAdescontar
+    from registrar_ausencia_docentes
+    where id_personal=$id");
+
+   // dd($contar);
+    $totalAdescontar=0;
+    foreach ($contar as $contar) {
+        $totalAdescontar=$contar->totalAdescontar;
+    }
+  
+ return $totalAdescontar;
+   // return mt_rand(10,20);
    } 
    function pagablesMensual($id){
 
@@ -29,7 +43,8 @@ use Illuminate\Support\Facades\DB;
             $cantidadMaterias=$contar->cantidadMaterias;
         }
       
-     return $cantidadMaterias*4;
+     return $cantidadMaterias*4-horasnopagables($id);
+    
    }
 @endphp
 <link href="{{ asset('css/estilos.css')}}" rel="stylesheet">
@@ -115,7 +130,7 @@ use Illuminate\Support\Facades\DB;
                         <td>{{2020}}</td>
                         <td>{{pagablesMensual($repos->id)}}</td>
                         <td>{{horaspagables()}}</td>
-                        <td>{{horasnopagables()}}</td>
+                        <td>{{horasnopagables($repos->id)}}</td>
                         <td>
                            
                             
