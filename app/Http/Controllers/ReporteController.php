@@ -47,6 +47,7 @@ class ReporteController extends Controller
     public function test(Request $request){
         $repos=
         DB::select("select DISTINCT 
+                             personal_academicos.id as id,
                              personal_academicos.nombre nombre, 
                              personal_academicos.apellido apellido,
                              registrar_unidads.nombre as unidad, 
