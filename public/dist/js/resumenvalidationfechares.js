@@ -22,6 +22,11 @@ const campos = {
     fecha: false,
     fecha1: false
 }
+const valores = {
+  
+  fecha: "",
+  fecha1: ""
+}
 
 const validarFormulario = (e) => {
 
@@ -39,6 +44,8 @@ const validarFormulario = (e) => {
      //  if(year==2020){
       campos['fecha']=true;
       console.log(campos.fecha);
+      valores['fecha']=e.target.value;
+      console.log(valores.fecha);
      
       //  validarCampoFecha(expresiones.nombre, e.target,'fecha'); 
      //  }
@@ -47,6 +54,8 @@ const validarFormulario = (e) => {
       console.log(e.target.value);
     campos['fecha1'] = true;
     console.log(campos.fecha1); 
+    valores['fecha1']=e.target.value;
+    console.log(valores.fecha1);
      //  if(year==2020){
      //   validarCampoFecha(expresiones.nombre, e.target,'fecha1'); 
      //  }
