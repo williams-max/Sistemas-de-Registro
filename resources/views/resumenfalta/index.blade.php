@@ -83,13 +83,17 @@
 </div>
             
      
-         
+&nbsp;&nbsp;&nbsp;
 
+<div>
 
-                     <h1></h1>
-                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-                    <br><br><br>
-                    <input type="submit"  class="btn btn-success btn-sm" value="Actualizar" style="width:70px">
+  <h1></h1>
+  &nbsp;&nbsp;
+  <br>
+      <input type="submit"  class="btn btn-success " value="Actualizar" 
+      style="height:40px; width:90px">
+
+</div>
                   
               
             
