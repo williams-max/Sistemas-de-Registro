@@ -160,5 +160,73 @@ use Illuminate\Support\Facades\DB;
 </div>
 
 <script src="{{ asset('dist/js/resumenvalidationfechares.js') }} "></script>
+<script type="text/javascript">
+
+ 
+
+    formulario.addEventListener('submit', (e) => {
+    
+         console.log("eventos de sumbits");
+        
+         console.log(campos.fecha);
+         console.log(campos.fecha1);
+         
+         if( campos.fecha && campos.fecha1 ){
+        //     alert("Enviando... ");
+        
+        var f=valores.fecha;
+        console.log("Primera fecha");
+        var parts = f.split("-");
+         console.log(parts);
+         var day = parseInt(parts[2]);
+         var month = parseInt(parts[1]);
+         var year = parseInt(parts[0]);
+  
+         console.log(day);
+         console.log(month);
+         console.log(year);
+  
+         var f1=valores.fecha1;
+         console.log("Segunda fecha");
+         var parts1 = f1.split("-");
+          console.log(parts1);
+          var day1 = parseInt(parts1[2]);
+          var month1 = parseInt(parts1[1]);
+          var year1 = parseInt(parts1[0]);
+  
+         
+  
+         console.log(day1);
+         console.log(month1);
+         console.log(year1);
+  
+         if(year >= year1 && month >= month1){
+          alert("Fecha solapada ... por favor intente nuevamente"); 
+            return    e.preventDefault();
+          //   if(day >= day1){
+           //    alert("Fecha solapada ... por favor intente nuevamente");   
+            // }
+         }
+              if(year >= year1 ){
+               alert("Fecha solapada ... por favor intente nuevamente"); 
+            return  e.preventDefault();
+               //   if(day >= day1){
+                //    alert("Fecha solapada ... por favor intente nuevamente");   
+                 // }
+              }else{
+               // e.preventDefault();
+              }
+             
+         
+             //return true;
+         }else{
+             alert("Los campos de las fechas estan incorrectas ... por favor intente nuevamente");
+             e.preventDefault();
+          //   return false;
+           //  e.preventDefault();
+         }
+        // console.log(e.target);
+     });
+    </script>
     
 @endsection
