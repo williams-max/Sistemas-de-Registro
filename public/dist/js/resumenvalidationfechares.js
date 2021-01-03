@@ -35,16 +35,20 @@ const validarFormulario = (e) => {
 
     case "fecha":
       console.log(e.target.value);
-     
+      
      //  if(year==2020){
-        validarCampoFecha(expresiones.nombre, e.target,'fecha'); 
+      campos['fecha']=true;
+      console.log(campos.fecha);
+     
+      //  validarCampoFecha(expresiones.nombre, e.target,'fecha'); 
      //  }
      break;
      case "fecha1":
-    //  console.log(e.target.value);
-     
+      console.log(e.target.value);
+    campos['fecha1'] = true;
+    console.log(campos.fecha1); 
      //  if(year==2020){
-        validarCampoFecha(expresiones.nombre, e.target,'fecha1'); 
+     //   validarCampoFecha(expresiones.nombre, e.target,'fecha1'); 
      //  }
      break;
    }
