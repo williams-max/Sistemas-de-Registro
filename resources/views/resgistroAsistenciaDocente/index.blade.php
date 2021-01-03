@@ -137,7 +137,7 @@
                 @csrf
              
                 <button  class="btn btn-primary float-right">Enviar</button>
-              </form>
+            </form>
 
            <!-- <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   -->
             @endif

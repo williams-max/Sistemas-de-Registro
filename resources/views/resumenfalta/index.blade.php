@@ -172,16 +172,14 @@
  
 
   formulario.addEventListener('submit', (e) => {
-      // e.preventDefault();
-      // console.log(e.isTrusted);
-   // console.log(campos.contenido);
+  
        console.log("eventos de sumbits");
        
        console.log(campos.fecha);
        console.log(campos.fecha1);
        
        if( campos.fecha && campos.fecha1 ){
-          // alert("Se guardo Correctamente... ");
+      //     alert("Enviando... ");
            
            //return true;
        }else{

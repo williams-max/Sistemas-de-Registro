@@ -31,11 +31,7 @@ const validarFormulario = (e) => {
 
   switch (e.target.name) {
    
-    case "materia":
-  // console.log(""");
-  validarCampo(expresiones.nombre, e.target,'materia');
-   
-    break;
+ 
 
     case "fecha":
       console.log(e.target.value);
@@ -45,7 +41,7 @@ const validarFormulario = (e) => {
      //  }
      break;
      case "fecha1":
-      console.log(e.target.value);
+    //  console.log(e.target.value);
      
      //  if(year==2020){
         validarCampoFecha(expresiones.nombre, e.target,'fecha1'); 
@@ -70,6 +66,8 @@ const validarCampoFecha = (expresion, input, campo) => {
      //if(year==2020){
     //if(year>=2020 && year<=2021 && month>=01 && month<=12 && day>=04 && day<=21){
       if(year>=2020 && year<=2021 && month>=01 && month<=12 && day>=04 && day<=31){
+       
+        
 		document.getElementById(`grupo__${campo}`).classList.remove('formulario__grupo-incorrecto');
 		document.getElementById(`grupo__${campo}`).classList.add('formulario__grupo-correcto');
 		document.querySelector(`#grupo__${campo} i`).classList.add('fa-check-circle');
