@@ -163,7 +163,7 @@ use Illuminate\Support\Facades\DB;
 <script type="text/javascript">
 
  
-
+//dsfsdfsdf
     formulario.addEventListener('submit', (e) => {
     
          console.log("eventos de sumbits");
