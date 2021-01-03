@@ -174,7 +174,7 @@
   formulario.addEventListener('submit', (e) => {
   
        console.log("eventos de sumbits");
-       
+      
        console.log(campos.fecha);
        console.log(campos.fecha1);
        
@@ -207,12 +207,22 @@
        console.log(month1);
        console.log(year1);
 
-       if(year > year1){
+       if(year >= year1 && month >= month1){
         alert("Fecha solapada ... por favor intente nuevamente"); 
-        e.preventDefault();
-       }else{
-       // e.preventDefault();
+          return    e.preventDefault();
+        //   if(day >= day1){
+         //    alert("Fecha solapada ... por favor intente nuevamente");   
+          // }
        }
+            if(year >= year1 ){
+             alert("Fecha solapada ... por favor intente nuevamente"); 
+          return  e.preventDefault();
+             //   if(day >= day1){
+              //    alert("Fecha solapada ... por favor intente nuevamente");   
+               // }
+            }else{
+             // e.preventDefault();
+            }
            
        
            //return true;
