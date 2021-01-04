@@ -31,6 +31,7 @@
               <label for="Nombre" class="control-label">{{'Nombre'}}</label>
             <input type="text" class="form-control     {{$errors->has('nombre')?'is-invalid':'' }}" name="nombre" id="nombre" 
             value="{{ isset($personal->nombre)?$personal->nombre:old('nombre') }}"
+            
             >
             {!!  $errors->first('nombre','<div class="invalid-feedback">:message</div>') !!}
        
@@ -77,6 +78,10 @@
             <label for="CodigoSis"class="control-label">{{'Codigo sis'}}</label>
             <input type="text" class="form-control  {{$errors->has('codigoSis')?'is-invalid':'' }}" name="codigoSis" id="codigoSis" 
             value="{{ isset($personal->codigoSis)?$personal->codigoSis:old('codigoSis') }}"
+           required="" 
+           pattern="\d{9}"
+            oninvalid="setCustomValidity('Este campo solo permite numeros de 9 digitos ')"
+            onchange="try{setCustomValidity('')}catch(e){}"
             >
             {!!  $errors->first('codigoSis','<div class="invalid-feedback">:message</div>') !!}
           
@@ -99,6 +104,10 @@
             <label for="Telefono"class="control-label">{{'Telefono'}}</label>
             <input type="number" class="form-control   {{$errors->has('telefono')?'is-invalid':'' }}" name="telefono" id="telefono" 
             value="{{ isset($personal->telefono)?$personal->telefono:old('telefono')  }}"
+            required="" 
+            pattern="\d{7,14}"
+             oninvalid="setCustomValidity('Este campo solo permite numeros de 7 a 14 digitos ')"
+             onchange="try{setCustomValidity('')}catch(e){}"
             >
             {!!  $errors->first('telefono','<div class="invalid-feedback">:message</div>') !!}
          
