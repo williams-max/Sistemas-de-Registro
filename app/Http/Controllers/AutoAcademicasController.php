@@ -105,7 +105,8 @@ public function index()
             'rol' => 'required',
             'personal' => 'required',
             'cargo' => 'required',
-            'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
+            //'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
+            'direccion' => 'required|min:8|max:200',
             'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20',
 
         ];

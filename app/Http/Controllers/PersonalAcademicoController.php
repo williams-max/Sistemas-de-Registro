@@ -118,6 +118,7 @@ class PersonalAcademicoController extends Controller
            // 'telefono' => 'required|numeric|digits_between:7,8',
             'telefono' => 'required',
             //'password' => 'required|min:8|max:20',
+            'password' => 'required',
             'rol' => 'required',
             'unidad' => 'required',
             'facultad' => 'required',
