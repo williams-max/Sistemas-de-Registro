@@ -127,7 +127,8 @@ class RolaController extends Controller
     {
         $this->authorize('haveaccess','rola.edit');  
         $request->validate([
-            'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:200|unique:rolas,name,'.$rola->id,
+          //  'name'        => 'required|regex:/^[\pL\s\-.\d{1,2}]+$/u|max:200|unique:rolas,name',
+            'name'        => 'required|regex:/^[\pL\s\-.\d{1,2}]+$/u|max:200|unique:rolas,name,'.$rola->id,
             //'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:50|unique:rolas,name,'.$rola->id,
             //'slug'        => 'required|max:50|unique:rolas,slug,'.$rola->id,
             'full-access' => 'required|in:yes,no'
