@@ -57,6 +57,7 @@ class PostListerner
        //Saturday
        //Monday
        //domingo
+       /*
        if($dia->isoFormat('dddd')=='domingo')
         {
 
@@ -83,7 +84,7 @@ class PostListerner
                  $message->to($enderecos);
                  $message->subject('Notificacion');
             // });
-               */ 
+               
              
              foreach($users as $user){
                  Mail::send('emails.primeiro',['user' => $user ], function($message) use ($user){ 
@@ -112,27 +113,62 @@ class PostListerner
            if($dia->isoFormat('dddd')=='miercoles')
            {
             foreach($users as $user){
-             
                    if($user->email=='admin@gmail.com')
                    {
                    }else
                    {
                      if($user->enviado==1){
                        $user->enviado =0;
-                       $user->save();
+                       $user->save(); }}}}
+        }
+        */
 
+           /**********************************/
+                 //Condigo para enviar notificaciones dentro la interfaz
+                 User::all()
+                 // ->except($event->post->user_id)
+                  ->each(function(User $user) use ($event){
+                   if($user->email=='admin@gmail.com'){
+                   }else{
+                    if($user->enviado==0){
+                      Notification::send($user, new PostNotificacion($event->post));
+                       // Notification::send($users, new InvoicePaid($invoice)); 
                      }
                    }
-                               
-            } 
+                 });
+                   //codigo para enviar correos
+                   /*
+                  //Mail::send('emails.primeiro',[], function($message){ 
+                   
+                      $enderecos = ['almanzaisrael75@gmail.com','chevycheluis@gmail.com'];
+                       
+                      $message->to($enderecos);
+                      $message->subject('Notificacion');
+                 // });
+                    */ 
+                  
+                  foreach($users as $user){
+                      Mail::send('emails.primeiro',['user' => $user ], function($message) use ($user){ 
+                                       //$enderecos = ['almanzaisrael75@gmail.com','chevycheluis@gmail.com'];
+                           if($user->email=='admin@gmail.com')
+                           {
+                           }else
+                           {
+                             if($user->enviado==0){
+     
+                           
+                               $message->to($user->email);
+                               $message->subject('Formulario');
+     
+                            //   $user->enviado =1;
+                             //  $user->save();
+     
+                             }
+                           }
+                     });                   
+                    }  
 
-           }
-       
-         
-
-        }
-
-           
+            /*******/
 
           
         

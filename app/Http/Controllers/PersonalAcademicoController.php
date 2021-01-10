@@ -19,6 +19,7 @@ use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Events\PostEvent;
 
 class PersonalAcademicoController extends Controller
 {
@@ -29,7 +30,7 @@ class PersonalAcademicoController extends Controller
      */
     public function index()
     {
-        
+        event(new PostEvent("a"));
 
         $this->authorize('haveaccess','personalAcademico.index');  
 
