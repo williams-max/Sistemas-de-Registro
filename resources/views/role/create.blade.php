@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
   
  <div class="container">
     <div class="row justify-content-center">
@@ -22,8 +24,11 @@
                                 placeholder="Nombre"
                                 name="name"
                                 value="{{old('name')}}"
+                                required
                                 >
                               </div>
+
+                            
 
                              <!-- <div class="form-group">
                                <input type="text" class="form-control" 
