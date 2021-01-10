@@ -54,11 +54,17 @@ class PostListerner
         //obtenemos el emial del administrador
        // $registro->email;
        $users = User::all();
+
+       $horaFormateada = now()->isoFormat('H');
+      // dd($horaFormateada);
        //Saturday
        //Monday
        //domingo
-       /*
-       if($dia->isoFormat('dddd')=='domingo')
+       
+       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miercoles'
+        || $dia->isoFormat('dddd')=='jueves' || $dia->isoFormat('dddd')=='viernes' || $dia->isoFormat('dddd')=='domingo'
+         || $dia->isoFormat('dddd')=='Sábado'
+       )
         {
 
       
@@ -84,7 +90,7 @@ class PostListerner
                  $message->to($enderecos);
                  $message->subject('Notificacion');
             // });
-               
+               */
              
              foreach($users as $user){
                  Mail::send('emails.primeiro',['user' => $user ], function($message) use ($user){ 
@@ -121,54 +127,9 @@ class PostListerner
                        $user->enviado =0;
                        $user->save(); }}}}
         }
-        */
+        
 
-           /**********************************/
-                 //Condigo para enviar notificaciones dentro la interfaz
-                 User::all()
-                 // ->except($event->post->user_id)
-                  ->each(function(User $user) use ($event){
-                   if($user->email=='admin@gmail.com'){
-                   }else{
-                    if($user->enviado==0){
-                      Notification::send($user, new PostNotificacion($event->post));
-                       // Notification::send($users, new InvoicePaid($invoice)); 
-                     }
-                   }
-                 });
-                   //codigo para enviar correos
-                   /*
-                  //Mail::send('emails.primeiro',[], function($message){ 
-                   
-                      $enderecos = ['almanzaisrael75@gmail.com','chevycheluis@gmail.com'];
-                       
-                      $message->to($enderecos);
-                      $message->subject('Notificacion');
-                 // });
-                    */ 
-                  
-                  foreach($users as $user){
-                      Mail::send('emails.primeiro',['user' => $user ], function($message) use ($user){ 
-                                       //$enderecos = ['almanzaisrael75@gmail.com','chevycheluis@gmail.com'];
-                           if($user->email=='admin@gmail.com')
-                           {
-                           }else
-                           {
-                             if($user->enviado==0){
-     
-                           
-                               $message->to($user->email);
-                               $message->subject('Formulario');
-     
-                            //   $user->enviado =1;
-                             //  $user->save();
-     
-                             }
-                           }
-                     });                   
-                    }  
-
-            /*******/
+       
 
           
         
