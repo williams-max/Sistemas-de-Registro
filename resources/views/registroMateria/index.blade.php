@@ -32,13 +32,13 @@
                         {{$personal->grupo}}
                     </td>
                     <td>
-                        <form method="post" action="{{url('/registroMateria/'.$personal->id)}}" style="display:inline">
+                        <form method="post" action="{{url('/registroMateria/'.$personal->id_materia)}}" style="display:inline">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
                             <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Registro?');" class="btn btn-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </form> 
             
-                        <a href="{{url('/registroMateria/'.$personal->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
+                        <a href="{{url('/registroMateria/'.$personal->id_materia.'/edit')}}" class="btn btn-warning float-right btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>

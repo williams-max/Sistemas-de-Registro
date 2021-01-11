@@ -32,7 +32,7 @@ class RegistrarMateriaController extends Controller
 
         $personal = DB::table('personal_academicos')
             ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
-            ->select('personal_academicos.*','registrar_materias.*')
+            ->select('personal_academicos.*','registrar_materias.*','registrar_materias.id as id_materia')
             ->where('personal_academicos.mat_asignada','=','1')
             ->get();
 
@@ -101,17 +101,68 @@ class RegistrarMateriaController extends Controller
             'rol' => 'required',
             'personal' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'materia' => 'required|regex:/^[\pL\s\d\-]+$/u|max:50',
         ];
         $Mensaje = [
             "required"=>'El campo es requerido',
-            "regex"=>'Solo se acepta caracteres A-Z',
+            "regex"=>'Solo se acepta caracteres A-Z y numeros',
             "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
                    ];
         $this->validate($request,$campos,$Mensaje);
 
-        if ($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) {    
+        $total = 0;
+
+        if ($request->input('lunes')) {
+            $lun = 0;
+            $lunes = request('lunes');
+            foreach ($lunes as $lunes) {
+                $lun++;
+            }
+            $total =  $total+$lun;
+        }
+        if ($request->input('martes')) {
+            $mar=0;
+            $martes = request('martes');
+            foreach ($martes as $martes) {
+               $mar++;
+            }
+            $total =  $total+$mar;
+        }
+        if ($request->input('miercoles')) {
+            $mie=0;
+            $miercoles = request('miercoles');
+            foreach ($miercoles as $miercoles) {
+               $mie++;
+            }
+            $total =  $total+$mie;
+        }
+        if ($request->input('jueves')) {
+            $jue=0;
+            $jueves = request('jueves');
+            foreach ($jueves as $jueves) {
+                $jue++;
+            }
+            $total =  $total+$jue;
+        }
+        if ($request->input('viernes')) {
+            $vie=0;
+            $viernes = request('viernes');
+            foreach ($viernes as $viernes) {
+                $vie++;
+            }
+            $total =  $total+$vie;
+        }
+        if ($request->input('sabado')) {
+            $sab = 0;
+            $sabado = request('sabado');
+            foreach ($sabado as $sabado) {
+                $sab++;
+            }
+            $total =  $total+$sab;
+        }
+
+        if (($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) && $total <= 3 ) {    
 
 
         $materia = new RegistrarMateria();
@@ -129,6 +180,7 @@ class RegistrarMateriaController extends Controller
             ->select('registrar_materias.id')
             ->where('personal_academicos.id','=',request('personal'))
             ->where('registrar_materias.grupo','=', request('grupo'))
+            ->where('registrar_materias.materia','=', request('materia'))
             ->first();
 
 
@@ -137,11 +189,11 @@ class RegistrarMateriaController extends Controller
             $lunes = request('lunes');
             foreach ($lunes as $lunes) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $lunes;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '1';
-                $horario->save();
+                $l = new AsignarHorario();
+                $l->hora = $lunes;
+                $l->id_materia =  $id_materia->id;
+                $l->id_dia = '1';
+                $l->save();
             }
         }
         if ($request->input('martes')) {
@@ -149,11 +201,11 @@ class RegistrarMateriaController extends Controller
             $martes = request('martes');
             foreach ($martes as $martes) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $martes;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '2';
-                $horario->save();
+                $m = new AsignarHorario();
+                $m->hora = $martes;
+                $m->id_materia =  $id_materia->id;
+                $m->id_dia = '2';
+                $m->save();
             }
         }
         if ($request->input('miercoles')) {
@@ -161,11 +213,11 @@ class RegistrarMateriaController extends Controller
             $miercoles = request('miercoles');
             foreach ($miercoles as $miercoles) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $miercoles;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '3';
-                $horario->save();
+                $mi = new AsignarHorario();
+                $mi->hora = $miercoles;
+                $mi->id_materia =  $id_materia->id;
+                $mi->id_dia = '3';
+                $mi->save();
             }
         }
         if ($request->input('jueves')) {
@@ -173,11 +225,11 @@ class RegistrarMateriaController extends Controller
             $jueves = request('jueves');
             foreach ($jueves as $jueves) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $jueves;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '4';
-                $horario->save();
+                $j = new AsignarHorario();
+                $j->hora = $jueves;
+                $j->id_materia =  $id_materia->id;
+                $j->id_dia = '4';
+                $j->save();
             }
         }
         if ($request->input('viernes')) {
@@ -185,11 +237,11 @@ class RegistrarMateriaController extends Controller
             $viernes = request('viernes');
             foreach ($viernes as $viernes) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $viernes;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '5';
-                $horario->save();
+                $v = new AsignarHorario();
+                $v->hora = $viernes;
+                $v->id_materia =  $id_materia->id;
+                $v->id_dia = '5';
+                $v->save();
             }
         }
         if ($request->input('sabado')) {
@@ -197,11 +249,11 @@ class RegistrarMateriaController extends Controller
             $sabado = request('sabado');
             foreach ($sabado as $sabado) {
                 
-                $horario = new AsignarHorario();
-                $horario->hora = $sabado;
-                $horario->id_materia =  $id_materia->id;
-                $horario->id_dia = '6';
-                $horario->save();
+                $s = new AsignarHorario();
+                $s->hora = $sabado;
+                $s->id_materia =  $id_materia->id;
+                $s->id_dia = '6';
+                $s->save();
             }
         }
 
@@ -212,8 +264,11 @@ class RegistrarMateriaController extends Controller
         return redirect('/registroMateria');
         
     }else{
-        return redirect('/registroMateria/create')->with('status2','No Es Posible Continuar Debe Asignar Un Horario Para El Personal');;
-        
+        if ($total != 0) {
+            return redirect('/registroMateria/create')->with('status2','Debe Seleccionar Como Maximo 3 Horarios');;
+        }else{
+            return redirect('/registroMateria/create')->with('status2','No Es Posible Continuar Debe Asignar Un Horario Para El Personal');;
+        }
     }
         
     }
