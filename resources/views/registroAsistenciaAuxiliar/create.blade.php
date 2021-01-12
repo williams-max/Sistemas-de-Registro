@@ -184,7 +184,7 @@
          console.log(campos.plataforma);
          
          if(campos.contenido && campos.fecha && campos.plataforma && campos.observacion){
-             alert("Se guardo Correctamente... ");
+           //  alert("Se guardo Correctamente... ");
              
              //return true;
          }else{

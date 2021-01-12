@@ -176,7 +176,7 @@ formulario.addEventListener('submit', (e) => {
      console.log(campos.plataforma);
      
      if( campos.contenido && campos.fecha && campos.plataforma && campos.observacion){
-         alert("Guardando... ");
+       //  alert("Guardando... ");
          
          //return true;
      }else{
