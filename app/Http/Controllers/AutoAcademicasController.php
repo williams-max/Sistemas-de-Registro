@@ -84,6 +84,7 @@ public function index()
        $cargo = DB::table('rolas')
        ->select('*')
        ->where('rolas.full-auto','=','yes')
+       ->where('rolas.unico','=','0')
        ->get();
 
 
@@ -106,8 +107,8 @@ public function index()
             'personal' => 'required',
             'cargo' => 'required',
             //'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
-            'direccion' => 'required|min:8|max:200',
-            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20',
+            'direccion' => 'required|min:5|max:50|regex:/^[\pL\s\d\-]+$/u',
+            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20|min:3',
 
         ];
 
@@ -116,13 +117,18 @@ public function index()
             "required"=>'El campo es requerido',
             "personal.required"=>'Seleccione a un personal',
             "rol.required"=>'Seleccione un personal',
-            "direccion.min"=>'Solo se acepta 10 caracteres como minimo',
-            "direccion.max"=>'Solo se acepta 30 caracteres como maximo',
+            "direccion.min"=>'Solo se acepta 5 caracteres como minimo',
+            "direccion.max"=>'Solo se acepta 50 caracteres como maximo',
             "grado.regex"=>'Solo se acepta caracteres A-Z',
-            "direccion.regex"=>'Solo se acepta caracteres A-Z',
-            "grado.max"=>'Solo se acepta 10 caracteres como maximo',
+            "direccion.regex"=>'Solo se acepta caracteres A-Z y numeros [0-9]',
+            "grado.max"=>'Solo se acepta 20 caracteres como maximo',
+            "grado.min"=>'Solo se acepta 3 caracteres como minimo',
                    ];
         $this->validate($request,$campos,$Mensaje);
+
+        DB::table('rolas')
+        ->where('id', $request->get('cargo'))
+        ->update(['unico' => '1']);
 
 
         $autoridad = new autoAcademicas();
@@ -151,6 +157,8 @@ public function index()
         $usuario = User::FindOrFail($persona);
         $usuario->autoridad = 'yes';
         $usuario->update();
+
+    
 
         $autoridad->save();
         return redirect('/autoAcademicas');
@@ -229,17 +237,18 @@ public function index()
     {
         $campos=[
 
-            'direccion' => 'min:8|max:30',
-            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'direccion' => 'min:5|regex:/^[\pL\s\d\-]+$/u|max:30',
+            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:50|min:3',
         ];
 
         $Mensaje = [
 
             "required"=>'El campo es requerido',
-            "direccion.min"=>'Solo se acepta 8 caracteres como minimo',
+            "direccion.min"=>'Solo se acepta 5 caracteres como minimo',
             "direccion.max"=>'Solo se acepta 30 caracteres como maximo',
             "grado.regex"=>'Solo se acepta caracteres A-Z',
             "grado.max"=>'Solo se acepta 50 caracteres como maximo',
+            "grado.min"=>'Solo se acepta 3 caracteres como minimo',
 
                    ];
         $this->validate($request,$campos,$Mensaje);
@@ -277,6 +286,13 @@ public function index()
             ->where('rola_id',$cargoAntiguo->id)
             ->update(['rola_id' => request('cargo')]);
 
+        DB::table('rolas')
+        ->where('id', $cargoAntiguo->id)
+        ->update(['unico' => '0']);
+
+        DB::table('rolas')
+        ->where('id', $request->get('cargo'))
+        ->update(['unico' => '1']);
 
         return redirect('/autoAcademicas');
     }
@@ -326,6 +342,10 @@ public function index()
             ->delete();
 
         autoAcademicas::destroy($id);
+
+        DB::table('rolas')
+        ->where('id', $cargoAntiguo->id)
+        ->update(['unico' => '0']);
 
 
         return redirect('/autoAcademicas');
