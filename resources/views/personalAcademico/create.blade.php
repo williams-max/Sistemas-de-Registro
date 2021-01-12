@@ -217,7 +217,7 @@ formulario.addEventListener('submit', (e) => {
      telefono: false,
      */
      if( campos.nombre && campos.email && campos.apellido && campos.codigoSis && campos.telefono ){
-         alert("Guardando... ");
+    //     alert("Guardando... ");
          
          //return true;
      }else{
