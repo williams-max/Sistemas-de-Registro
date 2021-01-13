@@ -101,13 +101,14 @@ class RegistrarMateriaController extends Controller
             'rol' => 'required',
             'personal' => 'required',
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\d\-]+$/u|max:50',
+            'materia' => 'required|regex:/^[\pL\s\d\-]+$/u|max:50|min:5',
         ];
         $Mensaje = [
             "required"=>'El campo es requerido',
-            "regex"=>'Solo se acepta caracteres A-Z y numeros',
+            "regex"=>'Solo se acepta caracteres A-Z y numeros [0-9]',
             "numeric"=>'Solo se acepta números',
-            "max"=>'Solo se acepta 80 caracteres como maximo',
+            "max"=>'Solo se acepta 50 caracteres como maximo',
+            "min"=>'Solo se acepta 5 caracteres como minimo',
                    ];
         $this->validate($request,$campos,$Mensaje);
 
@@ -322,13 +323,14 @@ class RegistrarMateriaController extends Controller
     {
         $campos=[
             'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'materia' => 'required|regex:/^[\pL\s\d\-]+$/u|max:50|min:5',
         ];
         $Mensaje = [
             "required"=>'El campo es requerido',
-            "regex"=>'Solo se acepta caracteres A-Z',
+            "regex"=>'Solo se acepta caracteres A-Z y numeros [0-9]',
             "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 50 caracteres como maximo',
+            "min"=>'Solo se acepta 5 caracteres como minimo',
                    ];
         $this->validate($request,$campos,$Mensaje);
         
