@@ -94,7 +94,7 @@ class RegistrarUFCController extends Controller
         $campos=[
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30',
-            'telefono' => 'required|numeric|digits_between:7,8',
+           // 'telefono' => 'required|numeric|digits_between:7,8',
             'unidad' => 'required',
         ];
         $Mensaje = [
