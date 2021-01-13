@@ -61,7 +61,7 @@ class PostListerner
        //Monday
        //domingo
        
-       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miercoles'
+       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miércoles'
         || $dia->isoFormat('dddd')=='jueves' || $dia->isoFormat('dddd')=='viernes' || $dia->isoFormat('dddd')=='domingo'
          || $dia->isoFormat('dddd')=='Sábado'
        )
