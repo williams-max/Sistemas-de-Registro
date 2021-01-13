@@ -340,8 +340,58 @@ class RegistrarMateriaController extends Controller
                 $materia->grupo =  request('grupo');
                 $materia->update();
         
+                $total = 0;
+
+        if ($request->input('lunes')) {
+            $lun = 0;
+            $lunes = request('lunes');
+            foreach ($lunes as $lunes) {
+                $lun++;
+            }
+            $total =  $total+$lun;
+        }
+        if ($request->input('martes')) {
+            $mar=0;
+            $martes = request('martes');
+            foreach ($martes as $martes) {
+               $mar++;
+            }
+            $total =  $total+$mar;
+        }
+        if ($request->input('miercoles')) {
+            $mie=0;
+            $miercoles = request('miercoles');
+            foreach ($miercoles as $miercoles) {
+               $mie++;
+            }
+            $total =  $total+$mie;
+        }
+        if ($request->input('jueves')) {
+            $jue=0;
+            $jueves = request('jueves');
+            foreach ($jueves as $jueves) {
+                $jue++;
+            }
+            $total =  $total+$jue;
+        }
+        if ($request->input('viernes')) {
+            $vie=0;
+            $viernes = request('viernes');
+            foreach ($viernes as $viernes) {
+                $vie++;
+            }
+            $total =  $total+$vie;
+        }
+        if ($request->input('sabado')) {
+            $sab = 0;
+            $sabado = request('sabado');
+            foreach ($sabado as $sabado) {
+                $sab++;
+            }
+            $total =  $total+$sab;
+        }
         
-        if ($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) {    
+        if (($request->input('lunes') || $request->input('martes') || $request->input('miercoles') || $request->input('jueves') || $request->input('viernes') || $request->input('sabado')) && $total <= 3 ) {    
                 
                 DB::table('asignar_horarios')->where('id_materia', $id)->delete();
         
@@ -417,11 +467,26 @@ class RegistrarMateriaController extends Controller
                         $horario->save();
                     }
                 }
-                    
+                return redirect('/registroMateria');
 
+            }else{
+                $mate = DB::table('registrar_materias')
+                ->select('id')
+                ->where('materia','=',request('materia'))
+                ->where('grupo','=',request('grupo'))
+                ->get();
+                foreach ($mate as $mate) {
+                    $hi = $mate->id;
+                }
+
+                if ($total >= 4) {
+                    return redirect("/registroMateria/$hi/edit")->with('status2','Debe Seleccionar Como Maximo 3 Horarios');;
+                }else{
+                    return redirect('/registroMateria');
+                }
             }
               
-          return redirect('/registroMateria');
+         
         
     }
 
