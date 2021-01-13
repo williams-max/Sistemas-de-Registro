@@ -40,7 +40,7 @@ class PostListerner
          //   $user->notify(new  PostNotification($post));
        // });
         */
-        //Aumentado codigo
+        //Aumentado codigoregdfgd
 
         $valor=0;
 
@@ -57,11 +57,11 @@ class PostListerner
 
        $horaFormateada = now()->isoFormat('H');
       // dd($horaFormateada);
-       //Saturday
+       //Saturdaydfgdfgdfgdfg
        //Monday
        //domingo
        
-       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miercoles'
+       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miércoles'
         || $dia->isoFormat('dddd')=='jueves' || $dia->isoFormat('dddd')=='viernes' || $dia->isoFormat('dddd')=='domingo'
          || $dia->isoFormat('dddd')=='Sábado'
        )
