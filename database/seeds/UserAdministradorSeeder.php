@@ -223,7 +223,7 @@ class UserAdministradorSeeder extends Seeder
                             //plan mensual de asistencia docentes
                             $permission = Permission::create([
                               'name' => 'Plan mensual de asistencia docentes ',
-                              'slug' => 'reportes.vista',
+                              'slug' => 'ReporteController@index',
                               'description' => 'Usted puede ver  el Plan mensual de asistencia docentes',
                               ]);
                               $permission_all[] = $permission->id;
