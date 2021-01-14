@@ -375,7 +375,7 @@ class RegistrarUFCController extends Controller
         
         if($total>0){
 
-            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Unidad');
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Unidad');
 
         }else{
             RegistrarUnidad::destroy($id);
@@ -401,7 +401,7 @@ class RegistrarUFCController extends Controller
         
         if($total>0){
 
-            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Facultad');
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Facultad');
 
         }else{
             
@@ -427,7 +427,7 @@ class RegistrarUFCController extends Controller
 
         if($total>0){
 
-            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Carrera');
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Carrera');
 
         }else{
             RegistrarCarrera::destroy($id);
