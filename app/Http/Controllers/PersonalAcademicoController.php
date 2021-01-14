@@ -540,9 +540,28 @@ class PersonalAcademicoController extends Controller
         ->select('users.id')
         ->where('personal_academico_user.personal_academico_id','=',$id)->first();
         
+        $existe = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+        ->select('rolas.id')
+        ->where('rolas.full-auto','=','yes')
+        ->where('personal_academico_user.personal_academico_id','=',$id)
+        ->first();
+
+        if ($existe != null) {
+            DB::table('rolas')
+            ->where('id', $existe->id)
+            ->update(['unico' => '0']);
+        }
+
+
         User::destroy($user->id);
 
         PersonalAcademico::destroy($id);
+
+        
 
         //User::Find($user->id)->roles()->destroy();
 
