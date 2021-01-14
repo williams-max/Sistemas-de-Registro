@@ -1,10 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-
+ 
 <div class="container">
     <div class="row">
         <div class="col-md-8 mx-auto ">
+            <h4 >
+                @include('custom.message')
+            </h4> 
             <h2>Unidad
                 @can('haveaccess','registrarUFC/registrarUnidad')
                 <a href="{{url('registrarUFC/registrarUnidad')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>

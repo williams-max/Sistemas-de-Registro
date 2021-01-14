@@ -362,20 +362,78 @@ class RegistrarUFCController extends Controller
 
     public function destroyUnidad($id)
     {
-        RegistrarUnidad::destroy($id);
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_unidad','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+        
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Unidad');
+
+        }else{
+            RegistrarUnidad::destroy($id);
+
+            return redirect('/registrarUFC');
+            
+        }
+        
     }
     public function destroyFacultad($id)
     {
-        RegistrarFacultad::destroy($id);
+        
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_facultad','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+        
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Facultad');
+
+        }else{
+            
+            RegistrarFacultad::destroy($id);
+
+            return redirect('/registrarUFC');
+        }
+        
     }
     public function destroyCarrera($id)
     {
-        RegistrarCarrera::destroy($id);
+        
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_carrera','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Eliminar, Existen registros en esta Carrera');
+
+        }else{
+            RegistrarCarrera::destroy($id);
+
+            return redirect('/registrarUFC'); 
+        }
+        
     }
 }
