@@ -13,8 +13,8 @@ class ResumenfaltaController extends Controller
     public function index()
     {
       $id=1;
-      $fechaini="2020-12-27";
-      $fechafin="2021-01-01";
+      $fechaini="2021-01-18";
+      $fechafin="2021-01-25";
     $repos=
   
     

@@ -11,8 +11,8 @@ class ReporteController extends Controller
     public function index()
     {
 
-        $fechaini="2020-12-15";
-        $fechafin="2021-01-15";
+        $fechaini="2021-01-18";
+        $fechafin="2021-01-25";
        // dd($d);
       $repos=
       DB::select("select DISTINCT 
