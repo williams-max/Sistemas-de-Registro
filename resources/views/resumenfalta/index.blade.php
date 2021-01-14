@@ -207,14 +207,14 @@
        console.log(month1);
        console.log(year1);
 
-       if(year >= year1 && month >= month1){
+       if(year >= year1 && month >= month1 && day>=day1){
         alert("Fecha solapada ... por favor intente nuevamente"); 
           return    e.preventDefault();
         //   if(day >= day1){
          //    alert("Fecha solapada ... por favor intente nuevamente");   
           // }
        }
-            if(year >= year1 ){
+            if(year >= year1 && day>=day1){
              alert("Fecha solapada ... por favor intente nuevamente"); 
           return  e.preventDefault();
              //   if(day >= day1){
