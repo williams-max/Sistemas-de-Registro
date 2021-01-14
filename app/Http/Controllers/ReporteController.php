@@ -11,7 +11,7 @@ class ReporteController extends Controller
     public function index()
     {
 
-        $fechaini="2021-01-18";
+        $fechaini="2021-01-11";
         $fechafin="2021-01-25";
        // dd($d);
       $repos=

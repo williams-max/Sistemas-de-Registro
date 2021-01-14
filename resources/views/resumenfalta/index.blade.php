@@ -2,6 +2,7 @@
 
 @section('content')
  @php
+ use Carbon\Carbon;
  function hola($valor) {
 
   $valor = explode(":", $valor);
@@ -10,6 +11,19 @@
 //dd(($valor[0]+1).":".($valor[1]+30).":".$valor[2]);
   return ($valor[0]+1).":".($valor[1]).":".$valor[2];
   //return "565665";
+}
+
+function devolverDia($f) {
+
+ // $dia = Carbon\Carbon::now();
+ // $f = Carbon::now();
+ // $f = explode("-", $f);
+ $f = explode("-", $f);
+
+ //2021-01-14
+ return $date = Carbon::createFromDate($f[0],$f[1],$f[2])->isoFormat('dddd');
+
+ //return $f->isoFormat('dddd');
 }
  @endphp 
 
@@ -127,10 +141,10 @@
                         <td>{{$repos->fecha}}</td>
                         <td>{{$repos->codigoSis}}</td>
                         <td>{{$repos->nombre ,$repos->apellido}}</td>
-                        <td>{{$repos->id+8}}</td>
+                        <td>{{$repos->id}}</td>
                         <td>{{$repos->materia}}</td>
                         <td>{{$repos->grupo}}</td>
-                        <td>{{$repos->dia}}</td>
+                        <td>{{devolverDia($repos->fecha)}}</td>
                         <td>{{$repos->hora}}</td>
                         <td>{{ hola($repos->hora)}}</td>
                         <td>
