@@ -37,7 +37,7 @@
        <i class="formulario__validacion-estado fas fa-times-circle"></i>
        </div>
       <p class="formulario__input-error"> El este campo solo permite fechas del 
-     <br>   DEL: 2020-12-21       AL: 2021-01-04
+     <br>   DEL: 2021-01-11       AL: 2021-01-25
       </p>
    </div>
     
