@@ -107,7 +107,7 @@ public function index()
             'personal' => 'required',
             'cargo' => 'required',
             //'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
-            'direccion' => 'required|min:5|max:50|regex:/^[\pL\s\d\-]+$/u',
+            'direccion' => 'required|min:5|max:50|regex:/^[\pL\s\W\d\-]+$/u',
             'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20|min:3',
 
         ];
@@ -237,7 +237,7 @@ public function index()
     {
         $campos=[
 
-            'direccion' => 'min:5|regex:/^[\pL\s\d\-]+$/u|max:30',
+            'direccion' => 'min:5|regex:/^[\pL\s\W\d\-]+$/u|max:30',
             'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:50|min:3',
         ];
 

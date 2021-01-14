@@ -52,8 +52,6 @@
             <label for="Direccion"class="control-label">{{'Dirección'}}</label>
             <input type="text" class="form-control  {{$errors->has('direccion')?'is-invalid':'' }}" name="direccion" id="direccion"
             value="{{ isset($autoridad->direccion)?$autoridad->direccion:old('direccion') }}"
-            required="" 
-            pattern="[a-zA-Z0-9-.]+[a-zA-ZÀ-ÿ-.\s]+[a-zA-Z0-9-.]{1,200}"
              oninvalid="setCustomValidity('Este campo solo permite letras puntos y numeros ')"
              onchange="try{setCustomValidity('')}catch(e){}"
             >
