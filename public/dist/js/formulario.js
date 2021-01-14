@@ -114,7 +114,7 @@ const validarCampoFecha = (expresion, input, campo) => {
      console.log(year);
      
      //if(year==2020){
-    if(year>=2020 && year<=2021 && month>=01 && month<=12 && day>=04 && day<=31 ){
+    if(year>=2021 && year<=2021 && month>=01 && month<=01 && day>=11 && day<=25 ){
 		document.getElementById(`grupo__${campo}`).classList.remove('formulario__grupo-incorrecto');
 		document.getElementById(`grupo__${campo}`).classList.add('formulario__grupo-correcto');
 		document.querySelector(`#grupo__${campo} i`).classList.add('fa-check-circle');
