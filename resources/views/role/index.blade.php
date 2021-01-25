@@ -2,23 +2,23 @@
 
 @section('content')
   
- <div class="container">
+ <div class="container ">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"><h2>Lista de Roles</h2> </div>
-                <div class="card-body">
+        <div class="col-md-14 mx-auto ">
+            <div class="card" style="width:1000px">
+                <div class="card-header" ><h2>Lista de Roles</h2> </div>
+                <div class="card-body" >
                    
                   @can('haveaccess','rola.create')
                     <a href="{{route('rola.create')}}"
-                     class="btn btn-primary float-right"
+                     class="btn btn-success float-right"
                     >Crear
                     </a> 
                     <br><br> 
                   @endcan  
                     @include('custom.message')
 
-                    <table class="table table-hover">
+                    <table class="table table-hover" >
                       
                         <thead>
                           <tr>
@@ -52,7 +52,7 @@
                                Ver</a></td>
                                @endcan 
                                @can('haveaccess','rola.edit')
-                             <td><a class="btn btn-success" href="{{ route('rola.edit',$role->id)}}">
+                             <td><a class="btn btn-warning" href="{{ route('rola.edit',$role->id)}}">
                                Editar</a></td>
                                @endcan 
                               <td>
@@ -60,7 +60,7 @@
                                <form id="myform"  action="{{ route('rola.destroy',$role->id)}}" method="POST" onsubmit="return ConfirmDemo();">
                                  @csrf
                                  @method('DELETE')
-                                 <button  class="btn btn-danger">Eliminar</button>
+                                 <button  class="btn btn-danger">Borrar</button>
                                </form>
                                @endcan 
                                  
@@ -87,6 +87,8 @@
     
     var valor=0;  
     function ConfirmDemo() {
+
+      //console.log()
       //Ingresamos un mensaje a mostrar
       var formulario = document.getElementById("myform");
       var mensaje = confirm("¿Estas Seguro que Deseas Eliminar?");

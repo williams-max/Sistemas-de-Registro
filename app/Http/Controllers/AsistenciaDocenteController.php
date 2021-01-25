@@ -9,8 +9,9 @@ use App\RegistroAsistencia;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
 use App\AsistenciaDocente;
-
-
+use App\RegistrarAusencia;
+use App\RegistrarAusenciaDocente;
+use App\RegistrarMateria;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -76,24 +77,45 @@ class AsistenciaDocenteController extends Controller
        ->select('asistencia_docentes.*')
     ->where('asistencia_docentes.id_personal','=',$personal)
     ->where('asistencia_docentes.enviado','=',0)->get();
-   
-       
+    
+    $registroAusencia = DB::table('registrar_ausencia_docentes')
+    ->select('registrar_ausencia_docentes.*')
+ ->where('registrar_ausencia_docentes.id_personal','=',$personal)
+ ->where('registrar_ausencia_docentes.enviado','=',0)->get();
+
 //return ($registro);
 
-$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
-//dd($registro2);
-       return view('resgistroAsistenciaDocente.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
+$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* 
+                        from    personal_academicos, registrar_facultads,registrar_carreras 
+                        where   personal_academicos.id_facultad = registrar_facultads.id and
+                                personal_academicos.id_carrera = registrar_carreras.id and
+                                personal_academicos.id ='.$personal);
+
+       return view('resgistroAsistenciaDocente.index',['registro' => $registro,'registroAusencia' => $registroAusencia,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }
 
-    /**
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('resgistroAsistenciaDocente.create');
+        $materia = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->select('registrar_materias.*')
+            ->where('personal_academico_user.user_id','=', Auth::user()->id  )
+            ->get();
+
+        return view('resgistroAsistenciaDocente.create',['materia'=>$materia]);
     }
  
     /**
@@ -104,15 +126,15 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      */
     public function store(Request $request)
     {
-
+ 
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-            'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+            'grupo' => 'required',
+            'materia' => 'required',
+           // 'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+           // 'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
             
         ];
@@ -120,7 +142,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
                 
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -141,8 +162,19 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
+
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
+
+        $mat = DB::table('registrar_materias')
+        ->select('registrar_materias.materia')
+        ->where('registrar_materias.id','=',$request->get('materia'))->first();
+
+        $auxiliar->materia = $mat->materia;
+
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
@@ -212,8 +244,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
@@ -231,8 +261,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
@@ -274,31 +302,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         return redirect('/registroAsistenciaDocente');
     }
 
-    protected function downloadFile($src)
-    {
-        if (is_file($src)) {
-            $finfo=finfo_open(FILEINFO_MIME_TYPE);
-            $content_type=finfo_file($finfo,$src);
-            $file_close=($finfo);
-            $file_name=basename($src).PHP_EOL;
-            $size=filesize($src);
-            header("Content-Type: $content_type");
-            header("Content-Disposition: attachment;filename=$file_name");
-            header("Content-Transfer-Encoding: binary");
-            header("Content -Length: $size");
-            readfile($src);
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function download($nombre){
-        if (!$this->downloadFile(public_path()."/grabacion/".$nombre)) {
-            return redirect()->back();
-        }
-    }
-
     public function enviar($id){
         
         $registro = DB::table('asistencia_docentes')
@@ -307,14 +310,26 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         ->where('asistencia_docentes.enviado','=',0)->get();
 
 
-
         foreach ($registro as $registro) {
 
-            $auxiliar = AsistenciaDocente::FindOrFail($registro->id);
-            $auxiliar->enviado = 0;
+                    $auxiliar = AsistenciaDocente::FindOrFail($registro->id);
+                    $auxiliar->enviado = 1;
+                    $auxiliar->update();
+                }
+
+        $registroAusencia = DB::table('registrar_ausencia_docentes')
+        ->select('registrar_ausencia_docentes.*')
+         ->where('registrar_ausencia_docentes.id_personal','=',$id)
+         ->where('registrar_ausencia_docentes.enviado','=',0)->get();
+ 
+
+        foreach ($registroAusencia as $registro) {
+
+            $auxiliar = RegistrarAusenciaDocente::FindOrFail($registro->id);
+            $auxiliar->enviado = 1;
             $auxiliar->update();
         }
         //dd( $registro);
         return redirect('/registroAsistenciaDocente');
-    }
+    } 
 }

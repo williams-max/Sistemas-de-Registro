@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\isarel\Models\Rola;
+use App\RegistrarCarrera;
+use App\RegistrarFacultad;
+use App\RegistrarUnidad;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\AssignOp\Concat;
 
@@ -41,26 +44,51 @@ public function index()
 
         return view('autoAcademicas.index',['autoridads' => $autoridads]);
     }
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarUnidad::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+
+     public function facultad(Request $request, $id){
+        
+        if($request->ajax()){
+            $personal=RegistrarFacultad::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+        
+     public function carrera(Request $request, $id){
+        
+        if($request->ajax()){
+            $personal=RegistrarCarrera::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+
+     
 
     public function create()
     {
-       // $this->authorize('create',PersonalAcademico::class);
+         // $this->authorize('create',PersonalAcademico::class);
        // return 'Create';
-        $personal = PersonalAcademico::all();
+       $unidad = RegistrarUnidad::all();
         
-        $roles = DB::table('rolas')
-        ->select('*')
-        ->where('rolas.full-auto','=','no')
-        ->where('id','!=','1')
-        ->get();
+       $roles = DB::table('rolas')
+       ->select('*')
+       ->where('rolas.full-auto','=','no')
+       ->where('id','!=','1')
+       ->get();
     
-        $cargo = DB::table('rolas')
-        ->select('*')
-        ->where('rolas.full-auto','=','yes')
-        ->get();
+       $cargo = DB::table('rolas')
+       ->select('*')
+       ->where('rolas.full-auto','=','yes')
+       ->where('rolas.unico','=','0')
+       ->get();
 
 
-        return view('autoAcademicas.create',['roles'=>$roles,'personal'=>$personal,'cargo'=>$cargo]);
+       return view('autoAcademicas.create',['roles'=>$roles,'unidad'=>$unidad,'cargo'=>$cargo]);
     }
 
     /**
@@ -72,11 +100,15 @@ public function index()
     public function store(Request $request)
     {
         $campos=[
+            'unidad' => 'required',
+            'facultad' => 'required',
+            'carrera' => 'required',
+            'rol' => 'required',
             'personal' => 'required',
-            'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
-            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20',
-           'rol' => 'required',
-           'cargo' => 'required',
+            'cargo' => 'required',
+            //'direccion' => 'min:8|regex:/^[\pL\s\-]+$/u|max:30',
+            'direccion' => 'required|min:5|max:50|regex:/^[\pL\s\W\d\-]+$/u',
+            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:20|min:3',
 
         ];
 
@@ -85,13 +117,18 @@ public function index()
             "required"=>'El campo es requerido',
             "personal.required"=>'Seleccione a un personal',
             "rol.required"=>'Seleccione un personal',
-            "direccion.min"=>'Solo se acepta 10 caracteres como minimo',
-            "direccion.max"=>'Solo se acepta 30 caracteres como maximo',
+            "direccion.min"=>'Solo se acepta 5 caracteres como minimo',
+            "direccion.max"=>'Solo se acepta 50 caracteres como maximo',
             "grado.regex"=>'Solo se acepta caracteres A-Z',
-            "direccion.regex"=>'Solo se acepta caracteres A-Z',
-            "grado.max"=>'Solo se acepta 10 caracteres como maximo',
+            "direccion.regex"=>'Solo se acepta caracteres A-Z y numeros [0-9]',
+            "grado.max"=>'Solo se acepta 20 caracteres como maximo',
+            "grado.min"=>'Solo se acepta 3 caracteres como minimo',
                    ];
         $this->validate($request,$campos,$Mensaje);
+
+        DB::table('rolas')
+        ->where('id', $request->get('cargo'))
+        ->update(['unico' => '1']);
 
 
         $autoridad = new autoAcademicas();
@@ -121,6 +158,8 @@ public function index()
         $usuario->autoridad = 'yes';
         $usuario->update();
 
+    
+
         $autoridad->save();
         return redirect('/autoAcademicas');
     }
@@ -130,10 +169,10 @@ public function index()
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
-     public function personals(Request $request, $id){
+     */ 
+     public function personal(Request $request, $id,$id2){
         if($request->ajax()){
-            $personal=User::personal2($id);
+            $personal=PersonalAcademico::personal3($id,$id2);
             return response()->json( $personal);
         }
      }
@@ -198,17 +237,18 @@ public function index()
     {
         $campos=[
 
-            'direccion' => 'min:8|max:30',
-            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'direccion' => 'min:5|regex:/^[\pL\s\W\d\-]+$/u|max:30',
+            'grado' => 'required|regex:/^[\pL\s\-]+$/u|max:50|min:3',
         ];
 
         $Mensaje = [
 
             "required"=>'El campo es requerido',
-            "direccion.min"=>'Solo se acepta 8 caracteres como minimo',
+            "direccion.min"=>'Solo se acepta 5 caracteres como minimo',
             "direccion.max"=>'Solo se acepta 30 caracteres como maximo',
             "grado.regex"=>'Solo se acepta caracteres A-Z',
             "grado.max"=>'Solo se acepta 50 caracteres como maximo',
+            "grado.min"=>'Solo se acepta 3 caracteres como minimo',
 
                    ];
         $this->validate($request,$campos,$Mensaje);
@@ -246,6 +286,13 @@ public function index()
             ->where('rola_id',$cargoAntiguo->id)
             ->update(['rola_id' => request('cargo')]);
 
+        DB::table('rolas')
+        ->where('id', $cargoAntiguo->id)
+        ->update(['unico' => '0']);
+
+        DB::table('rolas')
+        ->where('id', $request->get('cargo'))
+        ->update(['unico' => '1']);
 
         return redirect('/autoAcademicas');
     }
@@ -295,6 +342,10 @@ public function index()
             ->delete();
 
         autoAcademicas::destroy($id);
+
+        DB::table('rolas')
+        ->where('id', $cargoAntiguo->id)
+        ->update(['unico' => '0']);
 
 
         return redirect('/autoAcademicas');

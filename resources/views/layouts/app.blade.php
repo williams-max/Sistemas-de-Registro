@@ -183,7 +183,6 @@
                     </div>
 
 
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -199,8 +198,8 @@
                             @can('haveaccess','personalAcademico.index')
                             <li class="nav-item">
                                 <a href="{{url('/personalAcademico')}}"
-                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">
-                                   <i class="nav-icon fas fa-users"></i>
+                                    class="{{ Request::path() === 'personalAcademico' ? 'nav-link active' : 'nav-link' }}">   
+                                 <i class="nav-icon fas fa-users"></i>
                                          <p>Registrar Personal
                                         <br>Academico
                                       </p>
@@ -221,6 +220,17 @@
                             </li>
                             @endcan
 
+                            @can('haveaccess','registroMateria.index')
+                             <li class="nav-item">
+                                <a href="{{url('/registroMateria')}}"
+                                    class="{{ Request::path() === 'registroMateria' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-layer-group"></i>
+                                        <p>Registrar Materia
+                                        <br> Grupo Horario
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan
 
                             @can('haveaccess','registrarUFC.index')
                             <li class="nav-item">
@@ -235,7 +245,7 @@
                             @endcan
                             @if (auth()->id()!=1)
                             @can('haveaccess','registroAsistenciaDocente.index')
-                            <li class="nav-item">
+                            <li class="nav-item ">
                                <a href="{{url('/registroAsistenciaDocente')}}"
                                    class="{{ Request::path() === 'registroAsistenciaDocente' ? 'nav-link active' : 'nav-link' }}">
                                    <i class="nav-icon fas fa-file-invoice"></i>
@@ -258,19 +268,45 @@
                                </a>
                             </li>
                            @endcan 
+
+                          
+                            
+                            @can('haveaccess','ReporteController@index')
+                            <li class="nav-item">
+                                <a href="{{url('reportes')}}"
+                                    class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        Plan mensual de asistencia
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan  
+                            @can('haveaccess','ResumenfaltaController@index')
+                            <li class="nav-item">
+                                <a href="{{url('resumen')}}"
+                                    class="{{ Request::path() === 'resumen' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-file-invoice"></i>
+                                    <p>
+                                        
+                                      Formulario resumen de <br>faltas a clases virtuales
+                                      </p>
+                                </a>
+                            </li>
+                            @endcan 
+
+                            <li class="nav-item">
+                                <a href="{{url('/EditarDatos')}}"
+                                    class="{{ Request::path() === 'EditarDatos' ? 'nav-link active' : 'nav-link' }}">
+                                     <i class="nav-icon fas fa-cog"></i>
+                                     <p> Editar Datos
+                                     </p>
+ 
+                                </a>
+                             </li>
                             @endif
                             
                           
-
-                           <!-- <li class="nav-item">
-                                <a href="{{url('roles')}}"
-                                    class="{{ Request::path() === 'roles' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
-                                    <p>
-                                        Cargos
-                                      </p>
-                                </a>
-                            </li>-->
 
                             @can('haveaccess','rola.index')
                             <li class="nav-item">
@@ -283,6 +319,13 @@
                                 </a>
                             </li>
                             @endcan
+
+                          
+                        
+                      
+                            
+                           
+                            
 
 
                         </ul>
@@ -310,7 +353,9 @@
 
             <!-- Control Sidebar -->
             <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
+               <script>
+                   
+               </script>
             </aside>
             <!-- /.control-sidebar -->
         </div>

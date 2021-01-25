@@ -40,7 +40,7 @@
                               </textarea>
                               </div>
 
-                              <h3>Autoridad</h3>
+                              <h3>Autoridad Academica</h3>
                               <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" id="fullautoyes" name="full-auto" 
                                 class="custom-control-input" value="yes"
@@ -128,7 +128,15 @@
  
                               @endforeach
                               <hr>
-                              <input class="btn btn-primary" type="submit" value="Guardar">
+                              <div class="row">
+                                <div class="col-5 ">       
+                                    <input type="submit"  class="btn btn-primary" value="Guardar">
+                                </div>
+                                <div class="col-5">  
+                                    <a href="{{url('rola')}}"class="btn btn-secondary float-right">Regresar</a>
+                                </div> 
+                               
+                            </div>
                              
                         </div>
 

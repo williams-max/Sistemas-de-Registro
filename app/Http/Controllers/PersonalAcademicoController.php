@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PersonalImport;
+use App\Imports\UsersImport;
 use App\PersonalAcademico;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\isarel\Models\Rola;
+use App\Mail\Bienvenido;
+use App\Mail\correoEnviado;
 use App\RegistrarCarrera;
 use App\RegistrarFacultad;
 use App\RegistrarUnidad;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Events\PostEvent;
 
 class PersonalAcademicoController extends Controller
 {
@@ -22,6 +30,8 @@ class PersonalAcademicoController extends Controller
      */
     public function index()
     {
+        event(new PostEvent("a"));
+
         $this->authorize('haveaccess','personalAcademico.index');  
 
         $person = DB::table('personal_academicos')
@@ -61,6 +71,22 @@ class PersonalAcademicoController extends Controller
             return response()->json( $personal);
         }
      }
+    public function vistaCSV()
+        {
+        // $this->authorize('create',PersonalAcademico::class);
+        // return 'Create';
+            //$roles =Rola::all();
+            $roles = DB::table('rolas')
+            ->select('*')
+            ->where('rolas.full-auto','=','no')
+            ->get();
+            $unidad = RegistrarUnidad::all();
+            $facultad = RegistrarFacultad::all();
+            $carrera = RegistrarCarrera::all();
+            return view('personalAcademico.importar',['roles'=>$roles,'unidad'=>$unidad,'facultad'=>$facultad,'carrera'=>$carrera]);
+        }
+
+
     public function create()
     {
        // $this->authorize('create',PersonalAcademico::class);
@@ -76,6 +102,7 @@ class PersonalAcademicoController extends Controller
         return view('personalAcademico.create',['roles'=>$roles,'unidad'=>$unidad,'facultad'=>$facultad,'carrera'=>$carrera]);
     }
 
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -89,8 +116,10 @@ class PersonalAcademicoController extends Controller
             'apellido' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'codigoSis' => 'required|numeric|unique:App\PersonalAcademico,codigoSis',
             'email' => 'required|email:rfc,dns|max:30|unique:App\PersonalAcademico,email',
-            'telefono' => 'required|numeric|digits_between:7,8',
-            'password' => 'required|min:8|max:20',
+           // 'telefono' => 'required|numeric|digits_between:7,8',
+            'telefono' => 'required',
+            //'password' => 'required|min:8|max:20',
+            'password' => 'required',
             'rol' => 'required',
             'unidad' => 'required',
             'facultad' => 'required',
@@ -129,11 +158,13 @@ class PersonalAcademicoController extends Controller
         $personal->email = request('email');
         $personal->telefono = request('telefono');
         $personal->password = request('password');
+        $personal->mat_asignada = '0';
         $personal->id_unidad = $request->get('unidad');
         $personal->id_facultad = $request->get('facultad');
         $personal->id_carrera = $request->get('carrera');
         
         $personal->save();
+
 
         $usuario = new User();
 
@@ -148,11 +179,103 @@ class PersonalAcademicoController extends Controller
     
         $rolas = DB::table('personal_academicos')->where('email', request('email'))->first();
 
-
         $usuario->asignarRol($request->get('rol'));
         $usuario->asignarPersonal($rolas->id);
 
+        $pass = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->where('personal_academicos.id','=',$personal->id)
+                ->first();
+
+        Mail::to(request('email'))->send(new Bienvenido($rolas));
+
+
         return redirect('/personalAcademico');
+    }
+
+
+    public function importar( Request $request)
+    {
+        $campos=[
+            'file' => 'required',
+            'rol' => 'required',
+            'unidad' => 'required',
+            'facultad' => 'required',
+            'carrera' => 'required',
+            
+        ];
+
+        $Mensaje = [
+                
+            "required"=>'El campo es requerido',
+            "rol.required"=>'Seleccione un cargo',
+            "unidad.required"=>'Seleccione una unidad',
+            "facultad.required"=>'Seleccione una facultad',
+            "carrera.required"=>'Seleccione una carrera',
+            "file.required"=>'Suba un Archivo CSV por favor',
+                   ];
+        $this->validate($request,$campos,$Mensaje);
+        
+
+        if ($request->hasFile('file')){
+            $file = $request->file('file');
+            Excel::import(new PersonalImport ,$file);
+            Excel::import(new UsersImport ,$file);
+
+            $personal = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->whereNull('personal_academicos.password')
+                ->get();
+            
+
+            foreach ($personal as $personal) {
+                $password = substr( md5(microtime()), 1, 8);
+
+                $persona = PersonalAcademico::FindOrFail($personal->id);
+                $persona->password = $password;
+                $persona->mat_asignada = '0';
+                $persona->id_unidad = $request->get('unidad');
+                $persona->id_facultad = $request->get('facultad');
+                $persona->id_carrera = $request->get('carrera');
+                $persona->update();
+
+                $id = DB::table('users')
+                ->select('id')
+                ->where('email','=',$personal->email)
+                ->first();
+
+                DB::table('personal_academico_user')->insert([
+                    'user_id' => $id->id,
+                    'personal_academico_id' => $personal->id
+                ]);
+
+                $id_new = DB::table('personal_academico_user')
+                ->select('user_id')
+                ->where('personal_academico_id','=',$personal->id)
+                ->first();
+
+                $usuario = User::FindOrFail($id_new->user_id);
+                $usuario->password = bcrypt($password);
+                $usuario->autoridad = 'no';
+                $usuario->rol = 'yes';
+                $usuario->update();
+
+                $usuario->asignarRol($request->get('rol'));
+
+                $pass = DB::table('personal_academicos')
+                ->select('personal_academicos.*')
+                ->where('personal_academicos.id','=',$personal->id)
+                ->first();
+
+                Mail::to($personal->email)->send(new Bienvenido($pass));
+            }
+            
+        }
+
+        
+
+        
+        return redirect('/personalAcademico'); 
     }
 
     /**
@@ -177,6 +300,18 @@ class PersonalAcademicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function vistaConf(){
+        $personal = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->select('personal_academicos.*')
+        ->where('users.id','=',Auth::user()->id)
+        ->first();
+        $personal=PersonalAcademico::findOrFail($personal->id);
+        return view('personalAcademico.setting',['personal' => $personal]);
+     }
+
     public function edit($id)
     {
 
@@ -236,7 +371,56 @@ class PersonalAcademicoController extends Controller
         return view('personalAcademico.edit',compact('personal','roles','cargo','unidad_cargo','carrera_cargo','unidad','facultad','facultad_cargo','carrera')); 
         
     }
+    
 
+    public function EditarDatos(Request $request){
+        $personal = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->select('personal_academicos.*')
+        ->where('users.id','=',Auth::user()->id)
+        ->first();
+
+        $campos=[
+            'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'apellido' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'email' => 'required|email:rfc,dns|max:30',
+            'telefono' => 'numeric|digits_between:7,8',
+            'password' => 'min:8|max:20',
+        ];
+
+        $Mensaje = [
+                
+            "required"=>'El campo es requerido',
+            "nombre.regex"=>'Solo se acepta caracteres A-Z',
+            "apellido.regex"=>'Solo se acepta caracteres A-Z,chale',
+            "password.min"=>'Solo se acepta 8 caracteres como minimo',
+            "nombre.max"=>'Solo se acepta 50 caracteres como maximo',
+            "apellido.max"=>'Solo se acepta 50 caracteres como maximo',
+            "email.max"=>'Solo se acepta 30 caracteres como maximo',
+            "telefono.digits_between"=>'El numero no existe',
+            "password.max"=>'Solo se acepta 20 caracteres como maximo',
+            "numeric"=>'Solo se acepta números',
+            "email"=>'El correo no existe',
+                   ];
+        $this->validate($request,$campos,$Mensaje);
+        $personal=PersonalAcademico::findOrFail($personal->id);
+        $personal->nombre = request('nombre');
+        $personal->apellido = request('apellido');
+        $personal->email = request('email');
+        $personal->telefono = request('telefono');
+        $personal->password = request('password');
+        $personal->update();
+
+        $usuario = User::FindOrFail(Auth::user()->id);
+
+                    $usuario->name = request('nombre');
+                    $usuario->email = request('email');
+                    $usuario->password = bcrypt(request('password'));
+                    
+                    $usuario->update();
+        return redirect('/');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -282,6 +466,9 @@ class PersonalAcademicoController extends Controller
         $personal->email = request('email');
         $personal->telefono = request('telefono');
         $personal->password = request('password');
+        $personal->id_unidad = $request->get('unidad');
+        $personal->id_facultad = $request->get('facultad');
+        $personal->id_carrera = $request->get('carrera');
         
         $personal->update();
 
@@ -353,9 +540,28 @@ class PersonalAcademicoController extends Controller
         ->select('users.id')
         ->where('personal_academico_user.personal_academico_id','=',$id)->first();
         
+        $existe = DB::table('personal_academicos')
+        ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+        ->join('users', 'users.id', '=', 'personal_academico_user.user_id')
+        ->join('rola_user', 'rola_user.user_id', '=', 'users.id')
+        ->join('rolas', 'rolas.id', '=', 'rola_user.rola_id')
+        ->select('rolas.id')
+        ->where('rolas.full-auto','=','yes')
+        ->where('personal_academico_user.personal_academico_id','=',$id)
+        ->first();
+
+        if ($existe != null) {
+            DB::table('rolas')
+            ->where('id', $existe->id)
+            ->update(['unico' => '0']);
+        }
+
+
         User::destroy($user->id);
 
         PersonalAcademico::destroy($id);
+
+        
 
         //User::Find($user->id)->roles()->destroy();
 

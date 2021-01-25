@@ -4,7 +4,7 @@
 
 <div class="container">
 
-
+ 
     <div class="row">
         <div class="col-md-13 mx-auto ">
         <h5>UNIVERSIDAD MAYOR DE SAN SIMON</h5>
@@ -22,7 +22,7 @@
         <BR>
             <div class="row">
                 <div class="col-5">
-                    <h5>AUXILIAR: {{$registro2->nombre}} {{$registro2->apellido}}</h5>
+                    <h5>Docente: {{$registro2->nombre}} {{$registro2->apellido}}</h5>
                 </div> 
                 <div class="col-5">
                     <h5>DEL: {{$dia2->fecha_inicio}}</h5>
@@ -36,10 +36,9 @@
                     <h5>AL: {{$dia2->fecha_entrega}}</h5>
                 </div> 
             </div>
-
-
+ 
         <a href="{{url('registroAsistenciaDocente/create')}}" class="btn btn-success float-right" ><i class="fas fa-plus"></i></a>
-
+        <a href="{{url('registroAsistenciaDocente/registrarAusencia/create')}}" class="btn btn-secondary float-right" >Registrar Reposicion</a>
             <table class="table table-hover" >
 
                 <thead class="thead-light">
@@ -89,6 +88,48 @@
   
                 </tbody>
             </table>
+
+            <table class="table table-light">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col"><p>Fecha</p></th>
+                        <th scope="col"><p>Hora</p></th>
+                        <th scope="col"><p>Grupo</p></th>
+                        <th scope="col"><p>Materia</p></th>
+                        <th scope="col">Dia<p>Reposicion</p></th>
+                        <th scope="col">hora<p>Reposicion</p></th>
+                        <th scope="col"><p>Motivo</p></th>
+                        <th scope="col"><p>Firma</p></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($registroAusencia as $registro3)
+                    <tr>
+                        <td WIDTH="106" HEIGHT="50">{{$registro3->fecha}}</td>
+                        <td WIDTH="70" HEIGHT="50">{{$registro3->hora}}</td>
+                        <td WIDTH="70" HEIGHT="50">{{$registro3->grupo}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->materia}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->dia_reposicion}}</td>
+                        <td WIDTH="130" HEIGHT="50">{{$registro3->hora_reposicion}}</td>
+                        <td WIDTH="50" HEIGHT="50">{{$registro3->motivo}}</td>
+                        <td >{{$registro3->ruta_firma}}</td>
+                        <td>
+                            <form method="post" action="{{url('/registroAsistenciaDocente/registrarAusencia/'.$registro3->id)}}" style="display:inline">
+                                {{csrf_field()}}
+                                {{method_field('DELETE')}}
+                                <button type="submit" onclick="return confirm('¿Esta seguro de Eliminar este Registro?');" class="btn btn-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></button>
+                            </form> 
+                
+                            <a href="{{url('/registroAsistenciaDocente/registrarAusencia/'.$registro3->id.'/edit')}}" class="btn btn-warning float-right btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach    
+                </tbody>
+            </table>
+
             @if ($registro=="[]")
             <a onclick="nopuede()"   class="btn btn-primary float-right" >Enviar</a>
             @else
@@ -96,7 +137,7 @@
                 @csrf
              
                 <button  class="btn btn-primary float-right">Enviar</button>
-              </form>
+            </form>
 
            <!-- <a onclick="pulsar()" href="{{url('/registroAsistenciaDocente/enviar/'.$registro2->id)}}" class="btn btn-primary float-right" >Enviar</a>   -->
             @endif

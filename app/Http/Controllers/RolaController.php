@@ -49,7 +49,7 @@ class RolaController extends Controller
     {
         Gate::authorize('haveaccess','rola.create');
         $request->validate([
-            'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:200|unique:rolas,name',
+            'name'        => 'required|regex:/^[\pL\s\-.\d{1,2}]+$/u|max:200|unique:rolas,name',
           //  'slug'        => 'required|max:50|unique:rolas,slug',
             'full-access' => 'required|in:yes,no',
             'full-auto' => 'required|in:yes,no'
@@ -127,7 +127,9 @@ class RolaController extends Controller
     {
         $this->authorize('haveaccess','rola.edit');  
         $request->validate([
-            'name'        => 'required|alpha|max:50|unique:rolas,name,'.$rola->id,
+          //  'name'        => 'required|regex:/^[\pL\s\-.\d{1,2}]+$/u|max:200|unique:rolas,name',
+            'name'        => 'required|regex:/^[\pL\s\-.\d{1,2}]+$/u|max:200|unique:rolas,name,'.$rola->id,
+            //'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:50|unique:rolas,name,'.$rola->id,
             //'slug'        => 'required|max:50|unique:rolas,slug,'.$rola->id,
             'full-access' => 'required|in:yes,no'
         ]);
@@ -139,7 +141,7 @@ class RolaController extends Controller
       //  }
 
         return redirect()->route('rola.index')
-        ->with('status_success','Actulaizacion Exitosa');
+        ->with('status_success','Actualizacion Exitosa');
     }
 
     /**

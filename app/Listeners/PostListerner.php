@@ -40,7 +40,7 @@ class PostListerner
          //   $user->notify(new  PostNotification($post));
        // });
         */
-        //Aumentado codigo wdfsdfsdfsdfsdfsdf
+        //Aumentado codigoregdfgd
 
         $valor=0;
 
@@ -54,10 +54,17 @@ class PostListerner
         //obtenemos el emial del administrador
        // $registro->email;
        $users = User::all();
-       //Saturday
+
+       $horaFormateada = now()->isoFormat('H');
+      // dd($horaFormateada);
+       //Saturdaydfgdfgdfgdfg
        //Monday
        //domingo
-       if($dia->isoFormat('dddd')=='lunesx')
+       
+       if($dia->isoFormat('dddd')=='lunes' || $dia->isoFormat('dddd')=='martes' || $dia->isoFormat('dddd')=='miércoles'
+        || $dia->isoFormat('dddd')=='jueves' || $dia->isoFormat('dddd')=='viernes' || $dia->isoFormat('dddd')=='domingo'
+         || $dia->isoFormat('dddd')=='Sábado'
+       )
         {
 
       
@@ -83,7 +90,7 @@ class PostListerner
                  $message->to($enderecos);
                  $message->subject('Notificacion');
             // });
-               */ 
+               */
              
              foreach($users as $user){
                  Mail::send('emails.primeiro',['user' => $user ], function($message) use ($user){ 
@@ -109,30 +116,20 @@ class PostListerner
            //dia miercoles verficamos si el usaario no envio el formulario 
            //Saturday
            //Wednesday
-           if($dia->isoFormat('dddd')=='miercolesx')
+           if($dia->isoFormat('dddd')=='miercoles')
            {
             foreach($users as $user){
-             
                    if($user->email=='admin@gmail.com')
                    {
                    }else
                    {
                      if($user->enviado==1){
                        $user->enviado =0;
-                       $user->save();
-
-                     }
-                   }
-                               
-            } 
-
-           }
-       
-         
-
+                       $user->save(); }}}}
         }
+        
 
-           
+       
 
           
         

@@ -25,7 +25,7 @@ trait UserTrair {
 
         }
         if($rola['full-auto']=='yes'){
-            return true;
+            return false;
         }
         return false;
        //return $this->rolas;

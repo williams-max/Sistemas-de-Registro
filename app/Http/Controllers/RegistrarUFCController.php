@@ -60,7 +60,7 @@ class RegistrarUFCController extends Controller
         $campos=[
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30',
-            'telefono' => 'required|numeric|digits_between:7,8',
+          //  'telefono' => 'required|numeric|digits_between:7,8',
         ];
         $Mensaje = [
                 
@@ -94,7 +94,7 @@ class RegistrarUFCController extends Controller
         $campos=[
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30',
-            'telefono' => 'required|numeric|digits_between:7,8',
+           // 'telefono' => 'required|numeric|digits_between:7,8',
             'unidad' => 'required',
         ];
         $Mensaje = [
@@ -133,7 +133,7 @@ class RegistrarUFCController extends Controller
         $campos=[
             'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'correo' => 'required|email:rfc,dns|max:30',
-            'telefono' => 'required|numeric|digits_between:7,8',
+            //'telefono' => 'required|numeric|digits_between:7,8',
             'facultad' => 'required',
         ];
         $Mensaje = [
@@ -362,20 +362,78 @@ class RegistrarUFCController extends Controller
 
     public function destroyUnidad($id)
     {
-        RegistrarUnidad::destroy($id);
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_unidad','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+        
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Unidad');
+
+        }else{
+            RegistrarUnidad::destroy($id);
+
+            return redirect('/registrarUFC');
+            
+        }
+        
     }
     public function destroyFacultad($id)
     {
-        RegistrarFacultad::destroy($id);
+        
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_facultad','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+        
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Facultad');
+
+        }else{
+            
+            RegistrarFacultad::destroy($id);
+
+            return redirect('/registrarUFC');
+        }
+        
     }
     public function destroyCarrera($id)
     {
-        RegistrarCarrera::destroy($id);
+        
+        $carrera = DB::table('personal_academicos')
+        ->select('personal_academicos.*')
+        ->where('personal_academicos.id_carrera','=',$id)->first();
 
-        return redirect('/registrarUFC');
+        $total=0;
+        if ($carrera != null) {
+            foreach ($carrera as $carrera) {
+                $total++;
+            }
+        }
+
+        if($total>0){
+
+            return redirect('/registrarUFC')->with('status2','No es posible Borrar, Existen registros en esta Carrera');
+
+        }else{
+            RegistrarCarrera::destroy($id);
+
+            return redirect('/registrarUFC'); 
+        }
+        
     }
 }

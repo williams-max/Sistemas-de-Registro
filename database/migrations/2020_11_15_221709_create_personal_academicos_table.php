@@ -16,17 +16,18 @@ class CreatePersonalAcademicosTable extends Migration
         Schema::create('personal_academicos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('apellido');
+            $table->string('apellido')->nullable();
             $table->string('codigoSis');
             $table->string('email');
-            $table->string('telefono');
-            $table->string('password');
+            $table->string('telefono')->nullable();
+            $table->string('mat_asignada')->nullable();
+            $table->string('password')->nullable();
             $table->integer('enviados')->default(0); 
             $table->integer('actualizar')->default(0); 
             $table->integer('repetidos')->default(1);
-            $table->unsignedBigInteger('id_unidad');
-            $table->unsignedBigInteger('id_facultad');
-            $table->unsignedBigInteger('id_carrera');
+            $table->unsignedBigInteger('id_unidad')->nullable();
+            $table->unsignedBigInteger('id_facultad')->nullable();
+            $table->unsignedBigInteger('id_carrera')->nullable();
             $table->timestamps();
 
             $table->foreign('id_unidad')

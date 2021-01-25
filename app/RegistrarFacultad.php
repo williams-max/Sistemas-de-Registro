@@ -18,7 +18,7 @@ class RegistrarFacultad extends Model
         $persona = DB::table('registrar_facultads') 
         ->join('registrar_carreras', 'registrar_carreras.facultad_id', '=', 'registrar_facultads.id')
         ->select('registrar_carreras.*')
-        ->where('registrar_facultads.unidad_id','=',$id)
+        ->where('registrar_carreras.facultad_id','=',$id)
         ->get();
         return $persona;
     }

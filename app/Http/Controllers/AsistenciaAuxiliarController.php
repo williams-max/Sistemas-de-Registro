@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\AsistenciaAuxiliar;
 use App\FechaEntregas;
+use App\RegistrarAusencia;
+use App\RegistrarMateria;
 use App\RegistroAsistencia;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
@@ -82,12 +84,19 @@ class AsistenciaAuxiliarController extends Controller
     ->where('asistencia_auxiliars.id_personal','=',$personal)
     ->where('asistencia_auxiliars.enviado','=',0)->get();
    
-       
+    $registroAusencia = DB::table('registrar_ausencias')
+    ->select('registrar_ausencias.*')
+ ->where('registrar_ausencias.id_personal','=',$personal)
+ ->where('registrar_ausencias.enviado','=',0)->get();
 
 
-$registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* from personal_academicos, registrar_facultads,registrar_carreras where personal_academicos.id ='.$personal);
-//dd($registro2);
-       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
+    $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_carreras.nombre as carrera,personal_academicos.* 
+    from    personal_academicos, registrar_facultads,registrar_carreras 
+    where   personal_academicos.id_facultad = registrar_facultads.id and
+            personal_academicos.id_carrera = registrar_carreras.id and
+            personal_academicos.id ='.$personal);
+
+       return view('registroAsistenciaAuxiliar.index',['registro' => $registro,'registroAusencia' => $registroAusencia,'registro2' => $registro2,'fecha'=>$fecha,'dia2'=>$dia2]);
     
     }
 
@@ -98,7 +107,13 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      */
     public function create()
     {
-        return view('registroAsistenciaAuxiliar.create');
+        $materia = DB::table('personal_academicos')
+            ->join('registrar_materias', 'registrar_materias.id_personal', '=', 'personal_academicos.id')
+            ->join('personal_academico_user', 'personal_academicos.id', '=', 'personal_academico_user.personal_academico_id')
+            ->select('registrar_materias.*')
+            ->where('personal_academico_user.user_id','=', Auth::user()->id  )
+            ->get();
+        return view('registroAsistenciaAuxiliar.create',['materia'=> $materia]);
     }
  
     /**
@@ -107,25 +122,31 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function personals(Request $request, $id){
+        if($request->ajax()){
+            $personal=RegistrarMateria::personal2($id);
+            return response()->json( $personal);
+        }
+     }
+
     public function store(Request $request)
     {
 
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
-            'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+            'grupo' => 'required',
+            'materia' => 'required',
+          //  'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
+          //  'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'firma' => 'required|max:10000',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'grabacion' => 'required|url',
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+            "grabacion.url"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
-            "numeric"=>'Solo se acepta números',
             "max"=>'Solo se acepta 80 caracteres como maximo',
             "firma.max"=>'Solo se acepta 1000 caracteres como maximo',
                    ];
@@ -146,8 +167,20 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
+       
+        
+        $mate = DB::table('registrar_materias')
+        ->select('registrar_materias.grupo')
+        ->where('registrar_materias.id','=',$request->get('grupo'))->first();
+
+        $auxiliar->grupo = $mate->grupo;
+        
+        $mat = DB::table('registrar_materias')
+        ->select('registrar_materias.materia')
+        ->where('registrar_materias.id','=',$request->get('materia'))->first();
+
+        $auxiliar->materia = $mat->materia;
+
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
@@ -216,15 +249,13 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         $campos=[
             'fecha' => 'required',
             'hora' => 'required',
-            'grupo' => 'required|numeric',
-            'materia' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
             'contenido' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'plataforma' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
             'observacion' => 'required|regex:/^[\pL\s\-]+$/u|max:80',
-            'grabacion' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'grabacion' => 'required|url',
         ];
         $Mensaje = [
-            "grabacion.regex"=>'No es una direccion web',
+            "grabacion.url"=>'No es una direccion web',
             "required"=>'El campo es requerido',
             "regex"=>'Solo se acepta caracteres A-Z',
             "numeric"=>'Solo se acepta números',
@@ -236,8 +267,6 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
 
         $auxiliar->fecha = request('fecha');
         $auxiliar->hora = request('hora');
-        $auxiliar->grupo = request('grupo');
-        $auxiliar->materia = request('materia');
         $auxiliar->contenido = request('contenido');
         $auxiliar->plataforma = request('plataforma');
         $auxiliar->observacion = request('observacion');
@@ -287,11 +316,22 @@ $registro2= DB::select('select registrar_facultads.nombre as facultad,registrar_
         ->where('asistencia_auxiliars.id_personal','=',$id)
         ->where('asistencia_auxiliars.enviado','=',0)->get();
 
-
-
         foreach ($registro as $registro) {
 
-            $auxiliar = AsistenciaAuxiliar::FindOrFail($registro->id);
+                    $auxiliar = AsistenciaAuxiliar::FindOrFail($registro->id);
+                    $auxiliar->enviado = 1;
+                    $auxiliar->update();
+                }
+
+        $registroAusencia = DB::table('registrar_ausencias')
+        ->select('registrar_ausencias.*')
+         ->where('registrar_ausencias.id_personal','=',$id)
+         ->where('registrar_ausencias.enviado','=',0)->get();
+        
+
+        foreach ($registroAusencia as $registro) {
+
+            $auxiliar = RegistrarAusencia::FindOrFail($registro->id);
             $auxiliar->enviado = 1;
             $auxiliar->update();
         }
